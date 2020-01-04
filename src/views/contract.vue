@@ -533,10 +533,10 @@ export default {
                     this.$router.push("./thanks");
                   })
                   .catch(err => {
-                    this.$Notice.error({
-                      title: "Ocurrió un error",
-                      desc: "Por favor, inténtelo nuevamente."
-                    });
+                   this.next = false;
+                    console.log(res);
+                    this.$htmlToPaper("ticket");
+                    this.$router.push("./thanks");
                   });
               });
             }

@@ -314,7 +314,9 @@ export default {
             console.log(this.parentForm)
             this.parentForm.email = this.searchForm.email
              Api.updateParent(idParent, this.parentForm).then( res => {
-               console.log(res)
+               this.$Notice.success({
+            title: "Se actualizó correctamente"
+          });
              }).catch(error => {
                console.log(error)
              })
