@@ -1,11 +1,10 @@
 <template>
   <section class="center mt-60 font-20">
-    <h1>REVISION DE NIÑOS BAJO TUTELA</h1>
+    <h1>REVISION DE LOS MENORES BAJO TUTELA</h1>
     <br />
     <p>
-      A continuación se muestra la lista de niños registrados. Toque el botón
-      Guardar en la parte superior derecha para continuar, o agregue niños
-      adicionales
+      A continuación, la lista de menores de edad registrados.<br>
+      Agrega a más menores a tu registro y/o continúa con el proceso
     </p>
     <br />
     <br />
@@ -32,7 +31,7 @@
 
     <Row type="flex" justify="space-between">
       <Col span="6">
-        <Button @click="registerChild">Agregar a un niño</Button>
+        <Button @click="registerChild">Agregar a un(a) menor de edad</Button>
       </Col>
       <Col span="6"> <Button @click="nextPage">Continuar</Button> </Col>
     </Row>

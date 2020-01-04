@@ -1,6 +1,6 @@
 <template>
   <section class="center mt-60">
-    <h1>INGRESE LA INFORMACIÓN DE SU DIRECCIÓN AQUÍ</h1>
+    <h1>INGRESA LA INFORMACIÓN DE TU DIRECCIÓN</h1>
     <Form
       ref="addressForm"
       :model="addressForm"

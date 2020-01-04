@@ -1,6 +1,6 @@
 <template>
   <section class="center mt-60 font-20">
-    <h1>INGRESE SU INFORMACIÓN AL REGISTRO</h1>
+    <h1>INGRESA TU INFORMACIÓN AL REGISTRO</h1>
     <Form
       ref="parentForm"
       :model="parentForm"
@@ -15,10 +15,10 @@
           ></FormItem>
         </Col>
         <Col span="7">
-          <FormItem prop="surname" label="Apellido"
+          <FormItem prop="surname" label="Apellidos completos"
             ><Input
               v-model="parentForm.surname"
-              placeholder="ej. Sánchez"
+              placeholder="ej. Sánchez López"
             ></Input
           ></FormItem>
         </Col>

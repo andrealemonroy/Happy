@@ -6,7 +6,7 @@
     <div class="card">
       <h1>BIENVENIDO</h1>
       <br />
-      <p>Para ingresar a Happyland Adventure debes:</p>
+      <p>Para ingresar a Happyland Adventure:</p>
       <br />
       <br />
       <Row type="flex" justify="space-around">
@@ -14,7 +14,7 @@
           <Button @click="nextPage">REGÍSTRATE AQUÍ</Button>
         </Col>
         <Col span="7"
-          ><Button @click="searchFatherPage">BUSCAR MI CUENTA</Button></Col
+          ><Button @click="searchFatherPage">BUSCAR CUENTA</Button></Col
         >
       </Row>
       <br />
