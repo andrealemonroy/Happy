@@ -1,6 +1,6 @@
 <template>
   <section class="center mt-60 font-20 scroll">
-    <h1>INGRESA LA INFORMACION DEL NIÑO</h1>
+    <h1>INGRESA LA INFORMACION DEL MENOR DE EDAD</h1>
     <Form
       ref="childForm"
       :model="childForm"
@@ -190,14 +190,14 @@ export default {
               } else {
                 this.$Notice.error({
                   title: "Error en el registro",
-                  desc: "Ya existe el registro del niño"
+                  desc: "Ya existe el registro del menor de edad"
                 });
               }
             })
             .catch(error => {
               this.$Notice.error({
                 title: "Error en el registro",
-                desc: "Ya existe el registro del niño"
+                desc: "Ya existe el registro del menor de edad"
               });
             });
         } else {

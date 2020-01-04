@@ -1,6 +1,6 @@
 <template>
   <section class="center mt-60">
-    <h1>¿LE GUSTARÍA AGREGAR UN NIÑO?</h1>
+    <h1>¿Vas a registrar un menor de edad?</h1>
     <br />
     <Button @click="childInfo">Sí</Button>
     <Button @click="listChilds">No</Button>
