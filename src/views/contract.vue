@@ -232,11 +232,6 @@
           >Padre / tutor legal / poder notarial / participante (si tiene 18 años
           o más): </strong
         >{{ nameParent }}
-<<<<<<< HEAD
-        <br>
-        <strong>Fecha de nacimiento: </strong> {{this.parentData.birthday}}
-=======
->>>>>>> 9fc9006ab281a213b06cdb030ae4d06bdd712b18
         <br />
         <strong>Fecha de nacimiento: </strong> {{ this.parentData.birthday.slice(0, 10) }}
         <br />
@@ -414,15 +409,20 @@ export default {
               email: this.email,
               code: this.code
             };
-            this.object.childs.forEach(child => {
-              this.childContract =
-                child.names +
-                " " +
-                child.surname +
-                " -  " +
-                child.identityDocumentNumber +
-                ", ";
-            });
+            if(this.object.childs.length > 0) {
+              this.object.childs.forEach(child => {
+                this.childContract =
+                  child.names +
+                  " " +
+                  child.surname +
+                  " -  " +
+                  child.identityDocumentNumber +
+                  ", ";
+              });
+            } else {
+              this.childContract = ''
+            }
+
 
             if (this.notSignature == true) {
               this.$Notice.error({

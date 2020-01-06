@@ -351,7 +351,7 @@ export default {
             } else if(res.notFatherFound) {
               this.foundIt = false;
               this.$Notice.error({
-                title: "No se encontró el familiar buscado",
+                title: "No se encontró el usuario",
                 desc: "Por favor, verique los datos ingresados o regístrese"
               });
             }
@@ -361,7 +361,7 @@ export default {
               if(error.response.statusText == "Not Found"){
                 this.foundIt = false;
                 this.$Notice.error({
-                title: "No se encontró el familiar buscado",
+                title: "No se encontró el usuario",
                 desc: "Por favor, verique los datos ingresados o regístrese"
               });
             }
