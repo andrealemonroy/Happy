@@ -332,16 +332,16 @@ export default {
     };
     return {
       parentForm: {
-        names: "Fiorella",
-        surname: "Sánchez Rodríguez",
-        identityDocumentNumber: "72722297",
+        names: "",
+        surname: "",
+        identityDocumentNumber: "",
         birthday: "",
         // birtmonth: "",
         // birthyear: "",
-        email: "fiorellasaro27@gmail.com",
-        phoneNumber: "921130144",
-        gender: "female",
-        specialOffer: "sms"
+        email: "",
+        phoneNumber: "",
+        gender: "",
+        specialOffer: ""
       },
       validateForm: {
         names: [

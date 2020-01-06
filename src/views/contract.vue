@@ -232,20 +232,27 @@
           >Padre / tutor legal / poder notarial / participante (si tiene 18 años
           o más): </strong
         >{{ nameParent }}
+<<<<<<< HEAD
         <br>
         <strong>Fecha de nacimiento: </strong> {{this.parentData.birthday}}
+=======
+>>>>>>> 9fc9006ab281a213b06cdb030ae4d06bdd712b18
         <br />
-        <strong>DNI: </strong>{{this.parentData.identityDocumentNumber}}
-        <br>
-                <strong>Dirección completa: </strong>{{this.parentData.line}} - {{this.parentData.district}}
-        <br>
+        <strong>Fecha de nacimiento: </strong> {{ this.parentData.birthday.slice(0, 10) }}
+        <br />
+        <strong>DNI: </strong>{{ this.parentData.identityDocumentNumber }}
+        <br />
+        <strong>Dirección completa: </strong>{{ this.parentData.line }} -
+        {{ this.parentData.district }}
+        <br />
         <strong v-if="adult">
           Nombre de (los/as) menores de edad(s):
         </strong>
         <br />
         <List class="list">
           <ListItem v-for="child in childs" :key="child._id">
-            {{ child.names }} {{ child.surname }} - {{child.identityDocumentNumber}} - {{child.relative}} - {{child.birthday}}
+            {{ child.names }} {{ child.surname }} - {{ child.relative }} -
+            {{ child.birthday.slice(0, 10) }}
           </ListItem>
         </List>
         <br />
@@ -259,7 +266,7 @@
           v-if="notSignature"
           @click="signature"
         >
-          Firma aquí
+          CLICK AQUÍ PARA FIRMAR
         </button>
         <VueSignaturePad
           height="50vh"
@@ -313,14 +320,17 @@
         <h1>TICKET</h1>
         <p>{{ this.actualMoment }}</p>
         <p>{{ this.nameParent }}</p>
-        <p>{{ this.birthday.slice(0, 10) }}</p>
+        <p>{{ this.birthday }}</p>
         <p>Hijos</p>
         <p v-for="child in childs" :key="child._id">
           {{ child.names }} {{ child.surname }} -
-          {{ child.identityDocumentNumber }} - {{ moment().diff(child.birthday, "years") }} años
+          {{ child.birthday.slice(0, 10) }}
         </p>
-        <p>Gracias  por tu registro. Presenta este ticket y DNI en caja.</p><br>
-        <p>En tu próxima visita solo busca tu registro con tu correo electrónico</p>
+        <p>Gracias por tu registro. Presenta este ticket y DNI en caja.</p>
+        <br />
+        <p>
+          En tu próxima visita solo busca tu registro con tu correo electrónico
+        </p>
       </div>
     </div>
   </section>
