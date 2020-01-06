@@ -233,7 +233,7 @@
           o más): </strong
         >{{ nameParent }}
         <br>
-        <strong>Fecha de nacimiento: <strong> {{this.parentData.birthday}}
+        <strong>Fecha de nacimiento: </strong> {{this.parentData.birthday}}
         <br />
         <strong>DNI: </strong>{{this.parentData.identityDocumentNumber}}
         <br>
