@@ -233,7 +233,7 @@
           o más): </strong
         >{{ nameParent }}
         <br />
-        <strong>Fecha de nacimiento: </strong> {{ this.parentData.birthday }}
+        <strong>Fecha de nacimiento: </strong> {{ this.parentData.birthday.slice(0, 10) }}
         <br />
         <strong>DNI: </strong>{{ this.parentData.identityDocumentNumber }}
         <br />
@@ -246,9 +246,8 @@
         <br />
         <List class="list">
           <ListItem v-for="child in childs" :key="child._id">
-            {{ child.names }} {{ child.surname }} -
-            {{ child.identityDocumentNumber }} - {{ child.relative }} -
-            {{ child.birthday }}
+            {{ child.names }} {{ child.surname }} - {{ child.relative }} -
+            {{ child.birthday.slice(0, 10) }}
           </ListItem>
         </List>
         <br />
@@ -262,7 +261,7 @@
           v-if="notSignature"
           @click="signature"
         >
-          Firma aquí
+          CLICK AQUÍ PARA FIRMAR
         </button>
         <VueSignaturePad
           height="50vh"
@@ -316,11 +315,11 @@
         <h1>TICKET</h1>
         <p>{{ this.actualMoment }}</p>
         <p>{{ this.nameParent }}</p>
-        <p>{{ this.birthday.slice(0, 10) }}</p>
+        <p>{{ this.birthday }}</p>
         <p>Hijos</p>
         <p v-for="child in childs" :key="child._id">
           {{ child.names }} {{ child.surname }} -
-          {{ child.identityDocumentNumber }} - {{ child.birthday.slice(0,10) }}
+          {{ child.birthday.slice(0, 10) }}
         </p>
         <p>Gracias por tu registro. Presenta este ticket y DNI en caja.</p>
         <br />
