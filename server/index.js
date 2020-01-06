@@ -55,7 +55,8 @@ let api = axios.create({
 
 export const registerParent = async (parentInfo) => {
   try {
-    const res = await api.post(`http://192.168.0.140:5000/api/v1/fathers/register`, parentInfo)
+    // const res = await api.post(`http://192.168.0.140:5000/api/v1/fathers/register`, parentInfo)
+    const res = await api.post(`http://localhost:5000/api/v1/fathers/register`, parentInfo)
     Object.assign(api.defaults, { headers: { Authorization: res.data.id } })
     return res
   } catch (error) {
@@ -64,7 +65,8 @@ export const registerParent = async (parentInfo) => {
 }
 
 export const updateParent = async (id, form) => {
-  return await api.put(`http://192.168.0.140:5000/api/v1/fathers/${id}`, form)
+  // return await api.put(`http://192.168.0.140:5000/api/v1/fathers/${id}`, form)
+  return await api.put(`http://localhost:5000/api/v1/fathers/${id}`, form)
 }
 
 export const registerChildToParent = async (data, profileId) => {
@@ -72,37 +74,46 @@ export const registerChildToParent = async (data, profileId) => {
     child: data._id,
     names: data.names,
     surname: data.surname,
-    relative: data.relative,
     birthday: data.birthday,
+    relative: data.relative,
+    identityDocumentNumber: data.identityDocumentNumber,
     age: data.age
   }
-  return await api.post(`http://192.168.0.140:5000/api/v1/fathers/child/${profileId}`, newChild)
+  // return await api.post(`http://192.168.0.140:5000/api/v1/fathers/child/${profileId}`, newChild)
+  return await api.post(`http://localhost:5000/api/v1/fathers/child/${profileId}`, newChild)
 }
 
 export const registerChild = async (child) => {
-  return await api.post(`http://192.168.0.140:5000/api/v1/childs/register`, child)
+  // return await api.post(`http://192.168.0.140:5000/api/v1/childs/register`, child)
+  return await api.post(`http://localhost:5000/api/v1/childs/register`, child)
 }
 
 export const getFatherByEmail = async (searchForm) => {
   const parentEmail = { "email": searchForm.email, "birthday": searchForm.birthday }
   console.log(parentEmail)
-  return await api.post(`http://192.168.0.140:5000/api/v1/fathers/email/findByEmail`, parentEmail)
+  // return await api.post(`http://192.168.0.140:5000/api/v1/fathers/email/findByEmail`, parentEmail)
+  return await api.post(`http://localhost:5000/api/v1/fathers/email/findByEmail`, parentEmail)
 }
 export const getFatherById = async (id) => {
   let res = null
-  await api.get(`http://192.168.0.140:5000/api/v1/fathers/${id}`).then(function (rs) {
+  // await api.get(`http://192.168.0.140:5000/api/v1/fathers/${id}`).then(function (rs) {
+  //   res = rs
+  // })
+  await api.get(`http://localhost:5000/api/v1/fathers/${id}`).then(function (rs) {
     res = rs
   })
   return res
 }
 
 export const deleteChild = async (idCHild) => {
-  const endpoint = `http://192.168.0.140:5000/api/v1/childs/${idCHild}`
+  // const endpoint = `http://192.168.0.140:5000/api/v1/childs/${idCHild}`
+  const endpoint = `http://localhost:5000/api/v1/childs/${idCHild}`
   return await api.delete(endpoint)
 }
 
 export const deleteParentYoung = async (idParent) => {
-  const endpoint = `http://192.168.0.140:5000/api/v1/fathers/${idParent}`
+  // const endpoint = `http://192.168.0.140:5000/api/v1/fathers/${idParent}`
+  const endpoint = `http://localhost:5000/api/v1/fathers/${idParent}`
   return await api.delete(endpoint)
 }
 
@@ -112,11 +123,13 @@ export const sendEmail = async (email, random, contract) => {
     message: random.toString(),
     contract: contract
   }
-  return await api.post(`http://192.168.0.140:5000/api/v1/fathers/sendEmail`, dataEmail)
+  // return await api.post(`http://192.168.0.140:5000/api/v1/fathers/sendEmail`, dataEmail)
+  return await api.post(`http://localhost:5000/api/v1/fathers/sendEmail`, dataEmail)
 }
 
 export const getAllParents = async () => {
-  return await api.get('http://192.168.0.140:5000/api/v1/fathers/')
+  // return await api.get('http://192.168.0.140:5000/api/v1/fathers/')
+  return await api.get('http://localhost:5000/api/v1/fathers/')
 }
 
 

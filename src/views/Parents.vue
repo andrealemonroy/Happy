@@ -15,6 +15,7 @@
             <th>Nombres y apellidos</th>
             <th>Código de validación</th>
             <th>Número de DNI</th>
+            <th>Correo</th>
             <th>Niños asignados</th>
             <th>Acción</th>
           </tr>
@@ -25,6 +26,7 @@
             <td>{{ item.names }} {{ item.surname }}</td>
             <td>{{ item.fatherRandom }}</td>
             <td>{{ item.identityDocumentNumber }}</td>
+            <td>{{item.email}}</td>
             <td>
               <Select placeholder="Niños asignados">
                 <Option
@@ -45,42 +47,10 @@
               </Button>
               <span v-else>-</span>
             </td>
-            <!-- <td v-for="(column, indexColumn) in columns" :key="indexColumn">
-            {{ item[column] }}
-          </td> -->
           </tr>
         </tbody>
       </table>
     </Row>
-    <!-- <h1>Lista de familiares titulares</h1>
-    <br />
-    <p>
-      A continuación se muestra la lista de familiares tutelares:
-    </p>
-    <br />
-    <br />
-    <List>
-      <ListItem v-for="parent in parents[0]" :key="parent._id">
-        {{ parent.names }} {{ parent.surname }} -
-        {{ parent.identityDocumentNumber }}
-
-        <List>
-          <ListItem v-for="child in parent.childs" :key="child._id"
-            >{{ child.names }} {{ child.surname }}</ListItem
-          >
-        </List>
-
-        <Button
-          v-if="notAdult"
-          type="warning"
-          @click="deleteParentYoung(parent._id)"
-        >
-          Eliminar
-        </Button>
-      </ListItem>
-    </List>
-    <br />
-    <br /> -->
   </section>
 </template>
 <script>

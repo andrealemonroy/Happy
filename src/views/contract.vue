@@ -233,21 +233,26 @@
           o más): </strong
         >{{ nameParent }}
         <br />
-        <strong>Fecha de nacimiento: </strong> {{ this.parentData.birthday.slice(0, 10) }}
+        <strong>Fecha de nacimiento: </strong>
+        {{ this.parentData.birthday.slice(0, 10) }}
         <br />
         <strong>DNI: </strong>{{ this.parentData.identityDocumentNumber }}
         <br />
         <strong>Dirección completa: </strong>{{ this.parentData.line }} -
         {{ this.parentData.district }}
         <br />
-        <strong v-if="adult">
-          Nombre de (los/as) menores de edad(s):
-        </strong>
-        <br />
         <List class="list">
           <ListItem v-for="child in childs" :key="child._id">
-            {{ child.names }} {{ child.surname }} - {{ child.relative }} -
-            {{ child.birthday.slice(0, 10) }}
+            <strong>Nombres y apellidos de los/as menores de edad: </strong
+            >{{ child.names }} {{ child.surname }}
+          </ListItem>
+          <ListItem v-for="child in childs" :key="child._id">
+            <strong>DNI del menor de edad: </strong
+            >{{ child.identityDocumentNumber }}
+          </ListItem>
+          <ListItem v-for="child in childs" :key="child._id">
+            <strong>Fecha de nacimiento del menor de edad: </strong>
+            &nbsp;{{ child.birthday.slice(0, 10) }}
           </ListItem>
         </List>
         <br />
@@ -285,12 +290,6 @@
         </Form>
       </Col>
     </Row>
-    <!-- <pdf
-      : page="page"
-          @num-pages="numPages = $event"
-          style="width:75%"
-          src="../static/happyland-contract.pdf"
-    ></pdf>-->
     <Row type="flex" justify="space-between">
       <Col span="6">
         <Button v-if="!notSignature" @click="undo">REINTENTAR</Button>
@@ -299,30 +298,21 @@
         ><Button :loading="next" @click="nextPage">FINALIZAR</Button>
       </Col>
     </Row>
-
-    <!-- <div>
-    <client-only placeholder="Loading...">
-      <pdf
-        class="pdf"
-          : src="require('@/static/happyland-contract.pdf')"
-  :page="1"
-        ></pdf>
-      </client-only>
-    </div> -->
     <div id="ticket-div">
       <div id="ticket">
         <img src="../assets/images/logo-happy.jpg" style="max-width: 150px" />
         <h1>TICKET</h1>
         <p>{{ this.actualMoment }}</p>
         <p>{{ this.nameParent }}</p>
-        <p>{{ this.birthday }}</p>
-        <p>Hijos</p>
-        <p v-for="child in childs" :key="child._id">
-          {{ child.names }} {{ child.surname }} -
-          {{ child.birthday.slice(0, 10) }}
-        </p>
+        <p>{{ this.birthday.slice(0, 10) }}</p>
+        <div v-if="childs.length > 0">
+          <p>Menores de edad</p>
+          <p v-for="child in childs" :key="child._id">
+            {{ child.names }} {{ child.surname }} -
+            {{ child.birthday.slice(0, 10) }}
+          </p>
+        </div>
         <p>Gracias por tu registro. Presenta este ticket y DNI en caja.</p>
-        <br />
         <p>
           En tu próxima visita solo busca tu registro con tu correo electrónico
         </p>
@@ -406,10 +396,13 @@ export default {
             this.object = {
               childs: this.childs,
               parentFullName: this.nameParent,
+              birthday: this.parentData.birthday,
+              line: this.parentData.line,
+              distric: this.parentData.district,
               email: this.email,
               code: this.code
             };
-            if(this.object.childs.length > 0) {
+            if (this.object.childs.length > 0) {
               this.object.childs.forEach(child => {
                 this.childContract =
                   child.names +
@@ -420,9 +413,8 @@ export default {
                   ", ";
               });
             } else {
-              this.childContract = ''
+              this.childContract = "";
             }
-
 
             if (this.notSignature == true) {
               this.$Notice.error({
@@ -473,7 +465,10 @@ export default {
                   },
                   "\nReconozco y declaro que antes de hacer uso de las instalaciones de Sociedad HAPPYLAND Perú S.A., he leído los reglamentos de uso de cada uno de ellos, por lo que manifiesto haber sido debido(a) y suficientemente informado(a) en relación a las reglas que rigen para mí y aquellos menor de edad  respecto de quienes autorizo participar en cualquier actividad dentro de los juegos que conforman el entretenimiento de Sociedad HAPPYLAND Perú S.A.",
                   "\nAsimismo, dejo expresa constancia que entiendo y he explicado las referidas reglas a los menores respecto de quienes autorizo participar. Reconozco también que en caso no se sigan las reglas preestablecidas por Sociedad HAPPYLAND Perú S.A., en cada uno de los diferentes juegos de Sociedad HAPPYLAND Perú S.A., este comportamiento puede resultar en mi exclusión o la de aquellos menores respecto de quienes autorizo participar de los juegos, sin tener –ni esperar- un resarcimiento o devolución del importe de dinero invertido.",
-                  `\nNombres y apellidos: ${this.object.parentFullName}`,
+                  `\nPadre / tutor legal / poder notarial / participante (si tiene 18 años
+          o más):: ${this.object.parentFullName}`,
+                  `\nFecha de nacimiento: ${this.object.birthday.slice(0, 10)}`,
+                  `\nDirección: ${this.object.line} - ${this.object.district} `,
                   `\nHijos: ${this.childContract}`,
                   "\nFirma",
                   {
@@ -509,7 +504,7 @@ export default {
                     this.$router.push("./thanks");
                   })
                   .catch(err => {
-                   this.next = false;
+                    this.next = false;
                     console.log(res);
                     this.$htmlToPaper("ticket");
                     this.$router.push("./thanks");
