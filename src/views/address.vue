@@ -74,7 +74,14 @@
           >
         </Col>
       </Row>
-      <Button @click="nextPage">Siguiente</Button>
+      <Row type="flex" justify="space-between">
+        <Col span="6"
+          ><Button @click="goBack">
+            <Icon type="ios-arrow-back" />REGRESAR</Button
+          >
+        </Col>
+        <Col span="6"><Button @click="nextPage">SIGUIENTE</Button> </Col>
+      </Row>
     </Form>
   </section>
 </template>
@@ -113,32 +120,50 @@ export default {
       this.$refs["addressForm"].validate(async valid => {
         if (valid) {
           const data = JSON.parse(localStorage.getItem("data"));
+          const parentId = localStorage.getItem("parentId");
           data.line = this.addressForm.address;
           data.district = this.addressForm.district;
-          Api.registerParent(data).then(res => {
-            console.log(res);
-            if (res.status === 200) {
-              localStorage.setItem("parentId", res.data._id);
-              if (
-                moment(data.birthday).isAfter(moment().subtract(18, "years"))
-              ) {
-                this.$router.push("/contract");
-              } else {
-                this.$router.push("/addChild");
-              }
-            } else {
-              this.$Notice.error({
-                title: "Error en el registro",
-                desc: res.response.data.message
+          Api.updateParent(parentId, data)
+            .then(res => {
+              console.log(res);
+              this.$router.push("/addChild");
+              this.$Notice.info({
+                title: "Registro exitoso"
               });
-            }
-          });
+            })
+            .catch(error => {
+              console.log(error);
+              this.$Notice.error({
+                title: "Ocurrió un error"
+              });
+            });
+          // Api.registerParent(data).then(res => {
+          //   console.log(res);
+          //   if (res.status === 200) {
+          //     localStorage.setItem("parentId", res.data._id);
+          //     if (
+          //       moment(data.birthday).isAfter(moment().subtract(18, "years"))
+          //     ) {
+          //       this.$router.push("/contract");
+          //     } else {
+          //       this.$router.push("/addChild");
+          //     }
+          //   } else {
+          //     this.$Notice.error({
+          //       title: "Error en el registro",
+          //       desc: res.response.data.message
+          //     });
+          //   }
+          // });
         } else {
           this.$Notice.error({
             title: "Hay campos inválidos en el formulario"
           });
         }
       });
+    },
+    goBack() {
+      this.$router.push("/registerParent");
     }
   }
 };

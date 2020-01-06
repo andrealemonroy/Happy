@@ -1,6 +1,6 @@
 <template>
   <section class="center vertical-middle mt-60 font-20">
-    <h1>Registro de responsabilidad</h1>
+    <h1>REGISTRO DE RESPONSABILIDAD</h1>
     <br />
     <h3>
       ESTE PROCESO TE PERMITIRÁ FIRMAR DIGITALMENTE TU REGISTRO DE
@@ -17,11 +17,11 @@
     <Row type="flex" justify="space-between">
       <Col span="6"
         ><Button @click="goBack">
-          <Icon type="ios-arrow-back" />Regresar</Button
+          <Icon type="ios-arrow-back" />REGRESAR</Button
         >
       </Col>
       <Col span="6"
-        ><Button @click="nextPage">Continuar el registro</Button>
+        ><Button @click="nextPage">CONTINUAR</Button>
       </Col>
     </Row>
   </section>
