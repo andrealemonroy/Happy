@@ -313,6 +313,8 @@
           {{ child.names }} {{ child.surname }} -
           {{ child.identityDocumentNumber }} - {{ child.age }} años
         </p>
+        <p>Gracias  por tu registro. Presenta este ticket y DNI en caja.</p><br>
+        <p>En tu próxima visita solo busca tu registro con tu correo electrónico</p>
       </div>
     </div>
   </section>
