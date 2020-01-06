@@ -311,7 +311,7 @@
         <p>Hijos</p>
         <p v-for="child in childs" :key="child._id">
           {{ child.names }} {{ child.surname }} -
-          {{ child.identityDocumentNumber }} - {{ child.age }} años
+          {{ child.identityDocumentNumber }} - {{ moment().diff(child.birthday, "years") }} años
         </p>
         <p>Gracias  por tu registro. Presenta este ticket y DNI en caja.</p><br>
         <p>En tu próxima visita solo busca tu registro con tu correo electrónico</p>
