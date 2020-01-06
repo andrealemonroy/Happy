@@ -232,14 +232,20 @@
           >Padre / tutor legal / poder notarial / participante (si tiene 18 años
           o más): </strong
         >{{ nameParent }}
+        <br>
+        <strong>Fecha de nacimiento: <strong> {{this.parentData.birthday}}
         <br />
+        <strong>DNI: </strong>{{this.parentData.identityDocumentNumber}}
+        <br>
+                <strong>Dirección completa: </strong>{{this.parentData.line}} - {{this.parentData.district}}
+        <br>
         <strong v-if="adult">
           Nombre de (los/as) menores de edad(s):
         </strong>
         <br />
         <List class="list">
           <ListItem v-for="child in childs" :key="child._id">
-            {{ child.names }} {{ child.surname }}
+            {{ child.names }} {{ child.surname }} - {{child.identityDocumentNumber}} - {{child.relative}} - {{child.birthday}}
           </ListItem>
         </List>
         <br />
