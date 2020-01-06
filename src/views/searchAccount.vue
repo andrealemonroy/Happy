@@ -23,16 +23,14 @@
           </FormItem>
       </Col>
       <Col :xs="20" :sm="24" :md="12" :lg="6">
-                <FormItem prop="birthday" label="Fecha de nacimiento">
-                  <DatePicker
-                    type="date"
-                    format="yyyy-MM-dd"
-                    :confirm="false"
-                    placeholder="Fecha de nacimiento"
-                    v-model="searchForm.birthday"
-                  ></DatePicker>
-                </FormItem>
-              </Col>
+          <FormItem prop="birthday" label="Fecha de nacimiento">
+          <DatePicker
+              format="dd-MM-yyyy"
+              placeholder="DD-MM-AAAA"
+              v-model="searchForm.birthday"
+            ></DatePicker>
+          </FormItem>
+      </Col>
               <Col class="vertical-middle" :xs="20" :sm="24" :md="12" :lg="6">
               <Button @click="searchParent">Buscar</Button>
               </Col>
@@ -66,17 +64,15 @@
               </Row>
               <Row type="flex" justify="space-around">
                 <Col :xs="24" :sm="24" :md="12" :lg="10">
-                <FormItem prop="birthday" label="Fecha de nacimiento">
+                  <FormItem prop="birthday" label="Fecha de nacimiento">
                   <DatePicker
-                    type="date"
-                    format="yyyy-MM-dd"
-                    :confirm="false"
-                    placeholder="Fecha de nacimiento"
-                    v-model="parentForm.birthday"
-                  ></DatePicker>
-                </FormItem>
+                      format="dd-MM-yyyy"
+                      placeholder="DD-MM-AAAA"
+                      v-model="parentForm.birthday"
+                    ></DatePicker>
+                  </FormItem>
               </Col>
-                            <Col span="7">
+              <Col span="7">
                 <FormItem
                   prop="specialOffer"
                   label="Me gustaría recibir ofertas especiales a través de:"
@@ -255,7 +251,7 @@ export default {
             required: true,
             type: "date",
             message: "La fecha de nacimiento es requerida",
-            trigger: "change"
+            trigger: "blur"
           }
         ],
       },

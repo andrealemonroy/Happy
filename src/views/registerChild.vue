@@ -23,7 +23,7 @@
           ></FormItem>
         </Col>
         <Col span="7">
-          <FormItem prop="identityDocumentNumber" label="DNI del niño"
+          <FormItem prop="identityDocumentNumber" label="DNI del menor de edad"
             ><Input
               v-model="childForm.identityDocumentNumber"
               placeholder="ej. 12345678"
@@ -35,11 +35,8 @@
         <Col span="7">
           <FormItem prop="birthday" label="Fecha de nacimiento">
             <DatePicker
-              type="date"
-              :editable="true"
-              format="yyyy-MM-dd"
-              :confirm="false"
-              placeholder="Fecha de nacimiento"
+              format="dd-MM-yyyy"
+              placeholder="DD-MM-AAAA"
               v-model="childForm.birthday"
             ></DatePicker>
           </FormItem>
@@ -154,7 +151,8 @@ export default {
           {
             required: true,
             type: "date",
-            trigger: "change"
+            message: "Ingrese Día-Mes-Año",
+            trigger: "blur"
           }
         ]
       }

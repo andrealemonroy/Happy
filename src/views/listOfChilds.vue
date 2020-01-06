@@ -1,9 +1,9 @@
 <template>
   <section class="center mt-60 font-20">
-    <h1>REVISION DE LOS MENORES BAJO TUTELA</h1>
+    <h1>REVISIÓN DE LOS MENORES BAJO TUTELA</h1>
     <br />
     <p>
-      A continuación, la lista de menores de edad registrados.<br>
+      A continuación, se muestra la lista de menores de edad registrados.<br>
       Agrega a más menores a tu registro y/o continúa con el proceso
     </p>
     <br />
@@ -17,7 +17,7 @@
             <template slot="action">
               <li>
                 <button class="delete" @click="deleteChild(child.child)">
-                  Eliminar
+                  ELIMINAR
                 </button>
               </li>
             </template>
@@ -31,9 +31,9 @@
 
     <Row type="flex" justify="space-between">
       <Col span="6">
-        <Button @click="registerChild">Agregar a un(a) menor de edad</Button>
+        <Button @click="registerChild">AGREGAR</Button>
       </Col>
-      <Col span="6"> <Button @click="nextPage">Continuar</Button> </Col>
+      <Col span="6"> <Button @click="nextPage">CONTINUAR</Button> </Col>
     </Row>
   </section>
 </template>

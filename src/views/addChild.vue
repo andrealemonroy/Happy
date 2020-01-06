@@ -1,9 +1,9 @@
 <template>
   <section class="center mt-60">
-    <h1>¿Vas a registrar un menor de edad?</h1>
+    <h1>¿TE GUSTARÍA REGISTRAR UN MENOR DE EDAD?</h1>
     <br />
-    <Button @click="childInfo">Sí</Button>
-    <Button @click="listChilds">No</Button>
+    <Button @click="childInfo">SÍ</Button>
+    <Button @click="listChilds">NO</Button>
   </section>
 </template>
 <script>

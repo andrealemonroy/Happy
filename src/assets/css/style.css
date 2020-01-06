@@ -186,3 +186,11 @@ table th {
     border-bottom: 0;
   }
 }
+
+.ivu-date-picker {
+  width: 100%;
+}
+
+.ivu-picker-panel-body{
+  display: none
+}
