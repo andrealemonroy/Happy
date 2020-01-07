@@ -835,7 +835,7 @@ export default {
         this.$Notice.success({
           title: "Niño eliminado con éxito"
         });
-        this.$router.go();
+        this.$router.push("/addChild");
       });
     },
     addChild() {
