@@ -332,26 +332,26 @@ export default {
     };
     return {
       parentForm: {
-        // names: "",
-        // surname: "",
-        // identityDocumentNumber: "",
-        // birthhday: "",
-        // birtmonth: "",
-        // birthyear: "",
-        // email: "",
-        // phoneNumber: "",
-        // gender: "",
-        // specialOffer: ""
-        names: "Andrea",
-        surname: "Monroy Carrillo",
-        identityDocumentNumber: "76282636",
-        birthhday: "17",
-        birthmonth: "05",
-        birthyear: "1995",
-        email: "andreale17@icloud.com",
-        phoneNumber: "978893562",
-        gender: "female",
-        specialOffer: "email"
+        names: "",
+        surname: "",
+        identityDocumentNumber: "",
+        birthhday: "",
+        birtmonth: "",
+        birthyear: "",
+        email: "",
+        phoneNumber: "",
+        gender: "",
+        specialOffer: ""
+        // names: "Andrea",
+        // surname: "Monroy Carrillo",
+        // identityDocumentNumber: "76282636",
+        // birthhday: "17",
+        // birthmonth: "05",
+        // birthyear: "1995",
+        // email: "andreale17@icloud.com",
+        // phoneNumber: "978893562",
+        // gender: "female",
+        // specialOffer: "email"
       },
       validateForm: {
         names: [

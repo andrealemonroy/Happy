@@ -636,9 +636,9 @@ export default {
       childs: [],
       idParent: "",
       searchForm: {
-        email: "andreale17@icloud.com",
+        // email: "andreale17@icloud.com",
         // birthday: "17-05-1995"
-        // email: "",
+        email: "",
         birthday: ""
       },
       parentForm: {
