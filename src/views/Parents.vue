@@ -39,13 +39,11 @@
             </td>
             <td>
               <Button
-                v-if="item.notAdult"
                 type="warning"
-                @click="deleteParentYoung(item._id)"
+                @click="generateContract(item._id)"
               >
-                Eliminar
+                VER CONTRATO
               </Button>
-              <span v-else>-</span>
             </td>
           </tr>
         </tbody>

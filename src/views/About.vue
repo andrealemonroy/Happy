@@ -16,8 +16,8 @@
     <br />
     <Row type="flex" justify="space-between">
       <Col span="6"
-        ><Button @click="goBack">
-          <Icon type="ios-arrow-back" />REGRESAR</Button
+        ><button class="return" @click="goBack">
+          <Icon type="ios-arrow-back" />REGRESAR</button
         >
       </Col>
       <Col span="6"

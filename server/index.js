@@ -1,4 +1,4 @@
-/* eslint-disable */
+2
 var axios = require('axios');
 var localStorage = require('localStorage');
 let api = axios.create({

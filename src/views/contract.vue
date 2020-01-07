@@ -380,25 +380,21 @@ export default {
     nextPage() {
       this.$refs["form"].validate(async valid => {
         if (valid) {
-          // const parent = JSON.parse(localStorage.getItem("data"));
           let idParent = localStorage.getItem("parentId");
           Api.getFatherById(idParent).then(res => {
             this.parentData = res.data;
             this.nameParent =
-              this.parentData.names +
-              " " +
-              this.parentData.surname +
-              " - " +
-              this.parentData.identityDocumentNumber;
+              this.parentData.names + " " + this.parentData.surname;
             this.childs = this.parentData.childs;
             this.code = this.parentData.fatherRandom;
             this.email = this.parentData.email;
             this.object = {
               childs: this.childs,
               parentFullName: this.nameParent,
+              identityDocumentNumber: this.parentData.identityDocumentNumber,
               birthday: this.parentData.birthday,
               line: this.parentData.line,
-              distric: this.parentData.district,
+              district: this.parentData.district,
               email: this.email,
               code: this.code
             };
@@ -410,7 +406,10 @@ export default {
                   child.surname +
                   " -  " +
                   child.identityDocumentNumber +
-                  ", ";
+                  " - " +
+                  child.birthday.slice(0,10) +
+                  " - " +
+                  child.relative;
               });
             } else {
               this.childContract = "";
@@ -466,10 +465,11 @@ export default {
                   "\nReconozco y declaro que antes de hacer uso de las instalaciones de Sociedad HAPPYLAND Perú S.A., he leído los reglamentos de uso de cada uno de ellos, por lo que manifiesto haber sido debido(a) y suficientemente informado(a) en relación a las reglas que rigen para mí y aquellos menor de edad  respecto de quienes autorizo participar en cualquier actividad dentro de los juegos que conforman el entretenimiento de Sociedad HAPPYLAND Perú S.A.",
                   "\nAsimismo, dejo expresa constancia que entiendo y he explicado las referidas reglas a los menores respecto de quienes autorizo participar. Reconozco también que en caso no se sigan las reglas preestablecidas por Sociedad HAPPYLAND Perú S.A., en cada uno de los diferentes juegos de Sociedad HAPPYLAND Perú S.A., este comportamiento puede resultar en mi exclusión o la de aquellos menores respecto de quienes autorizo participar de los juegos, sin tener –ni esperar- un resarcimiento o devolución del importe de dinero invertido.",
                   `\nPadre / tutor legal / poder notarial / participante (si tiene 18 años
-          o más):: ${this.object.parentFullName}`,
+                  o más):: ${this.object.parentFullName}`,
+                  `\DNI: ${this.object.identityDocumentNumber}`,
                   `\nFecha de nacimiento: ${this.object.birthday.slice(0, 10)}`,
                   `\nDirección: ${this.object.line} - ${this.object.district} `,
-                  `\nHijos: ${this.childContract}`,
+                  `\nMenores de edad: ${this.childContract}`,
                   "\nFirma",
                   {
                     image: testImageDataUrl,
@@ -491,7 +491,6 @@ export default {
               };
               const pdfDocGenerator = pdfMake.createPdf(docDefinition);
               pdfDocGenerator.getBase64(data => {
-                console.log(data);
                 this.pdf = "data:application/pdf;base64," + data;
                 Api.sendEmail(this.object.email, this.object.code, this.pdf)
                   .then(res => {
@@ -502,13 +501,23 @@ export default {
                       maxWidth: 200
                     });
                     this.$router.push("./thanks");
+                    localStorage.clear();
                   })
                   .catch(err => {
-                    this.next = false;
                     console.log(res);
-                    this.$htmlToPaper("ticket");
+                    printJS({
+                      printable: "ticket",
+                      type: "html",
+                      maxWidth: 200
+                    });
                     this.$router.push("./thanks");
+                    localStorage.clear();
+                    this.next = false;
                   });
+                // Api.getFatherById(idParent).then(res => {
+                //   res.pdf = this.pdf
+                //   Api.updateParent(idParent, res);
+                // });
               });
             }
           });
@@ -524,22 +533,11 @@ export default {
   async created() {
     moment.locale("es");
     this.actualMoment = moment().format("LLLL");
-    let idParent = localStorage.getItem("parentId");
+    const idParent = localStorage.getItem("parentId");
     Api.getFatherById(idParent).then(res => {
+      console.log(res.data);
       this.parentData = res.data;
-      if (
-        moment(this.parentData.birthday).isAfter(moment().subtract(18, "years"))
-      ) {
-        this.adult = false;
-      } else {
-        this.adult = true;
-      }
-      this.nameParent =
-        this.parentData.names +
-        " " +
-        this.parentData.surname +
-        " - " +
-        this.parentData.identityDocumentNumber;
+      this.nameParent = this.parentData.names + " " + this.parentData.surname;
       this.childs = this.parentData.childs;
       this.birthday = this.parentData.birthday.slice(0, 10);
       console.log(this.childs);
