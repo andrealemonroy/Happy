@@ -1,4 +1,4 @@
-/* eslint-disable */
+2
 var axios = require('axios');
 var localStorage = require('localStorage');
 let api = axios.create({
@@ -90,7 +90,6 @@ export const registerChild = async (child) => {
 
 export const getFatherByEmail = async (searchForm) => {
   const parentEmail = { "email": searchForm.email, "birthday": searchForm.birthday }
-  console.log(parentEmail)
   // return await api.post(`http://192.168.0.140:5000/api/v1/fathers/email/findByEmail`, parentEmail)
   return await api.post(`http://localhost:5000/api/v1/fathers/email/findByEmail`, parentEmail)
 }

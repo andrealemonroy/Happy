@@ -69,13 +69,13 @@
             </RadioGroup>
           </FormItem>
         </Col>
-        <!-- <Col :xs="{ span: 24 }" :lg="{ span: 8 }">
+        <Col :xs="{ span: 22 }" :lg="{ span: 8 }">
           <p>Fecha de nacimiento</p>
           <Row type="flex" justify="center">
-            <Col :xs="{ span: 7 }" :lg="{ span: 4 }">
-              <FormItem prop="birthday" label="DÍA">
+            <Col :xs="{ span: 7 }" :lg="{ span: 6 }">
+              <FormItem prop="birthhday" label="DÍA">
                 <Select
-                  v-model="parentForm.birthday"
+                  v-model="parentForm.birthhday"
                   name="day"
                   class="day"
                   placeholder="DD"
@@ -115,7 +115,7 @@
                 </Select>
               </FormItem>
             </Col>
-            <Col :xs="{ span: 8, offset: 1 }" :lg="{ span: 6 }">
+            <Col :xs="{ span: 8, offset: 1 }" :lg="{ span: 8 }">
               <FormItem prop="birthmonth" label="MES">
                 <Select
                   v-model="parentForm.birthmonth"
@@ -123,22 +123,22 @@
                   placeholder="MM"
                   filterable
                 >
-                  <Option value="Enero">Enero</Option>
-                  <Option value="Febrero">Febrero</Option>
-                  <Option value="Marzo">Marzo</Option>
-                  <Option value="Abril">Abril</Option>
-                  <Option value="Mayo">Mayo</Option>
-                  <Option value="Junio">Junio</Option>
-                  <Option value="July">Julio</Option>
-                  <Option value="Agosto">Agosto</Option>
-                  <Option value="Septiembre">Septiembre</Option>
-                  <Option value="Octubre">Octubre</Option>
-                  <Option value="Noviembre">Noviembre</Option>
-                  <Option value="December">Diciembre</Option>
+                  <Option value="01">Enero</Option>
+                  <Option value="02">Febrero</Option>
+                  <Option value="03">Marzo</Option>
+                  <Option value="04">Abril</Option>
+                  <Option value="05">Mayo</Option>
+                  <Option value="06">Junio</Option>
+                  <Option value="07">Julio</Option>
+                  <Option value="08">Agosto</Option>
+                  <Option value="09">Septiembre</Option>
+                  <Option value="10">Octubre</Option>
+                  <Option value="11">Noviembre</Option>
+                  <Option value="12">Diciembre</Option>
                 </Select>
               </FormItem>
             </Col>
-            <Col :xs="{ span: 7, offset: 1 }" :lg="{ span: 4 }">
+            <Col :xs="{ span: 7, offset: 1 }" :lg="{ span: 6 }">
               <FormItem prop="birthyear" label="AÑO">
                 <Select
                   v-model="parentForm.birthyear"
@@ -265,8 +265,8 @@
               </FormItem>
             </Col>
           </Row>
-        </Col> -->
-        <Col span="7">
+        </Col>
+        <!-- <Col span="7">
           <FormItem prop="birthday" label="Fecha de nacimiento">
             <DatePicker
               format="dd-MM-yyyy"
@@ -274,15 +274,15 @@
               v-model="parentForm.birthday"
             ></DatePicker>
           </FormItem>
-        </Col>
+        </Col> -->
         <Col span="7"></Col>
       </Row>
       <br />
       <Row type="flex" justify="space-between">
         <Col span="6"
-          ><Button @click="goBack">
-            <Icon type="ios-arrow-back" />REGRESAR</Button
-          >
+          ><button class="return" @click="goBack">
+            <Icon type="ios-arrow-back" />REGRESAR
+          </button>
         </Col>
         <Col span="6"><Button @click="nextPage">SIGUIENTE</Button> </Col>
       </Row>
@@ -332,16 +332,26 @@ export default {
     };
     return {
       parentForm: {
-        names: "",
-        surname: "",
-        identityDocumentNumber: "",
-        birthday: "",
+        // names: "",
+        // surname: "",
+        // identityDocumentNumber: "",
+        // birthhday: "",
         // birtmonth: "",
         // birthyear: "",
-        email: "",
-        phoneNumber: "",
-        gender: "",
-        specialOffer: ""
+        // email: "",
+        // phoneNumber: "",
+        // gender: "",
+        // specialOffer: ""
+        names: "Andrea",
+        surname: "Monroy Carrillo",
+        identityDocumentNumber: "76282636",
+        birthhday: "17",
+        birthmonth: "05",
+        birthyear: "1995",
+        email: "andreale17@icloud.com",
+        phoneNumber: "978893562",
+        gender: "female",
+        specialOffer: "email"
       },
       validateForm: {
         names: [
@@ -386,28 +396,27 @@ export default {
             trigger: "blur"
           }
         ],
-        birthday: [
+        birthhday: [
           {
             required: true,
-            type: "date",
-            message: "Ingrese Día-Mes-Año",
+            message: "requerido",
+            trigger: "blur"
+          }
+        ],
+        birthmonth: [
+          {
+            required: true,
+            message: "requerido",
+            trigger: "blur"
+          }
+        ],
+        birthyear: [
+          {
+            required: true,
+            message: "requerido",
             trigger: "blur"
           }
         ]
-        // birthmonth: [
-        //   {
-        //     required: true,
-        //     type: "number",
-        //     trigger: "change"
-        //   }
-        // ],
-        // birthyear: [
-        //   {
-        //     required: true,
-        //     type: "number",
-        //     trigger: "change"
-        //   }
-        // ]
       }
     };
   },
@@ -416,6 +425,7 @@ export default {
       this.$refs["parentForm"].validate(async valid => {
         if (valid) {
           try {
+            this.parentForm.birthday = moment(`${this.parentForm.birthhday}`+'-'+`${this.parentForm.birthmonth}`+'-'+`${this.parentForm.birthyear}`, 'DD-MM-YYYY').format();
             // if (
             //   moment(this.parentForm.birthday).isAfter(
             //     moment().subtract(18, "years")
@@ -425,9 +435,11 @@ export default {
             // } else {
             //   this.parentForm.notAdult = false;
             // }
-            // delete this.parentForm.birthday;
-            // delete this.parentForm.birthday;
-            // delete this.parentForm.birthday;
+
+            console.log(this.parentForm.birthday);
+            delete this.parentForm.birthhday;
+            delete this.parentForm.birthmonth;
+            delete this.parentForm.birthyear;
             if (
               moment(this.parentForm.birthday).isAfter(
                 moment().subtract(18, "years")

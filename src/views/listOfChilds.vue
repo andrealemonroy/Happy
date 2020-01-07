@@ -84,16 +84,3 @@ export default {
   // }
 };
 </script>
-<style scoped>
-.list {
-  text-align: center;
-  margin: auto;
-}
-.delete {
-  padding: 10% 20%;
-  background-color: #ed4014 !important;
-  color: black;
-  border-radius: 30px;
-  font-family: "Montserrat-light";
-}
-</style>

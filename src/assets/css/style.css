@@ -48,6 +48,13 @@ h1 {
   margin-top: 60px;
 }
 
+.mt-40 {
+  margin-top: 40px;
+}
+.mt-10 {
+  margin-top: 10px;
+}
+
 .font-20 {
   font-size: 20px;
 }
@@ -63,11 +70,10 @@ h1 {
   font-family: "Montserrat-light";
 }
 
-.ivu-select,
-.ivu-select-selection,
-.ivu-select-selected-value {
-  height: 48px;
+.ivu-select {
+  height: 48px !important;
   font-size: 24px;
+  /* line-height: 48px !important; */
   font-family: "Montserrat-light";
 }
 
@@ -191,6 +197,29 @@ table th {
   width: 100%;
 }
 
-.ivu-picker-panel-body{
-  display: none
+.ivu-picker-panel-body {
+  display: none;
+}
+.delete {
+  padding: 10px 20px;
+  background-color: #ed4014 !important;
+  color: black;
+  border-radius: 30px;
+  font-family: "Montserrat-light";
+}
+
+.return {
+  padding: 10px 20px;
+  background-color: #000 !important;
+  color: #fff;
+  border-radius: 30px;
+  font-family: "Montserrat-light";
+}
+
+.return:hover {
+  background-color: rgb(55, 58, 77) !important;
+}
+.list {
+  text-align: center;
+  margin: auto;
 }
