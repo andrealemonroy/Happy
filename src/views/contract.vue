@@ -300,6 +300,7 @@
         <h1>TICKET</h1>
         <p>{{ this.actualMoment }}</p>
         <p>{{ this.nameParent }}</p>
+        <p>{{this.identityDocumentNumber}}</p>
         <p>{{ this.birthday.slice(0, 10) }}</p>
         <div v-if="childs.length > 0">
           <p>Menores de edad</p>
@@ -387,6 +388,7 @@ export default {
             this.nameParent =
               this.parentData.names + " " + this.parentData.surname;
             this.childs = this.parentData.childs;
+            this.identityDocumentNumber = this.parentData.identityDocumentNumber;
             this.code = this.parentData.fatherRandom;
             this.email = this.parentData.email;
             this.object = {

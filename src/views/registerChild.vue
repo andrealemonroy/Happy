@@ -253,13 +253,6 @@ export default {
             trigger: "blur"
           }
         ],
-        identityDocumentNumber: [
-          {
-            required: true,
-            validator: validateidentityDocumentNumber,
-            trigger: "change"
-          }
-        ],
         gender: [
           { required: true, message: "El género es requerido", trigger: "blur" }
         ],
