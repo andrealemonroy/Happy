@@ -28,7 +28,7 @@
           <strong>Sociedad HAPPYLAND Perú S.A.</strong
           ><span style="color:red;">&nbsp;</span>ubicados en centro comercial
           Mall Aventura Santa Anita<span style="color:red;">&nbsp;</span> Zona
-          de<span style="color:red;">&nbsp;</span>Happyland Adventure. En
+          de<span style="color:red;">&nbsp;</span>Happyland Adventure, Fun Kids y Happy Kids. En
           consideración a que se nos permita usar dichas instalaciones y
           equipos, y cualquier otro servicio proporcionado por
           <strong>Sociedad Happyland Perú S.A.</strong> o sus empleados o
@@ -48,7 +48,7 @@
           </li>
           <li>
             Reconozco y acepto que el uso de los equipos de la Zona de Happyland
-            Adventure, así como otros equipos de propiedad de
+            Adventure, Fun Kids, Happy Kids; así como, otros equipos de propiedad de
             <strong>Sociedad HAPPYLAND Perú S.A.</strong> pueden conllevar
             riesgos, los cuales incluyen lesiones físicas o emocionales graves,
             muerte, daños a mí mismo, a los menor de edad &nbsp;y/o a terceros,
@@ -60,7 +60,7 @@
           <li>
             Reconozco y acepto que, si bien los empleados de
             <strong>Sociedad HAPPYLAND Perú S.A.</strong> supervisan
-            generalmente la Zona de Happyland Adventure y otras actividades
+            generalmente la Zona de Happyland Adventure, Fun Kids, Happy Kids y otras actividades
             localizadas en otras zonas que tienen lugar en los locales de
             <strong>Sociedad HAPPYLAND Perú S.A.</strong>, no es factible que
             dichos empleados supervisen las actividades y acciones de todos los
@@ -77,7 +77,7 @@
             <strong>Sociedad HAPPYLAND Perú S.A.</strong> no es responsable de
             las acciones o actividades de clientes que usan las instalaciones de
             <strong>Sociedad HAPPYLAND Perú S.A.</strong>, incluyendo la zona
-            Happyland Adventure. Algunos de los riesgos incluyen, entre otros,
+            Happyland Adventure, Fun Kids y Happy Kids. Algunos de los riesgos incluyen, entre otros,
             los siguientes:
           </li>
         </ul>
@@ -86,7 +86,7 @@
           a) Los participantes podrían llegar a morir o quedar paralizados,
           parcial o totalmente, a través del uso de las instalaciones de
           <strong>Sociedad HAPPYLAND Perú S.A.</strong>, incluyendo la zona
-          Happyland Adventure.
+          Happyland Adventure, Fun Kids y Happy Kids.
         </p>
         <p style="text-align:justify; margin-left:80px">
           b) Los participantes pueden sufrir cortes, raspones, golpes,
@@ -146,7 +146,7 @@
             (de cualquier forma, incluida la atención de emergencia,
             hospitalización, atención ambulatoria y/o fisioterapia) como
             resultado de cualquier lesión que yo o los menores de edad suframos
-            mientras usamos la Zona de Happyland Adventure o cualquier otra zona
+            mientras usamos la Zona de Happyland Adventure, Fun Kids, Happy Kids o cualquier otra zona
             de <strong>Sociedad HAPPYLAND Perú S.A.</strong>, dicha asistencia
             correrá por mi cuenta. Sin perjuicio de ello,
             <strong>Sociedad HAPPYLAND Perú S.A.</strong> podrá prestar primeros
@@ -163,7 +163,7 @@
         <p style="text-align:justify;">
           <span lang="ES-PE"
             >En relación con el uso de las instalaciones de la zona Happyland
-            Adventure y otras zonas a las que yo y los menor de edad podamos
+            Adventure, Fun Kids, Happy Kids y otras zonas a las que yo y los menor de edad podamos
             tener acceso, en mi calidad de titular de la patria potestad o tutor
             de los menores, doy mi consentimiento libre, previo, expreso e
             inequívoco para el tratamiento de mis datos personales y los de los
@@ -238,21 +238,17 @@
         <br />
         <strong>DNI: </strong>{{ this.parentData.identityDocumentNumber }}
         <br />
-        <strong>Dirección completa: </strong>{{ this.parentData.line }} -
-        {{ this.parentData.district }}
+        <strong>Dirección completa: </strong>{{ this.parentData.line }}
+        <br />
+        <strong>Distrito: </strong{{ this.parentData.district }}
+        <br />
+        <strong>Correo electrónico: </strong>{{this.parentData.email}}
+        <br />
+        <strong>Celular: </strong> {{this.parentData.phoneNumber}}
         <br />
         <List class="list">
-          <ListItem v-for="child in childs" :key="child._id">
-            <strong>Nombres y apellidos de los/as menores de edad: </strong
-            >{{ child.names }} {{ child.surname }}
-          </ListItem>
-          <ListItem v-for="child in childs" :key="child._id">
-            <strong>DNI del menor de edad: </strong
-            >{{ child.identityDocumentNumber }}
-          </ListItem>
-          <ListItem v-for="child in childs" :key="child._id">
-            <strong>Fecha de nacimiento del menor de edad: </strong>
-            &nbsp;{{ child.birthday.slice(0, 10) }}
+          <ListItem v-for="child in childs" label="Menor de edad" :key="child._id">
+            <strong>Datos del menor de edad: </strong> • {{ child.names }} {{child.surname}} - {{child.identityDocumentNumber}} - {{child.birthday.slice(0,10)}} - {{child.relative}}
           </ListItem>
         </List>
         <br />
@@ -308,7 +304,7 @@
         <div v-if="childs.length > 0">
           <p>Menores de edad</p>
           <p v-for="child in childs" :key="child._id">
-            {{ child.names }} {{ child.surname }} -
+            {{ child.names }} {{ child.surname }} - {{ child.identityDocumentNumber }} -
             {{ child.birthday.slice(0, 10) }}
           </p>
         </div>
@@ -359,7 +355,12 @@ export default {
       allData: "",
       pdf: "",
       object: {},
-      childContract: "",
+      childName: "",
+      childSurname: "",
+      childDNI: "",
+      childBirthday: "",
+      childRelative: "",
+      arrChilds:[],
       next: false,
       adult: false,
       form: {
@@ -391,6 +392,7 @@ export default {
             this.object = {
               childs: this.childs,
               parentFullName: this.nameParent,
+              phoneNumber: this.parentData.phoneNumber,
               identityDocumentNumber: this.parentData.identityDocumentNumber,
               birthday: this.parentData.birthday,
               line: this.parentData.line,
@@ -400,19 +402,20 @@ export default {
             };
             if (this.object.childs.length > 0) {
               this.object.childs.forEach(child => {
-                this.childContract =
-                  child.names +
-                  " " +
-                  child.surname +
-                  " -  " +
-                  child.identityDocumentNumber +
-                  " - " +
-                  child.birthday.slice(0,10) +
-                  " - " +
-                  child.relative;
+                this.childName = child.names
+                this.childSurname = child.surname
+                this.childDNI = child.identityDocumentNumber
+                this.childBirthday = child.birthday.slice(0,10)
+                this.childRelative = child.relative
+                let dataChild = 'Menor de edad: ' + this.childName + ' - ' + this.childSurname + ' - ' + this.childDNI + ' - ' + this.childBirthday
+                this.arrChilds.push(dataChild)
               });
             } else {
-              this.childContract = "";
+                this.childName = ""
+                this.childSurname = ""
+                this.childDNI = ""
+                this.childBirthday = ""
+                this.childRelative = ""
             }
 
             if (this.notSignature == true) {
@@ -439,24 +442,26 @@ export default {
                     text:
                       "\n1 - Acuerdo del participante, liberación y asunción de riesgos"
                   },
-                  '\nElegí voluntariamente usar y permitir que los menores de edad identificados anteriormente, los cuales se encuentran bajo mi tutela, y han sido referidos individual y colectivamente en este documento como "menor de edad ", usen las instalaciones y equipos de Sociedad HAPPYLAND Perú S.A. ubicados en centro comercial Mall Aventura Santa Anita Zona de Happyland Adventure. En consideración a que se nos permita usar dichas instalaciones y equipos, y cualquier otro servicio proporcionado por Sociedad Happyland Perú S.A. o sus empleados o agentes en dicha ubicación, o en cualquier otra ubicación dentro de la ciudad de Lima, declaro, reconozco y acepto lo siguiente:',
+                  "\nElegí voluntariamente usar y permitir que los menores de edad identificados anteriormente, los cuales se encuentran bajo mi tutela, y han sido referidos individual y colectivamente en este documento como 'menor de edad', usen las instalaciones y equipos de Sociedad HAPPYLAND Perú S.A. ubicados en centro comercial Mall Aventura Santa Anita Zona de Happyland Adventure, Fun Kids y Happy Kids.",
+                  "\n En consideración a que se nos permita usar dichas instalaciones y equipos, y cualquier otro servicio proporcionado por Sociedad Happyland Perú S.A. o sus empleados o agentes en dicha ubicación, o en cualquier otra ubicación dentro de la ciudad de Lima, declaro, reconozco y acepto lo siguiente:",
                   "\n•	Reconozco y acepto que este Acuerdo cubre y está destinado a liberar y proporcionar otros beneficios, protecciones legales y consideraciones a favor de Sociedad HAPPYLAND Perú S.A., y sus respectivos agentes y colectivos, propietarios, funcionarios, gerentes, accionistas, afiliados, voluntarios, participantes, empleados, y todas las demás personas o entidades que actúen en cualquier capacidad en su nombre respectivo o colectivo.",
-                  "\n•	Reconozco y acepto que el uso de los equipos de la Zona de Happyland Adventure, así como otros equipos de propiedad de Sociedad HAPPYLAND Perú S.A. pueden conllevar riesgos, los cuales incluyen lesiones físicas o emocionales graves, muerte, daños a mí mismo, a los menor de edad  y/o a terceros, y daños a la propiedad personal de cualquiera o todas esas personas. Entiendo que tales riesgos no pueden eliminarse, ya que forman parte inherente de las cualidades esenciales de la actividad recreativa, lo cual acepto y reconozco completamente de forma voluntaria. ",
-                  "\n•	Reconozco y acepto que, si bien los empleados de Sociedad HAPPYLAND Perú S.A. supervisan generalmente la Zona de Happyland Adventure y otras actividades localizadas en otras zonas que tienen lugar en los locales de Sociedad HAPPYLAND Perú S.A., no es factible que dichos empleados supervisen las actividades y acciones de todos los clientes en todo momento o en forma simultáneamente. ",
+                  "\n•	Reconozco y acepto que el uso de los equipos de la Zona de Happyland Adventure, Fun Kids, Happy Kids; así como, otros equipos de propiedad de Sociedad HAPPYLAND Perú S.A. pueden conllevar riesgos, los cuales incluyen lesiones físicas o emocionales graves, muerte, daños a mí mismo, a los menor de edad  y/o a terceros, y daños a la propiedad personal de cualquiera o todas esas personas. Entiendo que tales riesgos no pueden eliminarse, ya que forman parte inherente de las cualidades esenciales de la actividad recreativa, lo cual acepto y reconozco completamente de forma voluntaria. ",
+                  "\n•	Reconozco y acepto que, si bien los empleados de Sociedad HAPPYLAND Perú S.A. supervisan generalmente la Zona de Happyland Adventure, Fun Kids, Happy Kids y otras actividades localizadas en otras zonas que tienen lugar en los locales de Sociedad HAPPYLAND Perú S.A., no es factible que dichos empleados supervisen las actividades y acciones de todos los clientes en todo momento o en forma simultáneamente. ",
                   "\n•	Reconozco y acepto que yo y los menores de edad estamos participando voluntariamente bajo nuestro propio riesgo.",
-                  "\nReconozco y acepto que las acciones o actividades de otros clientes podrían causarme a mí o a los menores de edad lesiones corporales significativas  y que Sociedad HAPPYLAND Perú S.A. no es responsable de las acciones o actividades de clientes que usan las instalaciones de Sociedad HAPPYLAND Perú S.A., incluyendo la zona Happyland Adventure. Algunos de los riesgos incluyen, entre otros, los siguientes:",
-                  "\na) Los participantes podrían llegar a morir o quedar paralizados, parcial o totalmente, a través del uso de las instalaciones de Sociedad HAPPYLAND Perú S.A., incluyendo la zona Happyland Adventure.",
+                  "\nReconozco y acepto que las acciones o actividades de otros clientes podrían causarme a mí o a los menores de edad lesiones corporales significativas  y que Sociedad HAPPYLAND Perú S.A. no es responsable de las acciones o actividades de clientes que usan las instalaciones de Sociedad HAPPYLAND Perú S.A., incluyendo la zona Happyland Adventure, Fun Kids y Happy Kids.",
+                  "\n Algunos de los riesgos incluyen, entre otros, los siguientes:",
+                  "\na) Los participantes podrían llegar a morir o quedar paralizados, parcial o totalmente, a través del uso de las instalaciones de Sociedad HAPPYLAND Perú S.A., incluyendo la zona Happyland Adventure, Fun Kids y Happy Kids.",
                   "\nb) Los participantes pueden sufrir cortes, raspones, golpes, contusiones, conmociones cerebrales, a través del uso del equipo de Sociedad HAPPYLAND Perú S.A., o el contacto con otros participantes o superficies con las que han contactado. Los participantes pueden torcerse, jalar, romperse o lesionarse gravemente externa o internamente la cabeza, cara (incluyendo nariz y dientes / mandíbula), cuello, torso, columna vertebral, brazos, muñecas, manos, piernas, tobillos, pies u otras partes del cuerpo como resultado de caerse del trampolín o de otros equipos, aterrizar de manera inadecuada en los trampolines u otros equipos o ponerse en contacto con otros participantes. Como se señaló en el párrafo a) anterior, tales lesiones pueden conducir a parálisis, desfiguración o muerte. La participación puede provocar un golpe de calor, ataques cardíacos, deshidratación y otros eventos médicos relacionados con el esfuerzo.",
                   "\nc) Los participantes pueden caerse unos sobre otros, resultando en huesos rotos y otras lesiones graves. El doble rebote, más de una persona por trampolín, voltearse, correr y rebotar en las paredes y los trampolines montados en la pared, y otros movimientos corporales participantes (ya sean planificados o no) pueden crear un efecto de rebote y conducir a movimientos corporales impredecibles y anticipados o contacto corporal no anticipado, cualquiera de los cuales puede provocar lesiones graves.",
                   "\nd) Hacer uso del área de los trampolines, puede provocar lesiones físicas similares (incluso si el participante no está rebotando en ese momento).",
                   "\ne) Observar, pararse, sentarse o tomar fotografías en o cerca de cualquier trampolín o actividad puede ocasionar lesiones físicas similares (incluso si el observador no participa en ese momento).",
                   "\n•	Reconozco, acepto y asumo el riesgo de todas y cada una de las condiciones médicas, limitaciones o discapacidades (ya sean temporales o permanentes) que yo o los menor es de edad  poseamos, ya sean conocidas o desconocidas, que puedan contribuir o exacerbar cualquier lesión que yo o los menores de edad  podríamos sostener como resultado del uso de las instalaciones de Sociedad HAPPYLAND Perú S.A. o cualquiera de sus equipos. ",
-                  "\n•	Reconozco y acepto que si se requiere o se realiza asistencia médica (de cualquier forma, incluida la atención de emergencia, hospitalización, atención ambulatoria y/o fisioterapia) como resultado de cualquier lesión que yo o los menores de edad suframos mientras usamos la Zona de Happyland Adventure o cualquier otra zona de Sociedad HAPPYLAND Perú S.A., dicha asistencia correrá por mi cuenta. Sin perjuicio de ello, Sociedad HAPPYLAND Perú S.A. podrá prestar primeros auxilios en caso sea necesario, conforme sus políticas internas.",
+                  "\n•	Reconozco y acepto que si se requiere o se realiza asistencia médica (de cualquier forma, incluida la atención de emergencia, hospitalización, atención ambulatoria y/o fisioterapia) como resultado de cualquier lesión que yo o los menores de edad suframos mientras usamos la Zona de Happyland Adventure, Fun Kids, Happy Kids o cualquier otra zona de Sociedad HAPPYLAND Perú S.A., dicha asistencia correrá por mi cuenta. Sin perjuicio de ello, Sociedad HAPPYLAND Perú S.A. podrá prestar primeros auxilios en caso sea necesario, conforme sus políticas internas.",
                   {
                     style: "header",
                     text: "\n2 - FOTO / VIDEO / RENUNCIA A MEDIOS SOCIALES"
                   },
-                  "\nEn relación con el uso de las instalaciones de la zona Happyland Adventure y otras zonas a las que yo y los menor de edad podamos tener acceso, en mi calidad de titular de la patria potestad o tutor de los menores, doy mi consentimiento libre, previo, expreso e inequívoco para el tratamiento de mis datos personales y los de los menores.",
+                  "\nEn relación con el uso de las instalaciones de la zona Happyland Adventure, Fun Kids, Happy Kids y otras zonas a las que yo y los menor de edad podamos tener acceso, en mi calidad de titular de la patria potestad o tutor de los menores, doy mi consentimiento libre, previo, expreso e inequívoco para el tratamiento de mis datos personales y los de los menores.",
                   '\nEn ese sentido, doy mi autorización para la grabación de los menores de edad  y mi imagen física y/o voz a través de medios mecánicos, fotográficos, técnicos, digitales, electrónicos u otros ("Grabaciones"). Por la presente, doy mi consentimiento y autorizo ​​a Sociedad HAPPYLAND Perú S.A. y sus agentes, representantes, empleados, sucesores y cesionarios para usar, a perpetuidad, tales Grabaciones, así como el nombre de los menor de edad y mi nombre, para los siguientes propósitos: publicidad, promoción, explotación y/o publicitar cualquier instalación de Sociedad HAPPYLAND Perú S.A. Además, acepto que lo anterior incluye el consentimiento para usar el Niño y/o mi imagen física en cualquier forma. ',
                   {
                     style: "header",
@@ -468,8 +473,15 @@ export default {
                   o más):: ${this.object.parentFullName}`,
                   `\DNI: ${this.object.identityDocumentNumber}`,
                   `\nFecha de nacimiento: ${this.object.birthday.slice(0, 10)}`,
-                  `\nDirección: ${this.object.line} - ${this.object.district} `,
-                  `\nMenores de edad: ${this.childContract}`,
+                  `\nDirección: ${this.object.line}`,
+                  `\nDistrito: ${this.object.district} `,
+                  `\nCorreo electrónico: ${this.object.email}`,
+                  `\nCelular: ${this.object.phoneNumber}`,
+                  {
+                  ul: [
+                    this.arrChilds
+                  ]
+                },
                   "\nFirma",
                   {
                     image: testImageDataUrl,

@@ -70,6 +70,7 @@ export const updateParent = async (id, form) => {
 }
 
 export const registerChildToParent = async (data, profileId) => {
+  console.log('newChild ' + JSON.stringify(data))
   const newChild = {
     child: data._id,
     names: data.names,
@@ -84,6 +85,7 @@ export const registerChildToParent = async (data, profileId) => {
 }
 
 export const registerChild = async (child) => {
+  console.log(JSON.stringify(child) + 'child')
   return await api.post(`http://192.168.0.140:5000/api/v1/childs/register`, child)
   // return await api.post(`http://localhost:5000/api/v1/childs/register`, child)
 }
@@ -97,6 +99,7 @@ export const getFatherByEmail = async (searchForm) => {
 export const getFatherById = async (id) => {
   let res = null
   await api.get(`http://192.168.0.140:5000/api/v1/fathers/${id}`).then(function (rs) {
+    console.log(JSON.stringify(rs)+ 'rs')
     res = rs
   })
   // await api.get(`http://localhost:5000/api/v1/fathers/${id}`).then(function (rs) {

@@ -80,7 +80,7 @@
             <Icon type="ios-arrow-back" />REGRESAR</button
           >
         </Col>
-        <Col span="6"><Button @click="nextPage">SIGUIENTE</Button> </Col>
+        <Col span="6"><Button @click="nextPage">CONTINUAR</Button> </Col>
       </Row>
     </Form>
   </section>

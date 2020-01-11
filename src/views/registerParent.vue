@@ -81,15 +81,15 @@
                   placeholder="DD"
                   filterable
                 >
-                  <Option value="1">1</Option>
-                  <Option value="2">2</Option>
-                  <Option value="3">3</Option>
-                  <Option value="4">4</Option>
-                  <Option value="5">5</Option>
-                  <Option value="6">6</Option>
-                  <Option value="7">7</Option>
-                  <Option value="8">8</Option>
-                  <Option value="9">9</Option>
+                  <Option value="01">01</Option>
+                  <Option value="02">02</Option>
+                  <Option value="03">03</Option>
+                  <Option value="04">04</Option>
+                  <Option value="05">05</Option>
+                  <Option value="06">06</Option>
+                  <Option value="07">07</Option>
+                  <Option value="08">08</Option>
+                  <Option value="09">09</Option>
                   <Option value="10">10</Option>
                   <Option value="11">11</Option>
                   <Option value="12">12</Option>
@@ -284,7 +284,7 @@
             <Icon type="ios-arrow-back" />REGRESAR
           </button>
         </Col>
-        <Col span="6"><Button @click="nextPage">SIGUIENTE</Button> </Col>
+        <Col span="6"><Button @click="nextPage">CONTINUAR</Button> </Col>
       </Row>
     </Form>
   </section>

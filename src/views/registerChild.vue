@@ -44,15 +44,15 @@
                   placeholder="DD"
                   filterable
                 >
-                  <Option value="1">1</Option>
-                  <Option value="2">2</Option>
-                  <Option value="3">3</Option>
-                  <Option value="4">4</Option>
-                  <Option value="5">5</Option>
-                  <Option value="6">6</Option>
-                  <Option value="7">7</Option>
-                  <Option value="8">8</Option>
-                  <Option value="9">9</Option>
+                  <Option value="01">01</Option>
+                  <Option value="02">02</Option>
+                  <Option value="03">03</Option>
+                  <Option value="04">04</Option>
+                  <Option value="05">05</Option>
+                  <Option value="06">06</Option>
+                  <Option value="07">07</Option>
+                  <Option value="08">08</Option>
+                  <Option value="09">09</Option>
                   <Option value="10">10</Option>
                   <Option value="11">11</Option>
                   <Option value="12">12</Option>
@@ -109,6 +109,12 @@
                   placeholder="AAAA"
                   filterable
                 >
+                  <Option value="2020">2020</Option>
+                  <Option value="2019">2019</Option>
+                  <Option value="2018">2018</Option>
+                  <Option value="2017">2017</Option>
+                  <Option value="2016">2016</Option>
+                  <Option value="2015">2015</Option>
                   <Option value="2014">2014</Option>
                   <Option value="2013">2013</Option>
                   <Option value="2012">2012</Option>
@@ -153,77 +159,6 @@
                   <Option value="1973">1973</Option>
                   <Option value="1972">1972</Option>
                   <Option value="1971">1971</Option>
-                  <Option value="1970">1970</Option>
-                  <Option value="1969">1969</Option>
-                  <Option value="1968">1968</Option>
-                  <Option value="1967">1967</Option>
-                  <Option value="1966">1966</Option>
-                  <Option value="1965">1965</Option>
-                  <Option value="1964">1964</Option>
-                  <Option value="1963">1963</Option>
-                  <Option value="1962">1962</Option>
-                  <Option value="1961">1961</Option>
-                  <Option value="1960">1960</Option>
-                  <Option value="1959">1959</Option>
-                  <Option value="1958">1958</Option>
-                  <Option value="1957">1957</Option>
-                  <Option value="1956">1956</Option>
-                  <Option value="1955">1955</Option>
-                  <Option value="1954">1954</Option>
-                  <Option value="1953">1953</Option>
-                  <Option value="1952">1952</Option>
-                  <Option value="1951">1951</Option>
-                  <Option value="1950">1950</Option>
-                  <Option value="1949">1949</Option>
-                  <Option value="1948">1948</Option>
-                  <Option value="1947">1947</Option>
-                  <Option value="1946">1946</Option>
-                  <Option value="1945">1945</Option>
-                  <Option value="1944">1944</Option>
-                  <Option value="1943">1943</Option>
-                  <Option value="1942">1942</Option>
-                  <Option value="1941">1941</Option>
-                  <Option value="1940">1940</Option>
-                  <Option value="1939">1939</Option>
-                  <Option value="1938">1938</Option>
-                  <Option value="1937">1937</Option>
-                  <Option value="1936">1936</Option>
-                  <Option value="1935">1935</Option>
-                  <Option value="1934">1934</Option>
-                  <Option value="1933">1933</Option>
-                  <Option value="1932">1932</Option>
-                  <Option value="1931">1931</Option>
-                  <Option value="1930">1930</Option>
-                  <Option value="1929">1929</Option>
-                  <Option value="1928">1928</Option>
-                  <Option value="1927">1927</Option>
-                  <Option value="1926">1926</Option>
-                  <Option value="1925">1925</Option>
-                  <Option value="1924">1924</Option>
-                  <Option value="1923">1923</Option>
-                  <Option value="1922">1922</Option>
-                  <Option value="1921">1921</Option>
-                  <Option value="1920">1920</Option>
-                  <Option value="1919">1919</Option>
-                  <Option value="1918">1918</Option>
-                  <Option value="1917">1917</Option>
-                  <Option value="1916">1916</Option>
-                  <Option value="1915">1915</Option>
-                  <Option value="1914">1914</Option>
-                  <Option value="1913">1913</Option>
-                  <Option value="1912">1912</Option>
-                  <Option value="1911">1911</Option>
-                  <Option value="1910">1910</Option>
-                  <Option value="1909">1909</Option>
-                  <Option value="1908">1908</Option>
-                  <Option value="1907">1907</Option>
-                  <Option value="1906">1906</Option>
-                  <Option value="1905">1905</Option>
-                  <Option value="1904">1904</Option>
-                  <Option value="1903">1903</Option>
-                  <Option value="1902">1902</Option>
-                  <Option value="1901">1901</Option>
-                  <Option value="1900">1900</Option>
                 </Select>
               </FormItem>
             </Col>
@@ -257,7 +192,7 @@
         </Col>
         <Col span="7"> </Col>
       </Row>
-      <Button @click="nextPage">Siguiente</Button>
+      <Button @click="nextPage">CONTINUAR</Button>
     </Form>
   </section>
 </template>

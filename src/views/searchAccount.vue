@@ -1,6 +1,6 @@
 <template>
   <section class="center">
-    <Row style="margin: 10px" type="flex" justify="start">
+    <Row v-if="!seeChilds" style="margin: 10px" type="flex" justify="start">
       <Button @click="goBack"> <Icon type="ios-arrow-back" />REGRESAR </Button>
     </Row>
     <Form
@@ -10,7 +10,7 @@
       class="mt-40"
       label-position="top"
     >
-      <Row type="flex" justify="space-around">
+      <Row v-if="!foundIt || !seeChilds" type="flex" justify="space-around">
         <Col :xs="20" :sm="24" :md="12" :lg="6">
           <FormItem
             class="mt-10"
@@ -44,15 +44,15 @@
                   placeholder="DD"
                   filterable
                 >
-                  <Option value="1">1</Option>
-                  <Option value="2">2</Option>
-                  <Option value="3">3</Option>
-                  <Option value="4">4</Option>
-                  <Option value="5">5</Option>
-                  <Option value="6">6</Option>
-                  <Option value="7">7</Option>
-                  <Option value="8">8</Option>
-                  <Option value="9">9</Option>
+                  <Option value="01">01</Option>
+                  <Option value="02">02</Option>
+                  <Option value="03">03</Option>
+                  <Option value="04">04</Option>
+                  <Option value="05">05</Option>
+                  <Option value="06">06</Option>
+                  <Option value="07">07</Option>
+                  <Option value="08">08</Option>
+                  <Option value="09">09</Option>
                   <Option value="10">10</Option>
                   <Option value="11">11</Option>
                   <Option value="12">12</Option>
@@ -230,11 +230,11 @@
           </Row>
         </Col>
         <Col class="vertical-middle" :xs="20" :sm="24" :md="12" :lg="6">
-          <Button @click="searchParent">Buscar</Button>
+          <Button @click="searchParent">BUSCAR</Button>
         </Col>
       </Row>
     </Form>
-    <div v-if="foundIt" class="col-full">
+    <div class="col-full">
       <Form
         class="form"
         ref="parentForm"
@@ -243,8 +243,8 @@
         :rules="validateParentForm"
         label-position="top"
       >
-        <Row type="flex" justify="space-around">
-          <Col :lg="10">
+        <Row v-if="foundIt && !seeChilds" type="flex" justify="space-around">
+          <Col :lg="20">
             <Row type="flex" justify="space-between">
               <Col :lg="11">
                 <FormItem prop="names" label="Nombres">
@@ -296,15 +296,15 @@
                         placeholder="DD"
                         filterable
                       >
-                        <Option value="1">1</Option>
-                        <Option value="2">2</Option>
-                        <Option value="3">3</Option>
-                        <Option value="4">4</Option>
-                        <Option value="5">5</Option>
-                        <Option value="6">6</Option>
-                        <Option value="7">7</Option>
-                        <Option value="8">8</Option>
-                        <Option value="9">9</Option>
+                        <Option value="01">01</Option>
+                        <Option value="02">02</Option>
+                        <Option value="03">03</Option>
+                        <Option value="04">04</Option>
+                        <Option value="05">05</Option>
+                        <Option value="06">06</Option>
+                        <Option value="07">07</Option>
+                        <Option value="08">08</Option>
+                        <Option value="09">09</Option>
                         <Option value="10">10</Option>
                         <Option value="11">11</Option>
                         <Option value="12">12</Option>
@@ -552,7 +552,7 @@
               </Col>
             </Row>
             <Row>
-              <Col :lg="10">
+              <Col :lg="11">
                 <FormItem prop="line" label="Dirección">
                   <Input
                     v-model="parentForm.line"
@@ -560,30 +560,43 @@
                   ></Input>
                 </FormItem>
               </Col>
+              <Col :lg="11">
+                <button style="width:200px; padding: 5px auto; height: 48px; border-radius: 30px; background-color: #338dc8; color: #fff; border: 2px solid #000" @click="goSeeChilds">VER MENORES DE EDAD</button>
+              </Col>
             </Row>
           </Col>
-          <Col :lg="10">
-            <List v-if="this.childs.length > 0" header="Menores de edad">
-              <ListItem v-for="child in childs" :key="child._id">
-                {{ child.names }} {{ child.surname }} - {{ child.relative }} -
-                {{ child.age }} años
-                <button
-                  style="margin-left: 40px"
-                  class="delete"
-                  @click="deleteChild(child.child)"
-                >
-                  Eliminar
-                </button>
-              </ListItem>
-            </List>
-            <Button @click="addChild">Añadir niño</Button>
-          </Col>
-        </Row>
+          </Row>
+          <Row v-if="seeChilds && foundIt"  type="flex" justify="center">
+            <Col :lg="20">
+              <List v-if="this.childs.length > 0" header="Menores de edad">
+                <ListItem v-for="child in childs" :key="child._id">
+                  {{ child.names }} {{ child.surname }} - {{ child.relative }} -
+                  {{ child.age }} años
+                  <button
+                    style="margin-left: 40px"
+                    class="delete"
+                    @click="deleteChild(child.child)"
+                  >
+                    Eliminar
+                  </button>
+                </ListItem>
+              </List>
+            <Row type="flex" justify="space-around">
+              <Col span="7">
+                <Button @click="seeData">REGRESAR</Button>
+              </Col>
+              <Col span="7">
+                <Button @click="addChild">AÑADIR NIÑO</Button>
+              </Col>
+            </Row>
+              
+            </Col>
+          </Row>
 
-        <Row type="flex" justify="end">
+        <Row v-if="foundIt && !seeChilds" type="flex" justify="end">
           <Col :lg="5">
             <Button @click="updateParent">
-              Actualizar
+              ACTUALIZAR
             </Button>
           </Col>
         </Row>
@@ -635,6 +648,7 @@ export default {
       foundIt: false,
       childs: [],
       idParent: "",
+      seeChilds: false,
       searchForm: {
         // email: "andreale17@icloud.com",
         // birthday: "17-05-1995"
@@ -831,15 +845,22 @@ export default {
       });
     },
     deleteChild(id) {
+      debugger;
       Api.deleteChild(id).then(res => {
         this.$Notice.success({
           title: "Niño eliminado con éxito"
         });
-        this.$router.push("/addChild");
       });
+              this.$router.push("/contract");
     },
     addChild() {
       this.$router.push("/registerChild");
+    },
+    goSeeChilds(){
+      this.seeChilds = true
+    },
+    seeData(){
+      this.seeChilds = false
     }
   }
 };

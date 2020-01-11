@@ -18,6 +18,16 @@
         >
       </Row>
       <br />
+      <br />
+      <br />
+      <Row type="flex" justify="center">
+      <Col :lg="4">
+      <img style="max-width: 100%" src="https://i.ibb.co/4sYqrgG/HAPPY-KIDS-SIN-HAPPYLAND.jpg">
+      </Col>
+      <Col :lg="{span:2, offset: 1}">
+      <img style="max-width: 100%" src="https://i.ibb.co/rQx39dZ/logo-ok-Fun-Kids-sin-happyland.jpg">
+      </Col>
+      </Row>
     </div>
   </div>
 </template>

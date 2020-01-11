@@ -38,12 +38,6 @@
               </Select>
             </td>
             <td>
-              <Button
-                type="warning"
-                @click="generateContract(item._id)"
-              >
-                VER CONTRATO
-              </Button>
             </td>
           </tr>
         </tbody>
