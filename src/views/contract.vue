@@ -507,7 +507,6 @@ export default {
               pdfDocGenerator.getBase64(data => {
                 this.pdf = "data:application/pdf;base64," + data;
                 Api.sendEmail(this.object.email, this.object.code, this.pdf)
-                  .then(res => {
                     this.next = false;
                     printJS({
                       printable: "ticket",
@@ -516,22 +515,6 @@ export default {
                     });
                     this.$router.push("./thanks");
                     localStorage.clear();
-                  })
-                  .catch(err => {
-                    console.log(res);
-                    printJS({
-                      printable: "ticket",
-                      type: "html",
-                      maxWidth: 200
-                    });
-                    this.$router.push("./thanks");
-                    localStorage.clear();
-                    this.next = false;
-                  });
-                // Api.getFatherById(idParent).then(res => {
-                //   res.pdf = this.pdf
-                //   Api.updateParent(idParent, res);
-                // });
               });
             }
           });
