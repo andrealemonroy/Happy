@@ -341,7 +341,7 @@ export default {
         email: "",
         phoneNumber: "",
         gender: "",
-        specialOffer: ""
+        specialOffer: "mail"
         // names: "Andrea",
         // surname: "Monroy Carrillo",
         // identityDocumentNumber: "76282636",
@@ -437,9 +437,6 @@ export default {
             // }
 
             console.log(this.parentForm.birthday);
-            delete this.parentForm.birthhday;
-            delete this.parentForm.birthmonth;
-            delete this.parentForm.birthyear;
             if (
               moment(this.parentForm.birthday).isAfter(
                 moment().subtract(18, "years")
