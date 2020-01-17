@@ -10,10 +10,10 @@
       <br />
       <br />
       <Row type="flex" justify="space-around">
-        <Col span="7">
+        <Col :xxs="20" :xs="20" :lg="7">
           <Button @click="nextPage">REGISTRAR AQUÍ</Button>
         </Col>
-        <Col span="7"
+        <Col :xxs="20" :xs="20":lg="7"
           ><Button @click="searchFatherPage">BUSCAR CUENTA</Button></Col
         >
       </Row>
