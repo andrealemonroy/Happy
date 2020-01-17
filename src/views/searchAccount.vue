@@ -585,6 +585,9 @@
               <Col span="7">
                 <Button @click="seeData">REGRESAR</Button>
               </Col>
+                            <Col span="7">
+                <Button @click="print">IMPRIMIR TICKET</Button>
+              </Col>
               <Col span="7">
                 <Button @click="addChild">AÑADIR NIÑO</Button>
               </Col>
@@ -602,6 +605,27 @@
         </Row>
       </Form>
     </div>
+        <div id="ticket-div">
+      <div id="ticket">
+        <img src="../assets/images/logo-happy.jpg" style="max-width: 150px" />
+        <h1>TICKET</h1>
+        <p>{{ this.actualMoment }}</p>
+        <p>{{ this.ticketName }} {{this.ticketSurname}}</p>
+        <p>{{this.ticketDNI}}</p>
+        <p>{{ this.ticketBirthday.slice(0, 10) }}</p>
+        <div v-if="this.ticketChilds.length > 0">
+          <p>Menores de edad</p>
+          <p v-for="child in childs" :key="child._id">
+            {{ child.names }} {{ child.surname }} - {{ child.identityDocumentNumber }} -
+            {{ child.birthday.slice(0, 10) }}
+          </p>
+        </div>
+        <p>Gracias por tu registro. Presenta este ticket y DNI en caja.</p>
+        <p>
+          En tu próxima visita solo busca tu registro con tu correo electrónico
+        </p>
+      </div>
+    </div>
   </section>
 </template>
 <script>
@@ -609,6 +633,7 @@ import "../assets/css/style.css";
 import * as Api from "../../server/index";
 import localStorage from "localStorage";
 import moment from "moment";
+import print from "print-js";
 export default {
   data() {
     const validatePhoneNumber = (rule, value, callback) => {
@@ -645,6 +670,7 @@ export default {
     };
 
     return {
+      actualMoment: "",
       foundIt: false,
       childs: [],
       idParent: "",
@@ -655,6 +681,11 @@ export default {
         email: "",
         birthday: ""
       },
+              ticketName:"",
+        ticketSurname:"",
+        ticketDNI:"",
+        ticketBirthday:"",
+        ticketChilds:[],
       parentForm: {
         names: "",
         surname: "",
@@ -664,7 +695,7 @@ export default {
         gender: "",
         line: "",
         district: "",
-        specialOffer: ""
+        specialOffer: "",
       },
       parent: {},
       validateForm: {
@@ -772,6 +803,8 @@ export default {
     searchParent() {
       this.$refs["searchForm"].validate(async valid => {
         if (valid) {
+          moment.locale("es");
+          this.actualMoment = moment().format("LLLL");
           this.searchForm.birthday = moment(
             `${this.searchForm.birthhday}` +
               "-" +
@@ -780,13 +813,15 @@ export default {
               `${this.searchForm.birthyear}`,
             "DD-MM-YYYY"
           ).format();
-          delete this.searchForm.birthhday;
-          delete this.searchForm.birthmonth;
-          delete this.searchForm.birthyear;
           Api.getFatherByEmail(this.searchForm)
             .then(res => {
               if (res.status == 200) {
                 this.foundIt = true;
+                this.ticketName = res.data.names;
+                this.ticketSurname = res.data.surname;
+                this.ticketDNI = res.data.identityDocumentNumber;
+                this.ticketBirthday = res.data.birthday;
+                this.ticketChilds = res.data.childs;
                 this.parentForm.names = res.data.names;
                 this.parentForm.surname = res.data.surname;
                 this.parentForm.identityDocumentNumber =
@@ -843,6 +878,13 @@ export default {
           });
         }
       });
+    },
+    print() {
+      printJS({
+                      printable: "ticket",
+                      type: "html",
+                      maxWidth: 200
+                    });
     },
     deleteChild(id) {
       debugger;

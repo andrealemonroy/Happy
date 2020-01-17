@@ -311,9 +311,6 @@ export default {
               `${this.childForm.birthyear}`,
             "DD-MM-YYYY"
           ).format();
-          delete this.childForm.birthhday;
-          delete this.childForm.birthmonth;
-          delete this.childForm.birthyear;
           const age = moment().diff(this.childForm.birthday, "years");
           this.childForm.age = age;
           Api.registerChild(this.childForm)
