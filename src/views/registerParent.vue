@@ -9,12 +9,12 @@
       label-position="top"
     >
       <Row type="flex" justify="space-around">
-        <Col span="7">
+        <Col :lg="7">
           <FormItem prop="names" label="Nombre"
             ><Input v-model="parentForm.names" placeholder="ej. Andrea"></Input
           ></FormItem>
         </Col>
-        <Col span="7">
+        <Col :lg="7">
           <FormItem prop="surname" label="Apellidos completos"
             ><Input
               v-model="parentForm.surname"
@@ -23,16 +23,6 @@
           ></FormItem>
         </Col>
         <Col span="7">
-          <FormItem prop="identityDocumentNumber" label="DNI"
-            ><Input
-              v-model="parentForm.identityDocumentNumber"
-              placeholder="ej. 12345678"
-            ></Input
-          ></FormItem>
-        </Col>
-      </Row>
-      <Row type="flex" justify="space-around">
-        <Col span="7">
           <FormItem prop="email" label="Correo electrónico"
             ><Input
               v-model="parentForm.email"
@@ -40,35 +30,8 @@
             ></Input
           ></FormItem>
         </Col>
-        <Col span="7">
-          <FormItem prop="phoneNumber" label="Celular"
-            ><Input
-              v-model="parentForm.phoneNumber"
-              placeholder="987654321"
-            ></Input
-          ></FormItem>
-        </Col>
-        <Col span="7">
-          <FormItem prop="gender" label="Género">
-            <RadioGroup v-model="parentForm.gender">
-              <Radio label="female">Femenino</Radio>
-              <Radio label="male">Masculino</Radio>
-            </RadioGroup>
-          </FormItem>
-        </Col>
       </Row>
       <Row type="flex" justify="space-around">
-        <Col span="7">
-          <FormItem
-            prop="specialOffer"
-            label="Me gustaría recibir ofertas especiales a través de:"
-          >
-            <RadioGroup v-model="parentForm.specialOffer">
-              <Radio label="mail">Email</Radio>
-              <Radio label="sms">Mensaje de texto</Radio>
-            </RadioGroup>
-          </FormItem>
-        </Col>
         <Col :xs="{ span: 22 }" :lg="{ span: 8 }">
           <p>Fecha de nacimiento</p>
           <Row type="flex" justify="center">
@@ -266,16 +229,59 @@
             </Col>
           </Row>
         </Col>
-        <!-- <Col span="7">
-          <FormItem prop="birthday" label="Fecha de nacimiento">
-            <DatePicker
-              format="dd-MM-yyyy"
-              placeholder="Día(DD) - Mes(MM) - Año(AAAA)"
-              v-model="parentForm.birthday"
-            ></DatePicker>
+        <Col :lg="7">
+          <p style="color:transparent">título</p>
+          <FormItem prop="identityDocumentType" label="Tipo de documento">
+            <Select
+              v-model="parentForm.identityDocumentType"
+              placeholder="Tipo"
+            >
+              <Option value="DNI">DNI</Option>
+              <Option value="PTP">PTP</Option>
+              <Option value="CE">CE</Option>
+              <Option value="PASSPORT">PASAPORTE</Option>
+            </Select>
           </FormItem>
-        </Col> -->
-        <Col span="7"></Col>
+        </Col>
+
+        <Col span="7">
+          <p style="color:transparent">título</p>
+          <FormItem prop="identityDocumentNumber" label="Número de documento"
+            ><Input
+              v-model="parentForm.identityDocumentNumber"
+              placeholder="ej. 12345678"
+            ></Input
+          ></FormItem>
+        </Col>
+      </Row>
+      <Row type="flex" justify="space-around">
+        <Col span="7">
+          <FormItem prop="phoneNumber" label="Celular"
+            ><Input
+              v-model="parentForm.phoneNumber"
+              placeholder="987654321"
+            ></Input
+          ></FormItem>
+        </Col>
+        <Col span="7">
+          <FormItem prop="gender" label="Género">
+            <RadioGroup v-model="parentForm.gender">
+              <Radio label="female">Femenino</Radio>
+              <Radio label="male">Masculino</Radio>
+            </RadioGroup>
+          </FormItem>
+        </Col>
+        <Col span="7">
+          <FormItem
+            prop="specialOffer"
+            label="Me gustaría recibir ofertas especiales a través de:"
+          >
+            <RadioGroup v-model="parentForm.specialOffer">
+              <Radio label="mail">Email</Radio>
+              <Radio label="sms">Mensaje de texto</Radio>
+            </RadioGroup>
+          </FormItem>
+        </Col>
       </Row>
       <br />
       <Row type="flex" justify="space-between">
@@ -300,8 +306,8 @@ export default {
       const reg = new RegExp("^([0-9]{9,})$");
       if (value === "" || !value) {
         callback(new Error("Número telefónico es requerido"));
-      } else if (value.length !== 9) {
-        callback(new Error("Debe ser sólo 9 dígitos"));
+      } else if (value.length !== 9 || value.length !== 11) {
+        callback(new Error("Ingrese un número válido"));
       } else if (!reg.test(value)) {
         callback(new Error("Formato número telefónico es inválido"));
       } else {
@@ -310,13 +316,31 @@ export default {
     };
     const validateidentityDocumentNumber = (rule, value, callback) => {
       // /[^0-9]/gi
-      const reg = new RegExp("^([A-Z0-9]{8,9})$");
+      // const reg = new RegExp('^([A-Z0-9]{8,13})$')
       if (value === "") {
         callback(new Error("No puede estar vacío"));
-      } else if (value.length !== 8 || isNaN(value)) {
-        callback(new Error("El número de documento debe ser de 8 números"));
-      } else if (!reg.test(value)) {
-        callback(new Error("Formato inválido"));
+      } else if (isNaN(value)) {
+        callback(new Error("Ingrese un número"));
+      } else if (
+        this.parentForm.identityDocumentType === "DNI" &&
+        (value.length !== 8 || isNaN(value))
+      ) {
+        callback(new Error("Debe ser de 8 dígitos"));
+      } else if (
+        this.parentForm.identityDocumentType === "PTP" &&
+        (value.length !== 9 || isNaN(value))
+      ) {
+        callback(new Error("Debe ser de 9 dígitos"));
+      } else if (
+        this.parentForm.identityDocumentType === "PASSPORT" &&
+        (value.length !== 12 || isNaN(value))
+      ) {
+        callback(new Error("Debe ser de 12 dígitos"));
+      } else if (
+        this.parentForm.identityDocumentType === "CE" &&
+        (value.length !== 12 || isNaN(value))
+      ) {
+        callback(new Error("Debe de ser de 12 dígitos"));
       } else {
         callback();
       }
@@ -334,6 +358,7 @@ export default {
       parentForm: {
         names: "",
         surname: "",
+        identityDocumentType: "DNI",
         identityDocumentNumber: "",
         birthhday: "",
         birtmonth: "",
@@ -425,7 +450,14 @@ export default {
       this.$refs["parentForm"].validate(async valid => {
         if (valid) {
           try {
-            this.parentForm.birthday = moment(`${this.parentForm.birthhday}`+'-'+`${this.parentForm.birthmonth}`+'-'+`${this.parentForm.birthyear}`, 'DD-MM-YYYY').format();
+            this.parentForm.birthday = moment(
+              `${this.parentForm.birthhday}` +
+                "-" +
+                `${this.parentForm.birthmonth}` +
+                "-" +
+                `${this.parentForm.birthyear}`,
+              "DD-MM-YYYY"
+            ).format();
             // if (
             //   moment(this.parentForm.birthday).isAfter(
             //     moment().subtract(18, "years")

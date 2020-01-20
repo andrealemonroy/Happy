@@ -18,6 +18,44 @@
         </Col>
       </Row>
       <Row>
+        <Col :lg="8">
+          <FormItem
+            prop="departament"
+            label="Departamento"
+            placeholder="Seleccione"
+          >
+            <Select name="select1" id="select1"
+              ><option value="000101">AMAZONAS</option
+              ><option value="000102">ANCASH</option
+              ><option value="000103">APURIMAC</option
+              ><option value="000104">AREQUIPA</option
+              ><option value="000105">AYACUCHO</option
+              ><option value="000106">CAJAMARCA</option
+              ><option value="000107">CALLAO</option
+              ><option value="000108">CUSCO</option
+              ><option value="000109">HUANCAVELICA</option
+              ><option value="000110">HUANUCO</option
+              ><option value="000111">ICA</option
+              ><option value="000112">JUNIN</option
+              ><option value="000113">LA LIBERTAD</option
+              ><option value="000114">LAMBAYEQUE</option
+              ><option value="000115">LIMA</option
+              ><option value="000116">LORETO</option
+              ><option value="000117">MADRE DE DIOS</option
+              ><option value="000118">MOQUEGUA</option
+              ><option value="000119">PASCO</option
+              ><option value="000120">PIURA</option
+              ><option value="000121">PUNO</option
+              ><option value="000122">SAN MARTIN</option
+              ><option value="000123">TACNA</option
+              ><option value="000124">TUMBES</option
+              ><option value="000125">UCAYALI</option></Select
+            ></FormItem
+          >
+        </Col>
+        <Col span="8" offset="8">
+
+        </Col>
         <Col span="8" offset="8">
           <FormItem prop="district" label="Distrito" placeholder="Seleccione">
             <Select v-model="addressForm.district" placeholder="Distrito">
@@ -77,8 +115,8 @@
       <Row type="flex" justify="space-between">
         <Col span="6"
           ><button class="return" @click="goBack">
-            <Icon type="ios-arrow-back" />REGRESAR</button
-          >
+            <Icon type="ios-arrow-back" />REGRESAR
+          </button>
         </Col>
         <Col span="6"><Button @click="nextPage">CONTINUAR</Button> </Col>
       </Row>

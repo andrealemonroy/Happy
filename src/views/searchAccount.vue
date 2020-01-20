@@ -10,7 +10,7 @@
       class="mt-40"
       label-position="top"
     >
-      <Row v-if="!foundIt || !seeChilds" type="flex" justify="space-around">
+      <Row v-if="!foundIt && !seeChilds" type="flex" justify="space-around">
         <Col :xs="20" :sm="24" :md="12" :lg="6">
           <FormItem
             class="mt-10"
@@ -284,7 +284,7 @@
                   ></DatePicker>
                 </FormItem>
               </Col> -->
-              <Col :xs="{ span: 22 }" :lg="{ span:11 }">
+              <Col :xs="{ span: 22 }" :lg="{ span: 11 }">
                 <p>Fecha de nacimiento</p>
                 <Row type="flex" justify="center">
                   <Col :xs="{ span: 7 }" :lg="{ span: 6 }">
@@ -561,40 +561,44 @@
                 </FormItem>
               </Col>
               <Col :lg="11">
-                <button style="width:200px; padding: 5px auto; height: 48px; border-radius: 30px; background-color: #338dc8; color: #fff; border: 2px solid #000" @click="goSeeChilds">VER MENORES DE EDAD</button>
+                <button
+                  style="width:200px; padding: 5px auto; height: 48px; border-radius: 30px; background-color: #338dc8; color: #fff; border: 2px solid #000"
+                  @click="goSeeChilds"
+                >
+                  VER MENORES DE EDAD
+                </button>
               </Col>
             </Row>
           </Col>
-          </Row>
-          <Row v-if="seeChilds && foundIt"  type="flex" justify="center">
-            <Col :lg="20">
-              <List v-if="this.childs.length > 0" header="Menores de edad">
-                <ListItem v-for="child in childs" :key="child._id">
-                  {{ child.names }} {{ child.surname }} - {{ child.relative }} -
-                  {{ child.age }} años
-                  <button
-                    style="margin-left: 40px"
-                    class="delete"
-                    @click="deleteChild(child.child)"
-                  >
-                    Eliminar
-                  </button>
-                </ListItem>
-              </List>
+        </Row>
+        <Row v-if="seeChilds && foundIt" type="flex" justify="center">
+          <Col :lg="20">
+            <List v-if="this.childs.length > 0" header="Menores de edad">
+              <ListItem v-for="child in childs" :key="child._id">
+                {{ child.names }} {{ child.surname }} - {{ child.relative }} -
+                {{ child.age }} años
+                <button
+                  style="margin-left: 40px"
+                  class="delete"
+                  @click="deleteChild(child.child)"
+                >
+                  Eliminar
+                </button>
+              </ListItem>
+            </List>
             <Row type="flex" justify="space-around">
               <Col span="7">
                 <Button @click="seeData">REGRESAR</Button>
               </Col>
-                            <Col span="7">
+              <Col span="7">
                 <Button @click="print">IMPRIMIR TICKET</Button>
               </Col>
               <Col span="7">
                 <Button @click="addChild">AÑADIR NIÑO</Button>
               </Col>
             </Row>
-              
-            </Col>
-          </Row>
+          </Col>
+        </Row>
 
         <Row v-if="foundIt && !seeChilds" type="flex" justify="end">
           <Col :lg="5">
@@ -605,18 +609,19 @@
         </Row>
       </Form>
     </div>
-        <div id="ticket-div">
+    <div id="ticket-div">
       <div id="ticket">
         <img src="../assets/images/logo-happy.jpg" style="max-width: 150px" />
         <h1>TICKET</h1>
         <p>{{ this.actualMoment }}</p>
-        <p>{{ this.ticketName }} {{this.ticketSurname}}</p>
-        <p>{{this.ticketDNI}}</p>
+        <p>{{ this.ticketName }} {{ this.ticketSurname }}</p>
+        <p>{{ this.ticketDNI }}</p>
         <p>{{ this.ticketBirthday.slice(0, 10) }}</p>
         <div v-if="this.ticketChilds.length > 0">
           <p>Menores de edad</p>
           <p v-for="child in childs" :key="child._id">
-            {{ child.names }} {{ child.surname }} - {{ child.identityDocumentNumber }} -
+            {{ child.names }} {{ child.surname }} -
+            {{ child.identityDocumentNumber }} -
             {{ child.birthday.slice(0, 10) }}
           </p>
         </div>
@@ -681,11 +686,11 @@ export default {
         email: "",
         birthday: ""
       },
-              ticketName:"",
-        ticketSurname:"",
-        ticketDNI:"",
-        ticketBirthday:"",
-        ticketChilds:[],
+      ticketName: "",
+      ticketSurname: "",
+      ticketDNI: "",
+      ticketBirthday: "",
+      ticketChilds: [],
       parentForm: {
         names: "",
         surname: "",
@@ -695,7 +700,7 @@ export default {
         gender: "",
         line: "",
         district: "",
-        specialOffer: "",
+        specialOffer: ""
       },
       parent: {},
       validateForm: {
@@ -829,9 +834,9 @@ export default {
                 this.parentForm.phoneNumber = res.data.phoneNumber;
                 this.parentForm.birthhday = res.data.birthday.slice(8, 10);
                 this.parentForm.birthmonth = res.data.birthday.slice(5, 7);
-                console.log(this.parentForm.birthmonth)
+                console.log(this.parentForm.birthmonth);
                 this.parentForm.birthyear = res.data.birthday.slice(0, 4);
-                console.log(this.parentForm.birthyear)
+                console.log(this.parentForm.birthyear);
                 this.parentForm.specialOffer = res.data.specialOffer;
                 this.parentForm.gender = res.data.gender;
                 this.parentForm.line = res.data.line;
@@ -881,10 +886,10 @@ export default {
     },
     print() {
       printJS({
-                      printable: "ticket",
-                      type: "html",
-                      maxWidth: 200
-                    });
+        printable: "ticket",
+        type: "html",
+        maxWidth: 200
+      });
     },
     deleteChild(id) {
       debugger;
@@ -893,16 +898,16 @@ export default {
           title: "Niño eliminado con éxito"
         });
       });
-              this.$router.push("/contract");
+      this.$router.push("/contract");
     },
     addChild() {
       this.$router.push("/registerChild");
     },
-    goSeeChilds(){
-      this.seeChilds = true
+    goSeeChilds() {
+      this.seeChilds = true;
     },
-    seeData(){
-      this.seeChilds = false
+    seeData() {
+      this.seeChilds = false;
     }
   }
 };
