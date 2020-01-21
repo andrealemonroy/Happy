@@ -67,13 +67,6 @@ const routes = [
     }
   },
   {
-    path: '/thanks',
-    name: 'thanks',
-    component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/thanks.vue')
-    }
-  },
-  {
     path: '/parents',
     name: 'parents',
     component: function () {

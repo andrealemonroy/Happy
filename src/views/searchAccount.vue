@@ -11,16 +11,23 @@
       label-position="top"
     >
       <Row v-if="!foundIt && !seeChilds" type="flex" justify="space-around">
-        <Col :xs="20" :sm="24" :md="12" :lg="6">
-          <FormItem
-            class="mt-10"
-            prop="email"
-            label="Digita tu correo electrónico"
-          >
-            <Input
-              v-model="searchForm.email"
-              placeholder="Digita tu correo electrónico"
-            ></Input>
+        <Col :xs="20" :sm="24" :md="12" :lg="9">
+          <FormItem prop="email" label="Correo electrónico">
+            <Row type="flex" justify="center">
+              <Col :lg="11">
+                <Input
+                  v-model="searchForm.partOneMail"
+                  placeholder="ej. happyland"
+                ></Input>
+              </Col>
+              <Col :lg="2" class="vertical-middle font-20">@</Col>
+              <Col :lg="11"
+                ><Input
+                  v-model="searchForm.partTwoMail"
+                  placeholder="ej. gmail.com"
+                ></Input
+              ></Col>
+            </Row>
           </FormItem>
         </Col>
         <!-- <Col :xs="20" :sm="24" :md="12" :lg="6">
@@ -32,7 +39,7 @@
             ></DatePicker>
           </FormItem>
         </Col> -->
-        <Col :xs="{ span: 22 }" :lg="{ span: 8 }">
+        <Col :xs="{ span: 22 }" :lg="{ span: 9 }">
           <p>Fecha de nacimiento</p>
           <Row type="flex" justify="center">
             <Col :xs="{ span: 7 }" :lg="{ span: 6 }">
@@ -229,7 +236,7 @@
             </Col>
           </Row>
         </Col>
-        <Col class="vertical-middle" :xs="20" :sm="24" :md="12" :lg="6">
+        <Col class="vertical-middle" :xs="20" :sm="24" :md="12" :lg="4">
           <Button @click="searchParent">BUSCAR</Button>
         </Col>
       </Row>
@@ -666,11 +673,16 @@ export default {
         callback();
       }
     };
-    const searchAccount = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("El email es requerido"));
+    const validateMail = (rule, value, callback) => {
+      if (
+        this.searchForm.partOneMail == "" ||
+        this.searchForm.partTwoMail == "" ||
+        typeof this.searchForm.partOneMail == "undefined" ||
+        typeof this.searchForm.partTwoMail == "undefined"
+      ) {
+        callback(new Error("El correo electrónico es requerido"));
       } else {
-        callback;
+        callback();
       }
     };
 
@@ -705,11 +717,9 @@ export default {
       parent: {},
       validateForm: {
         email: [
-          { type: "email", message: "Formato inválido", trigger: "blur" },
           {
-            required: true,
-            message: "El correo electrónico es requerido",
-            trigger: "blur"
+            validator: validateMail,
+            trigger: "change"
           }
         ],
         birthhday: [
@@ -810,6 +820,10 @@ export default {
         if (valid) {
           moment.locale("es");
           this.actualMoment = moment().format("LLLL");
+          this.searchForm.email =
+            `${this.searchForm.partOneMail}` +
+            "@" +
+            `${this.searchForm.partTwoMail}`;
           this.searchForm.birthday = moment(
             `${this.searchForm.birthhday}` +
               "-" +

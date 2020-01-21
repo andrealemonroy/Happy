@@ -286,6 +286,7 @@
         </Form>
       </Col>
     </Row>
+    <Row type="flex" justify="center"><Col :lg="20" style="color: red">*En las próximas horas te llegará una copia del contrato a tu correo electrónico.</Col></Row>
     <Row type="flex" justify="space-between">
       <Col span="6">
         <Button v-if="!notSignature" @click="undo">REINTENTAR</Button>
@@ -513,7 +514,7 @@ export default {
                       type: "html",
                       maxWidth: 200
                     });
-                    this.$router.push("./thanks");
+                    this.$router.push("/");
                     localStorage.clear();
               });
             }

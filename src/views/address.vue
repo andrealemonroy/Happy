@@ -18,7 +18,7 @@
         </Col>
       </Row>
       <Row>
-        <Col :lg="8">
+        <!-- <Col :lg="8">
           <FormItem
             prop="departament"
             label="Departamento"
@@ -52,18 +52,19 @@
               ><option value="000125">UCAYALI</option></Select
             ></FormItem
           >
-        </Col>
+        </Col> -->
         <Col span="8" offset="8">
 
         </Col>
         <Col span="8" offset="8">
           <FormItem prop="district" label="Distrito" placeholder="Seleccione">
-            <Select v-model="addressForm.district" placeholder="Distrito">
+            <Select v-model="addressForm.district" placeholder="Distrito" filterable>
               <Option value="LIMA">LIMA</Option>
               <Option value="ANCON">ANCON</Option>
               <Option value="ATE">ATE</Option>
               <Option value="BARRANCO">BARRANCO</Option>
               <Option value="BREÑA">BREÑA</Option>
+              <Option value="CALLAO">CALLAO</Option>
               <Option value="CARABAYLLO">CARABAYLLO</Option>
               <Option value="CHACLACAYO">CHACLACAYO</Option>
               <Option value="CHORRILLOS">CHORRILLOS</Option>

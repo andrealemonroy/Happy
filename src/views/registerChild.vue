@@ -23,7 +23,7 @@
           ></FormItem>
         </Col>
         <Col span="7">
-          <FormItem prop="identityDocumentNumber" label="DNI del menor de edad (opcional)"
+          <FormItem prop="identityDocumentNumber" label="DNI del menor de edad (OPCIONAL)"
             ><Input
               v-model="childForm.identityDocumentNumber"
               placeholder="ej. 12345678"

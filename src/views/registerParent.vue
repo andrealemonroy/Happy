@@ -23,12 +23,23 @@
           ></FormItem>
         </Col>
         <Col span="7">
-          <FormItem prop="email" label="Correo electrónico"
-            ><Input
-              v-model="parentForm.email"
-              placeholder="ej. happyland@gmail.com"
-            ></Input
-          ></FormItem>
+          <FormItem prop="email" label="Correo electrónico">
+            <Row type="flex" justify="center">
+              <Col :lg="11">
+                <Input
+                  v-model="parentForm.partOneMail"
+                  placeholder="ej. happyland"
+                ></Input>
+              </Col>
+              <Col :lg="2" class="vertical-middle font-20">@</Col>
+              <Col :lg="11"
+                ><Input
+                  v-model="parentForm.partTwoMail"
+                  placeholder="ej. gmail.com"
+                ></Input
+              ></Col>
+            </Row>
+          </FormItem>
         </Col>
       </Row>
       <Row type="flex" justify="space-around">
@@ -229,7 +240,7 @@
             </Col>
           </Row>
         </Col>
-        <Col :lg="7">
+        <Col :lg="6">
           <p style="color:transparent">título</p>
           <FormItem prop="identityDocumentType" label="Tipo de documento">
             <Select
@@ -243,8 +254,7 @@
             </Select>
           </FormItem>
         </Col>
-
-        <Col span="7">
+        <Col :lg="7">
           <p style="color:transparent">título</p>
           <FormItem prop="identityDocumentNumber" label="Número de documento"
             ><Input
@@ -306,10 +316,8 @@ export default {
       const reg = new RegExp("^([0-9]{9,})$");
       if (value === "" || !value) {
         callback(new Error("Número telefónico es requerido"));
-      } else if (value.length !== 9 || value.length !== 11) {
+      } else if (value.length < 9 || value.length > 11) {
         callback(new Error("Ingrese un número válido"));
-      } else if (!reg.test(value)) {
-        callback(new Error("Formato número telefónico es inválido"));
       } else {
         callback();
       }
@@ -350,6 +358,18 @@ export default {
         callback(new Error("Fecha de nacimiento es requerida"));
       } else if (moment(value).isAfter(moment().subtract(15, "years"))) {
         callback(new Error("Debe ser mayor de 15 años"));
+      } else {
+        callback();
+      }
+    };
+    const validateMail = (rule, value, callback) => {
+      if (
+        this.parentForm.partOneMail == "" ||
+        this.parentForm.partTwoMail == "" ||
+        typeof this.parentForm.partOneMail == "undefined" ||
+        typeof this.parentForm.partTwoMail == "undefined"
+      ) {
+        callback(new Error("El correo electrónico es requerido"));
       } else {
         callback();
       }
@@ -395,15 +415,11 @@ export default {
         ],
         email: [
           {
-            required: true,
-            message: "El correo electrónico es requerido",
-            trigger: "blur"
-          },
-          { type: "email", message: "Formato inválido", trigger: "blur" }
+            validator: validateMail,
+            trigger: "change"
+          }
         ],
-        phoneNumber: [
-          { required: true, validator: validatePhoneNumber, trigger: "change" }
-        ],
+        phoneNumber: [{ validator: validatePhoneNumber, trigger: "change" }],
         identityDocumentNumber: [
           {
             required: true,
@@ -412,7 +428,7 @@ export default {
           }
         ],
         gender: [
-          { required: true, message: "El género es requerido", trigger: "blur" }
+          { required: true, message: "El género es requerido", trigger: "change" }
         ],
         specialOffer: [
           {
@@ -458,6 +474,10 @@ export default {
                 `${this.parentForm.birthyear}`,
               "DD-MM-YYYY"
             ).format();
+            this.parentForm.email =
+              `${this.parentForm.partOneMail}` +
+              "@" +
+              `${this.parentForm.partTwoMail}`;
             // if (
             //   moment(this.parentForm.birthday).isAfter(
             //     moment().subtract(18, "years")
@@ -468,7 +488,7 @@ export default {
             //   this.parentForm.notAdult = false;
             // }
 
-            console.log(this.parentForm.birthday);
+            console.log(this.parentForm.email);
             if (
               moment(this.parentForm.birthday).isAfter(
                 moment().subtract(18, "years")
