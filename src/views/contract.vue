@@ -402,6 +402,7 @@ export default {
               birthday: this.parentData.birthday,
               line: this.parentData.line,
               district: this.parentData.district,
+              city: this.parentData.city,
               email: this.email,
               code: this.code
             };
@@ -480,6 +481,7 @@ export default {
                   `\nFecha de nacimiento: ${this.object.birthday.slice(0, 10)}`,
                   `\nDirección: ${this.object.line}`,
                   `\nDistrito: ${this.object.district} `,
+                  `\nCiudad: ${this.object.city} `,
                   `\nCorreo electrónico: ${this.object.email}`,
                   `\nCelular: ${this.object.phoneNumber}`,
                   {
