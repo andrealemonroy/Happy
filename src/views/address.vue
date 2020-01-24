@@ -8,16 +8,6 @@
       class="mt-60"
     >
       <Row>
-        <Col span="8" offset="8">
-          <FormItem prop="address" label="Dirección"
-            ><Input
-              v-model="addressForm.address"
-              placeholder="Ingrese su dirección aquí"
-            ></Input
-          ></FormItem>
-        </Col>
-      </Row>
-      <Row>
         <!-- <Col :lg="8">
           <FormItem
             prop="departament"
@@ -25,40 +15,80 @@
             placeholder="Seleccione"
           >
             <Select name="select1" id="select1"
-              ><option value="000101">AMAZONAS</option
-              ><option value="000102">ANCASH</option
-              ><option value="000103">APURIMAC</option
-              ><option value="000104">AREQUIPA</option
-              ><option value="000105">AYACUCHO</option
-              ><option value="000106">CAJAMARCA</option
-              ><option value="000107">CALLAO</option
-              ><option value="000108">CUSCO</option
-              ><option value="000109">HUANCAVELICA</option
-              ><option value="000110">HUANUCO</option
-              ><option value="000111">ICA</option
-              ><option value="000112">JUNIN</option
-              ><option value="000113">LA LIBERTAD</option
-              ><option value="000114">LAMBAYEQUE</option
-              ><option value="000115">LIMA</option
-              ><option value="000116">LORETO</option
-              ><option value="000117">MADRE DE DIOS</option
-              ><option value="000118">MOQUEGUA</option
-              ><option value="000119">PASCO</option
-              ><option value="000120">PIURA</option
-              ><option value="000121">PUNO</option
-              ><option value="000122">SAN MARTIN</option
-              ><option value="000123">TACNA</option
-              ><option value="000124">TUMBES</option
-              ><option value="000125">UCAYALI</option></Select
+              ><Option value="000101">AMAZONAS</Option
+              ><Option value="000102">ANCASH</Option
+              ><Option value="000103">APURIMAC</Option
+              ><Option value="000104">AREQUIPA</Option
+              ><Option value="000105">AYACUCHO</Option
+              ><Option value="000106">CAJAMARCA</Option
+              ><Option value="000107">CALLAO</Option
+              ><Option value="000108">CUSCO</Option
+              ><Option value="000109">HUANCAVELICA</Option
+              ><Option value="000110">HUANUCO</Option
+              ><Option value="000111">ICA</Option
+              ><Option value="000112">JUNIN</Option
+              ><Option value="000113">LA LIBERTAD</Option
+              ><Option value="000114">LAMBAYEQUE</Option
+              ><Option value="000115">LIMA</Option
+              ><Option value="000116">LORETO</Option
+              ><Option value="000117">MADRE DE DIOS</Option
+              ><Option value="000118">MOQUEGUA</Option
+              ><Option value="000119">PASCO</Option
+              ><Option value="000120">PIURA</Option
+              ><Option value="000121">PUNO</Option
+              ><Option value="000122">SAN MARTIN</Option
+              ><Option value="000123">TACNA</Option
+              ><Option value="000124">TUMBES</Option
+              ><Option value="000125">UCAYALI</Option></Select
             ></FormItem
           >
         </Col> -->
         <Col span="8" offset="8">
+          <FormItem prop="city" label="Ciudad">
+            <Select
+              v-model="addressForm.city"
+              placeholder="Seleccione"
+              filterable
+              @on-change="getDistricts"
+            >
+              <Option value="Lima">Lima</Option>
+              <Option value="">Seleccione</Option>
+              <Option value="Amazonas">Amazonas</Option>
+              <Option value="Ancash">Ancash</Option>
+              <Option value="Apurímac">Apurímac</Option>
+              <Option value="Arequipa">Arequipa</Option>
+              <Option value="Ayacucho">Ayacucho</Option>
+              <Option value="Cajamarca">Cajamarca</Option>
+              <Option value="Callao">Callao</Option>
+              <Option value="Cuzco">Cuzco </Option>
+              <Option value="Huancavelica">Huancavelica</Option>
+              <Option value="Huánuco">Huánuco</Option>
+              <Option value="Ica">Ica</Option>
+              <Option value="Junín">Junín</Option>
+              <Option value="La_Libertad">La Libertad</Option>
+              <Option value="Lambayeque">Lambayeque</Option>
 
+              <Option value="Loreto">Loreto</Option>
+              <Option value="Madre_de_Dios">Madre de Dios</Option>
+              <Option value="Moquegua">Moquegua</Option>
+              <Option value="Pasco">Pasco</Option>
+              <Option value="Piura">Piura</Option>
+              <Option value="Puno">Puno</Option>
+              <Option value="San_Martín">San Martín</Option>
+              <Option value="Tacna">Tacna</Option>
+              <Option value="Tumbes">Tumbes</Option>
+              <Option value="Ucayali">Ucayali</Option>
+            </Select>
+          </FormItem>
         </Col>
         <Col span="8" offset="8">
           <FormItem prop="district" label="Distrito" placeholder="Seleccione">
-            <Select v-model="addressForm.district" placeholder="Distrito" filterable>
+            <Select
+              v-model="addressForm.district"
+              placeholder="Distrito"
+              filterable
+              v-if="showSelectDistricts"
+            >
               <Option value="LIMA">LIMA</Option>
               <Option value="ANCON">ANCON</Option>
               <Option value="ATE">ATE</Option>
@@ -109,10 +139,27 @@
               <Option value="VILLA MARIA DEL TRIUNFO"
                 >VILLA MARIA DEL TRIUNFO</Option
               >
-            </Select></FormItem
-          >
+            </Select>
+
+            <Input
+              v-else
+              v-model="addressForm.district"
+              placeholder="Distrito"
+            ></Input>
+          </FormItem>
         </Col>
       </Row>
+      <Row>
+        <Col span="8" offset="8">
+          <FormItem prop="address" label="Dirección"
+            ><Input
+              v-model="addressForm.address"
+              placeholder="Ingrese su dirección aquí"
+            ></Input
+          ></FormItem>
+        </Col>
+      </Row>
+
       <Row type="flex" justify="space-between">
         <Col span="6"
           ><button class="return" @click="goBack">
@@ -132,6 +179,7 @@ import moment from "moment";
 export default {
   data() {
     return {
+      showSelectDistricts: false,
       addressForm: {
         address: "",
         district: ""
@@ -150,6 +198,13 @@ export default {
             message: "El distrito es requerido",
             trigger: "blur"
           }
+        ],
+        city: [
+          {
+            required: true,
+            message: "La ciudad es requerida",
+            trigger: "blur"
+          }
         ]
       }
     };
@@ -162,6 +217,7 @@ export default {
           const parentId = localStorage.getItem("parentId");
           data.line = this.addressForm.address;
           data.district = this.addressForm.district;
+          data.city = this.addressForm.city;
           Api.updateParent(parentId, data)
             .then(res => {
               console.log(res);
@@ -200,6 +256,13 @@ export default {
           });
         }
       });
+    },
+    getDistricts() {
+      if (this.addressForm.city === "Lima") {
+        this.showSelectDistricts = true;
+      } else {
+        this.showSelectDistricts = false;
+      }
     },
     goBack() {
       this.$router.push("/registerParent");

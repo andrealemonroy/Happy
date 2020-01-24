@@ -26,7 +26,7 @@
           y han sido referidos individual y colectivamente en este documento
           como "menor de edad ", usen las instalaciones y equipos de
           <strong>Sociedad HAPPYLAND Perú S.A.</strong
-          ><span style="color:red;">&nbsp;</span>ubicados en centro comercial
+          ><span style="color:red;">&nbsp;</span> ubicados en centro comercial
           Mall Aventura Santa Anita<span style="color:red;">&nbsp;</span> Zona
           de<span style="color:red;">&nbsp;</span>Happyland Adventure, Fun Kids y Happy Kids. En
           consideración a que se nos permita usar dichas instalaciones y
@@ -240,7 +240,9 @@
         <br />
         <strong>Dirección completa: </strong>{{ this.parentData.line }}
         <br />
-        <strong>Distrito: </strong{{ this.parentData.district }}
+        <strong>Distrito: </strong>{{ this.parentData.district }}
+        <br />
+        <strong>Ciudad: </strong> {{this.parentData.city}}
         <br />
         <strong>Correo electrónico: </strong>{{this.parentData.email}}
         <br />
@@ -248,7 +250,7 @@
         <br />
         <List class="list">
           <ListItem v-for="child in childs" label="Menor de edad" :key="child._id">
-            <strong>Datos del menor de edad: </strong> • {{ child.names }} {{child.surname}} - {{child.identityDocumentNumber}} - {{child.birthday.slice(0,10)}} - {{child.relative}}
+            <strong>Datos del menor de edad: </strong> • {{ child.names }} {{child.surname}} {{child.identityDocumentNumber}} - {{child.birthday.slice(0,10)}} - {{child.relative}}
           </ListItem>
         </List>
         <br />
@@ -306,7 +308,7 @@
         <div v-if="childs.length > 0">
           <p>Menores de edad</p>
           <p v-for="child in childs" :key="child._id">
-            {{ child.names }} {{ child.surname }} - {{ child.identityDocumentNumber }} -
+            {{ child.names }} {{ child.surname }} {{ child.identityDocumentNumber }} -
             {{ child.birthday.slice(0, 10) }}
           </p>
         </div>
