@@ -23,7 +23,7 @@
           ></FormItem>
         </Col>
         <Col span="7">
-          <FormItem prop="identityDocumentNumber" label="DNI del menor de edad"
+          <FormItem prop="identityDocumentNumber" label="DNI del menor de edad (OPCIONAL)"
             ><Input
               v-model="childForm.identityDocumentNumber"
               placeholder="ej. 12345678"
@@ -32,6 +32,24 @@
         </Col>
       </Row>
       <Row type="flex" justify="space-around">
+        <Col span="7">
+          <FormItem prop="relative" label="Parentesco">
+            <Select placeholder="Seleccione" v-model="childForm.relative">
+              <Option value="Hijo(a)">Hijo(a)</Option>
+              <Option value="Hermano(a)">Hermano(a)</Option>
+              <Option value="Primo(a)">Primo(a)</Option>
+              <Option value="Sobrino(a)">Sobrino(a)</Option>
+              <Option value="Nieto(a)">Nieto(a)</Option>
+              <Option value="Otro">Otro</Option>
+            </Select>
+          </FormItem>
+          <FormItem v-if="otherRelative" prop="relative" label="Parentesco">
+            <Input
+              placeholder="Ingrese parentesco"
+              v-model="otherRelativeModel"
+            />
+          </FormItem>
+        </Col>
         <Col :xs="{ span: 22 }" :lg="{ span: 8 }">
           <p>Fecha de nacimiento</p>
           <Row type="flex" justify="center">
@@ -165,24 +183,6 @@
           </Row>
         </Col>
         <Col span="7">
-          <FormItem prop="relative" label="Parentesco">
-            <Select placeholder="Seleccione" v-model="childForm.relative">
-              <Option value="Hijo(a)">Hijo(a)</Option>
-              <Option value="Hermano(a)">Hermano(a)</Option>
-              <Option value="Primo(a)">Primo(a)</Option>
-              <Option value="Sobrino(a)">Sobrino(a)</Option>
-              <Option value="Nieto(a)">Nieto(a)</Option>
-              <Option value="Otro">Otro</Option>
-            </Select>
-          </FormItem>
-          <FormItem v-if="otherRelative" prop="relative" label="Parentesco">
-            <Input
-              placeholder="Ingrese parentesco"
-              v-model="otherRelativeModel"
-            />
-          </FormItem>
-        </Col>
-        <Col span="7">
           <FormItem prop="gender" label="Género">
             <RadioGroup v-model="childForm.gender">
               <Radio label="female">Femenino</Radio>
@@ -203,14 +203,35 @@ import localStorage from "localStorage";
 import moment from "moment";
 export default {
   data() {
-    const validatePhoneNumber = (rule, value, callback) => {
-      const reg = new RegExp("^([0-9]{9,})$");
-      if (value === "" || !value) {
-        callback(new Error("Número telefónico es requerido"));
-      } else if (value.length !== 9) {
-        callback(new Error("Debe ser sólo 9 dígitos"));
-      } else if (!reg.test(value)) {
-        callback(new Error("Formato número telefónico es inválido"));
+    const validateBirthhday = (rule, value, callback) => {
+      if (
+        (this.childForm.relative == "Hijo(a)" ||
+          this.childForm.relative == "Hermano(a)") &&
+        (value === "" || !value)
+      ) {
+        callback(new Error("Es requerido"));
+      } else {
+        callback();
+      }
+    };
+    const validateBirthmonth = (rule, value, callback) => {
+      if (
+        (this.childForm.relative == "Hijo(a)" ||
+          this.childForm.relative == "Hermano(a)") &&
+        (value === "" || !value)
+      ) {
+        callback(new Error("Es requerido"));
+      } else {
+        callback();
+      }
+    };
+    const validateBirthyear = (rule, value, callback) => {
+      if (
+        (this.childForm.relative == "Hijo(a)" ||
+          this.childForm.relative == "Hermano(a)") &&
+        (value === "" || !value)
+      ) {
+        callback(new Error("Es requerido"));
       } else {
         callback();
       }
@@ -218,9 +239,7 @@ export default {
     const validateidentityDocumentNumber = (rule, value, callback) => {
       // /[^0-9]/gi
       const reg = new RegExp("^([A-Z0-9]{8,9})$");
-      if (value === "") {
-        callback(new Error("No puede estar vacío"));
-      } else if (value.length !== 8 || isNaN(value)) {
+      if (value.length !== 8 || isNaN(value)) {
         callback(new Error("El número de documento debe ser de 8 números"));
       } else if (!reg.test(value)) {
         callback(new Error("Formato inválido"));
@@ -265,22 +284,19 @@ export default {
         ],
         birthhday: [
           {
-            required: true,
-            message: "requerido",
+            validator: validateBirthhday,
             trigger: "blur"
           }
         ],
         birthmonth: [
           {
-            required: true,
-            message: "requerido",
+            validator: validateBirthmonth,
             trigger: "blur"
           }
         ],
         birthyear: [
           {
-            required: true,
-            message: "requerido",
+            validator: validateBirthyear,
             trigger: "blur"
           }
         ]
