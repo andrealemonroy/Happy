@@ -7,8 +7,10 @@
 import Vue from "vue";
 import ViewUI from "view-design";
 import "view-design/dist/styles/iview.css";
-import locale from 'iview/dist/locale/es-ES';
-Vue.use(ViewUI, {locale: locale});
+import locale from "iview/dist/locale/es-ES";
+// import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
+Vue.use(ViewUI, { locale: locale });
 
 export default {};
 </script>
