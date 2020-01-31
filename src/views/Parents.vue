@@ -118,21 +118,21 @@ export default {
             title: "Hubo un problema"
           });
         });
+    },
+    access() {
+      this.$refs["loginForm"].validate(async valid => {
+        if (valid) {
+          if (this.loginForm.user == "iwaver" && this.loginForm.key == "1234") {
+            this.login = false;
+          }
+        }
+      });
     }
   },
   async created() {
     let payload = { ...(await Api.getAllParents()).data };
     this.parents.push(payload);
     console.log(this.parents);
-  },
-  access() {
-    this.$refs["loginForm"].validate(async valid => {
-      if (valid) {
-        if (this.loginForm.user == "iwaver" && this.loginForm.key == "1234") {
-          this.login = false;
-        }
-      }
-    });
   }
 };
 </script>
