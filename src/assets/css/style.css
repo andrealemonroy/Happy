@@ -209,7 +209,8 @@ table th {
 }
 
 .return {
-  padding: 10px 20px;
+  width: 180px;
+  height: 48px;
   background-color: #000 !important;
   color: #fff;
   border-radius: 30px;

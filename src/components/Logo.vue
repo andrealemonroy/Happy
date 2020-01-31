@@ -1,9 +1,11 @@
 <template>
   <Row type="flex" justify="center">
-    <img
-      style="margin: auto; text-align: center"
-      src="../assets/images/logo-happy.jpg"
-    />
+    <Col :xxs="20" :xs="20" :lg="8" :xl="9" :xxl="7">
+      <img
+        style="margin: auto; text-align: center; max-width: 100%"
+        src="../assets/images/logo-happy.jpg"
+      />
+    </Col>
   </Row>
 </template>
 <style>

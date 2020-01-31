@@ -375,6 +375,8 @@ export default {
       }
     };
     return {
+      seconds: "",
+      minutes: "",
       parentForm: {
         names: "",
         surname: "",
@@ -398,7 +400,7 @@ export default {
         // gender: "female",
         // specialOffer: "email"
       },
-      validateForm: {
+      validateParentForm: {
         names: [
           {
             required: true,
@@ -428,7 +430,11 @@ export default {
           }
         ],
         gender: [
-          { required: true, message: "El género es requerido", trigger: "change" }
+          {
+            required: true,
+            message: "El género es requerido",
+            trigger: "change"
+          }
         ],
         specialOffer: [
           {
@@ -478,15 +484,6 @@ export default {
               `${this.parentForm.partOneMail}` +
               "@" +
               `${this.parentForm.partTwoMail}`;
-            // if (
-            //   moment(this.parentForm.birthday).isAfter(
-            //     moment().subtract(18, "years")
-            //   )
-            // ) {
-            //   this.parentForm.notAdult = true;
-            // } else {
-            //   this.parentForm.notAdult = false;
-            // }
 
             console.log(this.parentForm.email);
             if (
@@ -500,7 +497,6 @@ export default {
               });
             } else {
               Api.registerParent(this.parentForm).then(res => {
-                console.log(res);
                 if (res.status === 200) {
                   localStorage.setItem("data", JSON.stringify(this.parentForm));
                   localStorage.setItem("parentId", res.data._id);
@@ -529,6 +525,28 @@ export default {
     goBack() {
       this.$router.push("/about");
     }
+  },
+  created() {
+    const data = JSON.parse(localStorage.getItem("data"));
+    this.parentForm.names = data.names;
+    this.parentForm.surname = data.surname;
+    this.parentForm.identityDocumentType = data.identityDocumentType;
+    this.parentForm.identityDocumentNumber = data.identityDocumentNumber;
+    this.parentForm.email = data.email;
+    this.parentForm.phoneNumber = data.phoneNumber;
+    this.parentForm.gender = data.gender;
+    this.parentForm.specialOffer = data.specialOffer;
+    var duration = moment.duration({
+      seconds: 0,
+      hour: 0,
+      minutes: 0
+    });
+    var interval = 1;
+    setInterval(function() {
+      duration = moment.duration(duration.asSeconds() + interval, "seconds");
+      //.asSeconds()
+      console.log(Math.round(duration.asSeconds()) + 's')
+    }, 1000);
   }
 };
 </script>

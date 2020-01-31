@@ -582,8 +582,10 @@
           <Col :lg="20">
             <List v-if="this.childs.length > 0" header="Menores de edad">
               <ListItem v-for="child in childs" :key="child._id">
-                {{ child.names }} {{ child.surname }} - {{ child.relative }} -
-                {{ child.age }} años
+                <Radio v-model="child._id">
+                  {{ child.names }} {{ child.surname }} - {{ child.relative }} -
+                  {{ child.age }} años</Radio
+                >
                 <button
                   style="margin-left: 40px"
                   class="delete"
@@ -788,7 +790,7 @@ export default {
             trigger: "blur"
           }
         ]
-      },
+      }
     };
   },
   methods: {
@@ -923,7 +925,7 @@ export default {
     },
     seeData() {
       this.seeChilds = false;
-    },
+    }
   }
 };
 </script>

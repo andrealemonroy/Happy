@@ -4,47 +4,12 @@
     <Form
       ref="addressForm"
       :model="addressForm"
-      :rules="validateForm"
+      :rules="validateRegisterForm"
       class="mt-60"
     >
       <Row>
-        <!-- <Col :lg="8">
-          <FormItem
-            prop="departament"
-            label="Departamento"
-            placeholder="Seleccione"
-          >
-            <Select name="select1" id="select1"
-              ><Option value="000101">AMAZONAS</Option
-              ><Option value="000102">ANCASH</Option
-              ><Option value="000103">APURIMAC</Option
-              ><Option value="000104">AREQUIPA</Option
-              ><Option value="000105">AYACUCHO</Option
-              ><Option value="000106">CAJAMARCA</Option
-              ><Option value="000107">CALLAO</Option
-              ><Option value="000108">CUSCO</Option
-              ><Option value="000109">HUANCAVELICA</Option
-              ><Option value="000110">HUANUCO</Option
-              ><Option value="000111">ICA</Option
-              ><Option value="000112">JUNIN</Option
-              ><Option value="000113">LA LIBERTAD</Option
-              ><Option value="000114">LAMBAYEQUE</Option
-              ><Option value="000115">LIMA</Option
-              ><Option value="000116">LORETO</Option
-              ><Option value="000117">MADRE DE DIOS</Option
-              ><Option value="000118">MOQUEGUA</Option
-              ><Option value="000119">PASCO</Option
-              ><Option value="000120">PIURA</Option
-              ><Option value="000121">PUNO</Option
-              ><Option value="000122">SAN MARTIN</Option
-              ><Option value="000123">TACNA</Option
-              ><Option value="000124">TUMBES</Option
-              ><Option value="000125">UCAYALI</Option></Select
-            ></FormItem
-          >
-        </Col> -->
         <Col span="8" offset="8">
-          <FormItem prop="city" label="Ciudad">
+          <FormItem prop="city" label="Departamento">
             <Select
               v-model="addressForm.city"
               placeholder="Seleccione"
@@ -69,7 +34,7 @@
               <Option value="Lambayeque">Lambayeque</Option>
 
               <Option value="Loreto">Loreto</Option>
-              <Option value="Madre_de_Dios">Madre de Dios</Option>
+              <Option value="Madre de Dios">Madre de Dios</Option>
               <Option value="Moquegua">Moquegua</Option>
               <Option value="Pasco">Pasco</Option>
               <Option value="Piura">Piura</Option>
@@ -184,7 +149,7 @@ export default {
         address: "",
         district: ""
       },
-      validateForm: {
+      validateRegisterForm: {
         address: [
           {
             required: true,
@@ -267,6 +232,7 @@ export default {
     goBack() {
       this.$router.push("/registerParent");
     }
-  }
+  },
+
 };
 </script>
