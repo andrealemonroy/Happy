@@ -501,19 +501,7 @@
                 ></Input
               ></FormItem>
             </Col>
-            <Col span="7">
-              <FormItem
-                prop="identityDocumentNumber"
-                label="DNI del menor de edad (OPCIONAL)"
-                ><Input
-                  v-model="childForm.identityDocumentNumber"
-                  placeholder="ej. 12345678"
-                ></Input
-              ></FormItem>
-            </Col>
-          </Row>
-          <Row type="flex" justify="space-around">
-            <Col span="7">
+            <Col :xs="{ span: 22 }" :lg="{ span: 7 }">
               <FormItem prop="relative" label="Parentesco">
                 <Select placeholder="Seleccione" v-model="childForm.relative">
                   <Option value="Hijo(a)">Hijo(a)</Option>
@@ -530,6 +518,18 @@
                   v-model="otherRelativeModel"
                 />
               </FormItem>
+            </Col>
+          </Row>
+          <Row type="flex" justify="space-around">
+            <Col :xs="{ span: 22 }" :lg="{ span: 7 }">
+              <FormItem
+                prop="identityDocumentNumber"
+                label="DNI del menor de edad (OPCIONAL)"
+                ><Input
+                  v-model="childForm.identityDocumentNumber"
+                  placeholder="ej. 12345678"
+                ></Input
+              ></FormItem>
             </Col>
             <Col :xs="{ span: 22 }" :lg="{ span: 8 }">
               <p>Fecha de nacimiento</p>
@@ -626,36 +626,6 @@
                       <Option value="2003">2003</Option>
                       <Option value="2002">2002</Option>
                       <Option value="2001">2001</Option>
-                      <Option value="2000">2000</Option>
-                      <Option value="1999">1999</Option>
-                      <Option value="1998">1998</Option>
-                      <Option value="1997">1997</Option>
-                      <Option value="1996">1996</Option>
-                      <Option value="1995">1995</Option>
-                      <Option value="1994">1994</Option>
-                      <Option value="1993">1993</Option>
-                      <Option value="1992">1992</Option>
-                      <Option value="1991">1991</Option>
-                      <Option value="1990">1990</Option>
-                      <Option value="1989">1989</Option>
-                      <Option value="1988">1988</Option>
-                      <Option value="1987">1987</Option>
-                      <Option value="1986">1986</Option>
-                      <Option value="1985">1985</Option>
-                      <Option value="1984">1984</Option>
-                      <Option value="1983">1983</Option>
-                      <Option value="1982">1982</Option>
-                      <Option value="1981">1981</Option>
-                      <Option value="1980">1980</Option>
-                      <Option value="1979">1979</Option>
-                      <Option value="1978">1978</Option>
-                      <Option value="1977">1977</Option>
-                      <Option value="1976">1976</Option>
-                      <Option value="1975">1975</Option>
-                      <Option value="1974">1974</Option>
-                      <Option value="1973">1973</Option>
-                      <Option value="1972">1972</Option>
-                      <Option value="1971">1971</Option>
                     </Select>
                   </FormItem>
                 </Col>
@@ -672,6 +642,17 @@
             <Col span="7"> </Col>
           </Row>
           <Button @click="toListOfChilds">CONTINUAR</Button>
+
+          <Row type="flex" justify="space-between">
+            <Col span="6"
+              ><button class="return" @click="backToListOfChilds">
+                <Icon type="ios-arrow-back" />REGRESAR
+              </button>
+            </Col>
+            <Col span="6"
+              ><Button @click="toListOfChilds">CONTINUAR</Button>
+            </Col>
+          </Row>
         </Form>
       </section>
     </template>
@@ -1225,37 +1206,39 @@ export default {
     };
     return {
       // parent
-      registerParent: false,
+      registerParent: true,
       registerAddress: false,
       addChild: false,
       registerChild: false,
-      listOfChilds: true,
+      listOfChilds: false,
       contract: false,
       //   address
       showSelectDistricts: false,
       parentForm: {
-        // names: "",
-        // surname: "",
-        // identityDocumentType: "DNI",
-        // identityDocumentNumber: "",
-        // birthhday: "",
-        // birtmonth: "",
-        // birthyear: "",
-        // email: "",
-        // phoneNumber: "",
-        // gender: "",
-        // specialOffer: "mail"
-        names: "Andrea",
-        surname: "Monroy Carrillo",
+        names: "",
+        surname: "",
         identityDocumentType: "DNI",
-        identityDocumentNumber: "76282636",
-        birthhday: "17",
-        birthmonth: "05",
-        birthyear: "1995",
-        email: "andreale17@icloud.com",
-        phoneNumber: "978893562",
-        gender: "female",
+        identityDocumentNumber: "",
+        birthhday: "",
+        birtmonth: "",
+        birthyear: "",
+        partOneMail: "",
+        partTwoMail: "",
+        email: "",
+        phoneNumber: "",
+        gender: "",
         specialOffer: "mail"
+        // names: "Andrea",
+        // surname: "Monroy Carrillo",
+        // identityDocumentType: "DNI",
+        // identityDocumentNumber: "76282636",
+        // birthhday: "17",
+        // birthmonth: "05",
+        // birthyear: "1995",
+        // email: "andreale17@icloud.com",
+        // phoneNumber: "978893562",
+        // gender: "female",
+        // specialOffer: "mail"
       },
       addressForm: {
         address: "",
@@ -1624,10 +1607,20 @@ export default {
         }
       });
     },
+    backToListOfChilds() {
+      this.listOfChilds = true;
+      this.registerChild = false;
+      this.getChilds();
+    },
     // listOfChilds
     toRegisterChilds() {
       this.listOfChilds = false;
       this.registerChild = true;
+      this.childForm.names = "";
+      this.childForm.surname = "";
+      this.childForm.identityDocumentNumber = "";
+      this.childForm.gender = "";
+      this.childForm.birthday = "";
     },
     async deleteChild(child) {
       Api.deleteChild(child)
@@ -1816,6 +1809,15 @@ export default {
           });
         }
       });
+    }
+  },
+  created() {
+    if (this.localStorage.getItem("goToContract")) {
+      this.registerParent = false;
+      this.contract = true;
+    } else if (this.localStorage.getItem("addChild")) {
+      this.registerParent = false;
+      this.registerChild = true;
     }
   }
 };

@@ -22,17 +22,7 @@
             ></Input
           ></FormItem>
         </Col>
-        <Col span="7">
-          <FormItem prop="identityDocumentNumber" label="DNI del menor de edad (OPCIONAL)"
-            ><Input
-              v-model="childForm.identityDocumentNumber"
-              placeholder="ej. 12345678"
-            ></Input
-          ></FormItem>
-        </Col>
-      </Row>
-      <Row type="flex" justify="space-around">
-        <Col span="7">
+                <Col span="7">
           <FormItem prop="relative" label="Parentesco">
             <Select placeholder="Seleccione" v-model="childForm.relative">
               <Option value="Hijo(a)">Hijo(a)</Option>
@@ -50,6 +40,17 @@
             />
           </FormItem>
         </Col>
+        <Col span="7">
+          <FormItem prop="identityDocumentNumber" label="DNI del menor de edad (OPCIONAL)"
+            ><Input
+              v-model="childForm.identityDocumentNumber"
+              placeholder="ej. 12345678"
+            ></Input
+          ></FormItem>
+        </Col>
+      </Row>
+      <Row type="flex" justify="space-around">
+
         <Col :xs="{ span: 22 }" :lg="{ span: 8 }">
           <p>Fecha de nacimiento</p>
           <Row type="flex" justify="center">

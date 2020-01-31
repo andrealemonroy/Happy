@@ -582,10 +582,24 @@
           <Col :lg="20">
             <List v-if="this.childs.length > 0" header="Menores de edad">
               <ListItem v-for="child in childs" :key="child._id">
-                <Radio v-model="child._id">
-                  {{ child.names }} {{ child.surname }} - {{ child.relative }} -
-                  {{ child.age }} años</Radio
+                <RadioGroup
+                  v-if="
+                    child.relative == 'Hijo(a)' ||
+                      child.relative == 'Hermano(a)'
+                  "
+                  v-model="near"
                 >
+                  <Radio label="true" v-model="child._id">
+                    {{ child.names }} {{ child.surname }} -
+                    {{ child.relative }} - {{ child.age }} años</Radio
+                  >
+                </RadioGroup>
+                <RadioGroup v-else v-model="noNear">
+                  <Radio>
+                    {{ child.names }} {{ child.surname }} -
+                    {{ child.relative }} - {{ child.age }} años</Radio
+                  >
+                </RadioGroup>
                 <button
                   style="margin-left: 40px"
                   class="delete"
@@ -690,7 +704,9 @@ export default {
     };
 
     return {
+      near: "true",
       actualMoment: "",
+      noNear: "",
       foundIt: false,
       childs: [],
       idParent: "",
@@ -907,6 +923,8 @@ export default {
         type: "html",
         maxWidth: 200
       });
+      // localStorage.setItem("goToContract", true);
+      // this.$router.push("/register");
     },
     deleteChild(id) {
       debugger;
@@ -918,7 +936,8 @@ export default {
       this.$router.push("/contract");
     },
     addChild() {
-      this.$router.push("/registerChild");
+      localStorage.setItem("addChild", true);
+      this.$router.push("/register");
     },
     goSeeChilds() {
       this.seeChilds = true;
