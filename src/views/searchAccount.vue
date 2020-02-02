@@ -580,7 +580,8 @@
         </Row>
         <Row v-if="seeChilds && foundIt" type="flex" justify="center">
           <Col :lg="20">
-            <List v-if="this.childs.length > 0" header="Menores de edad">
+            Listado de menores de edad
+            <!-- <List v-if="this.childs.length > 0" header="Menores de edad">
               <ListItem v-for="child in childs" :key="child._id">
                 <RadioGroup
                   v-if="
@@ -595,7 +596,7 @@
                   >
                 </RadioGroup>
                 <RadioGroup v-else v-model="noNear">
-                  <Radio>
+                  <Radio v-model="child._id">
                     {{ child.names }} {{ child.surname }} -
                     {{ child.relative }} - {{ child.age }} años</Radio
                   >
@@ -608,7 +609,17 @@
                   Eliminar
                 </button>
               </ListItem>
-            </List>
+            </List> -->
+            <Select v-model="model16" multiple :max-tag-count="2">
+              <Option
+                v-for="child in childs"
+                :key="child._id"
+                :value="child._id"
+              >
+                {{ child.names }} {{ child.surname }} - {{ child.relative }} -
+                {{ child.age }} años</Option
+              >
+            </Select>
             <Row type="flex" justify="space-around">
               <Col span="7">
                 <Button @click="seeData">REGRESAR</Button>
@@ -644,6 +655,7 @@
         <div v-if="this.ticketChilds.length > 0">
           <p>Menores de edad</p>
           <p v-for="child in childs" :key="child._id">
+            Adriana Monroy - 76282636 - 12/12/2003
             {{ child.names }} {{ child.surname }} -
             {{ child.identityDocumentNumber }} -
             {{ child.birthday.slice(0, 10) }}
@@ -704,9 +716,10 @@ export default {
     };
 
     return {
-      near: "true",
+      // near: "true",
+      //       noNear: "",
+      model16: [],
       actualMoment: "",
-      noNear: "",
       foundIt: false,
       childs: [],
       idParent: "",
@@ -918,26 +931,26 @@ export default {
       });
     },
     print() {
-      printJS({
-        printable: "ticket",
-        type: "html",
-        maxWidth: 200
-      });
-      // localStorage.setItem("goToContract", true);
-      // this.$router.push("/register");
+      // printJS({
+      //   printable: "ticket",
+      //   type: "html",
+      //   maxWidth: 200
+      // });
+      localStorage.setItem("goToContract", this.model16);
+      this.$router.push("/registro");
     },
-    deleteChild(id) {
-      debugger;
-      Api.deleteChild(id).then(res => {
-        this.$Notice.success({
-          title: "Niño eliminado con éxito"
-        });
-      });
-      this.$router.push("/contract");
-    },
+    // deleteChild(id) {
+    //   debugger;
+    //   Api.deleteChild(id).then(res => {
+    //     this.$Notice.success({
+    //       title: "Niño eliminado con éxito"
+    //     });
+    //   });
+    //   this.$router.push("/contract");
+    // },
     addChild() {
       localStorage.setItem("addChild", true);
-      this.$router.push("/register");
+      this.$router.push("/registro");
     },
     goSeeChilds() {
       this.seeChilds = true;

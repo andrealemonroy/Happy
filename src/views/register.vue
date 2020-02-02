@@ -1570,7 +1570,6 @@ export default {
             const age = moment().diff(this.childForm.birthday, "years");
             this.childForm.age = age;
           } else {
-            debugger;
             delete this.childForm.birthhday;
             delete this.childForm.birthmonth;
             delete this.childForm.birthyear;
@@ -1812,10 +1811,33 @@ export default {
     }
   },
   created() {
-    if (this.localStorage.getItem("goToContract")) {
+    if (localStorage.getItem("goToContract")) {
+      this.arrChilds = [localStorage.getItem("goToContract")];
       this.registerParent = false;
       this.contract = true;
-    } else if (this.localStorage.getItem("addChild")) {
+      moment.locale("es");
+      this.actualMoment = moment().format("LLLL");
+      const idParent = localStorage.getItem("parentId");
+      Api.getFatherById(idParent).then(res => {
+        this.parentData = res.data;
+        this.nameParent = this.parentData.names + " " + this.parentData.surname;
+        let countChilds = 0;
+        let childsarr = [];
+        for (let i = 0; i < this.parentData.childs.length; i++) {
+          debugger;
+          for (let j = 0; j < this.arrChilds.length; j++) {
+              console.log(this.arrChilds[j])
+              console.log(this.parentData.childs[i]._id)
+            if (this.arrChilds[j] == this.parentData.childs[i]._id) {
+              childsarr.push(this.arrChilds[j]);
+            }
+          }
+          return childsarr;
+        }
+        this.childs = this.childsarr;
+        this.birthday = this.parentData.birthday.slice(0, 10);
+      });
+    } else if (localStorage.getItem("addChild")) {
       this.registerParent = false;
       this.registerChild = true;
     }

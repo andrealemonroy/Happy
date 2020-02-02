@@ -3,7 +3,8 @@
     <br />
     <Logo />
     <br />
-    <div class="card">
+    <br />
+    <div class="text-center">
       <Row type="flex" justify="center">
         <Col :xxs="22" :xs="22" :lg="24">
           <h1>BIENVENIDO</h1>
