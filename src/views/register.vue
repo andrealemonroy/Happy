@@ -307,11 +307,11 @@
             </Col>
           </Row>
           <br />
-          <Row type="flex" justify="space-between">
+          <Row v-if="registerParent" type="flex" justify="space-between">
             <Col :xs="24" :lg="6"
-              ><button class="return" @click="backToAbout">
+              ><Button class="return" @click="backToAbout">
                 <Icon type="ios-arrow-back" />REGRESAR
-              </button>
+              </Button>
             </Col>
             <Col :xs="24" :lg="6"
               ><Button @click="toAddress">CONTINUAR</Button>
@@ -455,7 +455,11 @@
             </Col>
           </Row>
 
-          <Row type="flex" justify="space-between">
+          <Row
+            v-if="registerAddress & !registerParent"
+            type="flex"
+            justify="space-between"
+          >
             <Col span="6"
               ><button class="return" @click="backToRegisterParent">
                 <Icon type="ios-arrow-back" />REGRESAR
@@ -466,15 +470,15 @@
         </Form>
       </section>
     </div>
-    <template v-if="addChild" id="addChild">
+    <div v-if="addChild" id="addChild">
       <section class="center mt-60">
         <h1>¿TE GUSTARÍA REGISTRAR UN MENOR DE EDAD?</h1>
         <br />
-        <Button @click="toRegisterChild">SÍ</Button>
-        <Button @click="toListOfChilds">NO</Button>
+        <Button v-if="addChild" @click="toRegisterChild">SÍ</Button>
+        <Button v-if="addChild" @click="toListOfChilds">NO</Button>
       </section>
-    </template>
-    <template v-if="registerChild" id="registerChild">
+    </div>
+    <div v-if="registerChild" id="registerChild">
       <section class="center mt-60 font-20 scroll">
         <h1>INGRESA LA INFORMACION DEL MENOR DE EDAD</h1>
         <Form
@@ -641,9 +645,8 @@
             </Col>
             <Col span="7"> </Col>
           </Row>
-          <Button @click="toListOfChilds">CONTINUAR</Button>
 
-          <Row type="flex" justify="space-between">
+          <Row v-if="registerChild" type="flex" justify="space-between">
             <Col span="6"
               ><button class="return" @click="backToListOfChilds">
                 <Icon type="ios-arrow-back" />REGRESAR
@@ -655,8 +658,8 @@
           </Row>
         </Form>
       </section>
-    </template>
-    <template v-if="listOfChilds" id="listOfChilds">
+    </div>
+    <div v-if="listOfChilds" id="listOfChilds">
       <section class="center mt-60 font-20">
         <h1>REVISIÓN DE LOS MENORES BAJO TUTELA</h1>
         <br />
@@ -687,15 +690,15 @@
         <br />
         <br />
 
-        <Row type="flex" justify="space-between">
+        <Row v-if="listOfChilds" type="flex" justify="space-between">
           <Col span="6">
             <Button @click="toRegisterChilds">AGREGAR</Button>
           </Col>
           <Col span="6"> <Button @click="toContract">CONTINUAR</Button> </Col>
         </Row>
       </section>
-    </template>
-    <template v-if="contract" id="contract">
+    </div>
+    <div v-if="contract" id="contract">
       <section class="font-20 justify center mt-60 scroll">
         <Row type="flex" justify="center" class="mt-60">
           <Col span="20">
@@ -1017,7 +1020,7 @@
             correo electrónico.</Col
           ></Row
         >
-        <Row type="flex" justify="space-between">
+        <Row v-if="contract" type="flex" justify="space-between">
           <Col span="6">
             <Button v-if="!notSignature" @click="undo">REINTENTAR</Button>
           </Col>
@@ -1052,7 +1055,7 @@
           </div>
         </div>
       </section>
-    </template>
+    </div>
   </section>
 </template>
 <script>
@@ -1790,6 +1793,20 @@ export default {
               pdfDocGenerator.getBase64(data => {
                 this.pdf = "data:application/pdf;base64," + data;
                 Api.sendEmail(this.object.email, this.object.code, this.pdf);
+                const infoParent = JSON.parse(localStorage.getItem("data"));
+                infoParent.contract = this.pdf;
+                Api.updateParent(idParent, infoParent)
+                  .then(res => {
+                    this.$Notice.info({
+                      title: "Contrato exitoso"
+                    });
+                  })
+                  .catch(error => {
+                    console.log(error);
+                    this.$Notice.error({
+                      title: "Ocurrió un error"
+                    });
+                  });
                 this.next = false;
                 printJS({
                   printable: "ticket",
@@ -1812,7 +1829,6 @@ export default {
   },
   created() {
     if (localStorage.getItem("goToContract")) {
-      this.arrChilds = [localStorage.getItem("goToContract")];
       this.registerParent = false;
       this.contract = true;
       moment.locale("es");
@@ -1821,20 +1837,17 @@ export default {
       Api.getFatherById(idParent).then(res => {
         this.parentData = res.data;
         this.nameParent = this.parentData.names + " " + this.parentData.surname;
-        let countChilds = 0;
-        let childsarr = [];
+        this.arrChilds.push(localStorage.getItem("goToContract"));
+        const lengthChilds = this.arrChilds.length;
         for (let i = 0; i < this.parentData.childs.length; i++) {
-          debugger;
           for (let j = 0; j < this.arrChilds.length; j++) {
-              console.log(this.arrChilds[j])
-              console.log(this.parentData.childs[i]._id)
-            if (this.arrChilds[j] == this.parentData.childs[i]._id) {
-              childsarr.push(this.arrChilds[j]);
+            console.log("arrChilds" + this.arrChilds);
+            console.log(JSON.stringify(this.parentData.childs) + "parentData");
+            if (this.parentData.childs[i]._id == this.arrChilds) {
+              this.childs = this.parentData.childs;
             }
           }
-          return childsarr;
         }
-        this.childs = this.childsarr;
         this.birthday = this.parentData.birthday.slice(0, 10);
       });
     } else if (localStorage.getItem("addChild")) {

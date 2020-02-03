@@ -25,7 +25,13 @@
       </Row>
     </div>
     <div v-else>
-      <h1>Lista de familiares titulares</h1>
+      <div class="header-info">
+        <h1>Lista de familiares titulares</h1>
+        <div class="total-info">
+          <p>Total: {{ this.items.length }}</p>
+          <Button :loading="updateLoader" @click="update">Actualizar</Button>
+        </div>
+      </div>
       <br />
       <p>
         A continuación se muestra la lista de familiares tutelares:
@@ -119,13 +125,15 @@
             >
               <b-input-group size="sm">
                 <b-form-input
-                  v-model="filter"
+                  v-model="inputFilter"
                   type="search"
                   id="filterInput"
                   placeholder="Buscar"
                 ></b-form-input>
+
                 <b-input-group-append>
-                  <b-button :disabled="!filter" @click="filter = ''"
+                  <b-button @click="filter = inputFilter">Filtrar</b-button>
+                  <b-button :disabled="!filter" @click="deleteFilter"
                     >Borrar</b-button
                   >
                 </b-input-group-append>
@@ -146,9 +154,8 @@
                 <b-form-checkbox value="identityDocumentNumber"
                   >Número de documento</b-form-checkbox
                 >
-                <b-form-checkbox value="name"
-                  >Nombre o apellido</b-form-checkbox
-                >
+                <b-form-checkbox value="names">Nombre</b-form-checkbox>
+                <b-form-checkbox value="surname">Apellido</b-form-checkbox>
                 <b-form-checkbox value="email">Correo</b-form-checkbox>
                 <b-form-checkbox value="birthday"
                   >fecha de cumpleaños</b-form-checkbox
@@ -219,18 +226,24 @@
               Ver hijos
             </b-button>
             <b-button size="sm" @click="row.toggleDetails">
-              <!-- {{ row.detailsShowing ? "Hide" : "Show" }} Details -->
-              Contrato
+              {{ row.detailsShowing ? "Cerrar" : "Mostrar" }} Contrato
+              <!-- Contrato -->
             </b-button>
           </template>
 
           <template v-slot:row-details="row">
             <b-card>
-              <ul>
-                <li v-for="(value, key) in row.item" :key="key">
-                  {{ key }}: {{ value }}
-                </li>
-              </ul>
+              <!-- <div v-for="(value, key) in row" :key="key">
+                <a :href='value.contract'>link del contrato</a>
+              </div> -->
+              <!-- <a :href="row.item.contract" target="_blank">Link del contrato</a> -->
+
+              <iframe
+                :src="row.item.contract"
+                frameborder="0"
+                style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100vh;"
+                allowfullscreen
+              ></iframe>
             </b-card>
           </template>
         </b-table>
@@ -241,7 +254,13 @@
           ok-only
           @hide="resetInfoModal"
         >
-          <pre>{{ infoModal.content }}</pre>
+          <div v-for="(value, key) in infoModal.content" :key="key">
+            <p>Nombres: {{ value.names }}</p>
+            <p>Apellidos: {{ value.surname }}</p>
+            <p>Fecha de nacimiento: {{ value.birthday.slice(0, 10) }}</p>
+            <p>Parentesto: {{ value.relative }}</p>
+            <hr />
+          </div>
         </b-modal>
       </template>
     </div>
@@ -257,6 +276,8 @@ Vue.component("downloadCsv", JsonCSV);
 export default {
   data() {
     return {
+      updateLoader: false,
+      inputFilter: null,
       login: true,
       parents: [],
       data: {},
@@ -283,162 +304,15 @@ export default {
         ]
       },
       items: [],
-      // [
-      //   {
-      //     ticket: "-",
-      //     visitDate: "2020-01-31",
-      //     phone: "992254691",
-      //     name: "Maria del Carmen Rivera Bautista",
-      //     email: "carmen.rivera1309@gmail.com",
-      //     identityDocumentNumber: "78637431",
-      //     birthday: "1970-21-01"
-      //   },
-      //   {
-      //     ticket: "-",
-      //     visitDate: "2020-01-31",
-      //     phone: "992254691",
-      //     name: "nancy aroni rossel ",
-      //     email: "nancyaroni@hotmail.com",
-      //     identityDocumentNumber: "10783866",
-      //     birthday: "1972-04-26"
-      //   },
-      //   {
-      //     ticket: "227425",
-      //     visitDate: "2020-01-31",
-      //     phone: "978893562",
-      //     name: "Andrea Monroy Carrillo",
-      //     email: "andreale17@icloud.com",
-      //     identityDocumentNumber: "76282636",
-      //     birthday: "1995-05-17",
-      //     childs: [
-      //       {
-      //         name: "Alex Carrillo",
-      //         relative: "Primo(a)",
-      //         birthday: "2003-12-12"
-      //       },
-      //       {
-      //         names: "Adriana Monroy",
-      //         relative: "Hermano(a)",
-      //         birthday: "2003-12-12"
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     ticket: "-",
-      //     visitDate: "2020-01-31",
-      //     phone: "902740044",
-      //     name: "Melissa Trocones Huancho",
-      //     email: "katty446@hotmail.com",
-      //     identityDocumentNumber: "40007812",
-      //     birthday: "1978-11-10"
-      //   },
-      //   {
-      //     ticket: "-",
-      //     visitDate: "2020-01-31",
-      //     phone: "902740044",
-      //     name: "Carlos Enrique Rodriguez Rios",
-      //     email: "carloserr1984@gmail.com",
-      //     identityDocumentNumber: "42614504",
-      //     birthday: "1973-02-04"
-      //   },
-      //   {
-      //     ticket: "420711",
-      //     visitDate: "2020-01-31",
-      //     phone: "990991941",
-      //     name: "juan luis chumpitaz ",
-      //     email: "chumpitaz481@gmail.com",
-      //     identityDocumentNumber: "10462282",
-      //     birthday: "1975-11-02",
-      //     childs: [
-      //       {
-      //         name: "ANGEL CHUMPITAZ CHALCO",
-      //         relative: "Hijo(a)",
-      //         birthday: "2009-11-13"
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     ticket: "-",
-      //     visitDate: "2020-01-31",
-      //     phone: "993581853",
-      //     name: "ROOSVELTH ZAFORAS GARRIDO ",
-      //     email: "RZAFORAS@HOTMAIL.COM",
-      //     identityDocumentNumber: "40686034",
-      //     birthday: "1980-05-27"
-      //   },
-      //   {
-      //     ticket: "-",
-      //     visitDate: "2020-01-31",
-      //     phone: "946560835",
-      //     name: "alexandra gonzalo mendoza",
-      //     email: "kristopher_15_20@hotmail.com",
-      //     identityDocumentNumber: "75343872",
-      //     birthday: "1996-12-04"
-      //   },
-      //   {
-      //     ticket: "-",
-      //     visitDate: "2020-01-31",
-      //     phone: "966613052",
-      //     name: "LINO CESAR RIVERA GONZALES",
-      //     email: "linocesarr123@gmail.com",
-      //     identityDocumentNumber: "70203728",
-      //     birthday: "1998-07-12"
-      //   },
-      //   {
-      //     ticket: "-",
-      //     visitDate: "2020-01-31",
-      //     phone: "990367885",
-      //     name: "yeny rodriguez galvez",
-      //     email: "yenyrodriguez2010@hotmail.com",
-      //     identityDocumentNumber: "09781486",
-      //     birthday: "1975-11-28"
-      //   },
-      //   {
-      //     ticket: "-",
-      //     visitDate: "2020-01-31",
-      //     phone: "933256719",
-      //     name: "rocio rossi garcia simeon",
-      //     email: "garciarocio207@gmail.com",
-      //     identityDocumentNumber: "76790552",
-      //     birthday: "1995-11-07"
-      //   },
-      //   {
-      //     ticket: "-",
-      //     visitDate: "2020-01-31",
-      //     phone: "988966991",
-      //     name: "olinda rodrigues porras",
-      //     email: "olirod04@gmail.com",
-      //     identityDocumentNumber: "21253576",
-      //     birthday: "1950-10-04"
-      //   },
-      //   {
-      //     ticket: "-",
-      //     visitDate: "2020-01-31",
-      //     phone: "917093645",
-      //     name: "johana ferrer",
-      //     email: "johana.mishijos31@gmail.com",
-      //     identityDocumentNumber: "003878458",
-      //     birthday: "1987-01-31"
-      //   },
-      //   {
-      //     ticket: "-",
-      //     visitDate: "2020-01-31",
-      //     phone: "999845481",
-      //     name: "FRANCISCO ZAMUDIO SALAZAR",
-      //     email: "francisco_zamudios@hotmail.com",
-      //     identityDocumentNumber: "42066144",
-      //     birthday: "1983-08-31"
-      //   }
-      // ]
       fields: [
         {
-          key: "ticket",
+          key: "fatherRandom",
           label: "Número de ticket",
           sortable: true,
           sortDirection: "desc"
         },
         {
-          key: "visitDate",
+          key: "date",
           label: "Fecha de visita",
           sortable: true,
           class: "text-center"
@@ -468,7 +342,7 @@ export default {
           class: "text-center"
         },
         {
-          key: "phone",
+          key: "phoneNumber",
           label: "Celular",
           sortable: true,
           class: "text-center"
@@ -479,16 +353,6 @@ export default {
           sortable: true,
           class: "text-center"
         },
-        // {
-        //   key: "isActive",
-        //   label: "is Active",
-        //   formatter: (value, key, item) => {
-        //     return value ? "Yes" : "No";
-        //   },
-        //   sortable: true,
-        //   sortByFormatted: true,
-        //   filterByFormatted: true
-        // },
         { key: "actions", label: "Actions" }
       ],
       totalRows: 1,
@@ -509,8 +373,9 @@ export default {
   },
   methods: {
     info(item, index, button) {
-      this.infoModal.title = `Hijos: ${index}`;
-      this.infoModal.content = JSON.stringify(item.childs, null, 2);
+      this.infoModal.title = `Hijo(s)`;
+      // this.infoModal.content = JSON.stringify(item.childs, null, 2);
+      this.infoModal.content = item.childs;
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
     resetInfoModal() {
@@ -521,6 +386,10 @@ export default {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
+    },
+    deleteFilter() {
+      this.inputFilter = "";
+      this.filter = "";
     },
     deleteParentYoung(idParent) {
       Api.deleteParentYoung(idParent)
@@ -537,12 +406,64 @@ export default {
           });
         });
     },
+    update() {
+      this.updateLoader = true;
+      this.items = ""
+      Api.getAllParents()
+        .then(res => {
+          if (res.status == 200) {
+            this.updateLoader = false;
+            const payload = res.data;
+            console.log(payload);
+            // this.items.push(payload);
+            this.items = payload;
+
+            this.login = false;
+            for (let i = 0; i < res.data.length; i++) {
+              res.data[i].birthday = res.data[i].birthday.slice(0, 10);
+              res.data[i].date = res.data[i].date.slice(0, 10);
+            }
+          }
+          // const payload = res.data;
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.updateLoader = false;
+        });
+    },
     access() {
-      this.$refs["loginForm"].validate(async valid => {
-        if (valid) {
+      this.showData = true;
+      Api.getAllParents()
+        .then(res => {
+          if (res.status == 200) {
+            this.showData = false;
+            const payload = res.data;
+            console.log(payload);
+            // this.items.push(payload);
+            this.items = payload;
+            if (
+              this.loginForm.user == "iwaver" &&
+              this.loginForm.key == "1234"
+            ) {
+              this.login = false;
+              for (let i = 0; i < res.data.length; i++) {
+                res.data[i].birthday = res.data[i].birthday.slice(0, 10);
+                res.data[i].date = res.data[i].date.slice(0, 10);
+              }
+            }
+          }
+          // const payload = res.data;
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
           this.showData = true;
-        }
-      });
+        });
     }
 
     // computed: {
@@ -556,29 +477,14 @@ export default {
     //   }
     // }
   },
-  async created() {
-    // let payload = { ...Api.getAllParents().data };
+  created() {
     // const payload = [...(await Api.getAllParents()).data];
-
     // this.items.push(payload);
     // this.items = payload;
     // this.items.push(this.parents)
     // this.parents.slice(0, 50);
     // console.log(this.parents);
     // console.log(this.items[0]);
-    Api.getAllParents().then(res => {
-      const payload = [res.data];
-      console.log("payload" + payload);
-      this.items.push(payload);
-      if (res.status == 200) {
-        this.showData = false;
-        if (this.loginForm.user == "iwaver" && this.loginForm.key == "1234") {
-          this.login = false;
-        }
-      }
-      // const payload = res.data;
-      console.log(res);
-    });
   }
 };
 </script>

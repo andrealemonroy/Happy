@@ -530,7 +530,7 @@ export default {
           });
         }
       });
-    }
+    },
   },
   async created() {
     moment.locale("es");

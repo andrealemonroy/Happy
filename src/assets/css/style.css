@@ -224,3 +224,17 @@ table th {
   text-align: center;
   margin: auto;
 }
+
+.header-info {
+  display:flex;
+  justify-content: space-between;
+  flex-direction: row;
+  
+  }
+  
+  .total-info {
+  display:flex;
+  align-items: center;
+  flex-direction: column;
+  
+  }
