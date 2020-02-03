@@ -109,7 +109,7 @@
           </Col> -->
 
           <Col :lg="6" class="my-1">
-            <download-csv :data="items">
+            <download-csv :data="this.items">
               <Button> CSV</Button>
             </download-csv>
           </Col>
@@ -427,10 +427,17 @@ export default {
             for (let i = 0; i < res.data.length; i++) {
               res.data[i].birthday = res.data[i].birthday.slice(0, 10);
               res.data[i].date = res.data[i].date.slice(0, 10);
+                for (let j = 0; j < res.data[i].childs.length; j++) {
+                  res.data[i].childs[j] = `Menor de edad: ${
+                    res.data[i].childs[j].names
+                  } ${res.data[i].childs[j].surname} - ${res.data[i].childs[
+                    j
+                  ].birthday.slice(0, 10)}`;
+                  ("\n");
               // res.data[i].childs = res.data[i].childs.names;
-              console.log(res.data[i]);
-              console.log(res.data[i].childs);
+              // let json_data = {'Número de ticket': res.data[i].fatherRandom, 'Correo electrónico':res.data[i].email, 'Celular': res.data[i].phoneNumber, 'Nombre' : res.data[i].names, 'Apellido': res.data[i].surname, 'Hijos': res.data[i].childs}
             }
+          }
           }
           // const payload = res.data;
           console.log(res);
