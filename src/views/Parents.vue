@@ -17,7 +17,7 @@
               <Input v-model="loginForm.user"></Input>
             </FormItem>
             <FormItem prop="key" label="Clave">
-              <Input v-model="loginForm.key"></Input>
+              <Input type="password" v-model="loginForm.key"></Input>
             </FormItem>
             <Button :loading="showData" @click="access">Ingresar</Button>
           </Form>
@@ -147,7 +147,7 @@
               label-cols-sm="3"
               label-align-sm="right"
               label-size="sm"
-              description="Leave all unchecked to filter on all data"
+              description="Se puede buscar en todos los campos sin seleccionar un filtro"
               class="mb-0"
             >
               <b-form-checkbox-group v-model="filterOn" class="mt-1">
@@ -218,13 +218,13 @@
           </template>
 
           <template v-slot:cell(actions)="row">
-            <b-button
+            <!-- <b-button
               size="sm"
               @click="info(row.item, row.index, $event.target)"
               class="mr-1"
             >
               Ver hijos
-            </b-button>
+            </b-button> -->
             <b-button size="sm" @click="row.toggleDetails">
               {{ row.detailsShowing ? "Cerrar" : "Mostrar" }} Contrato
               <!-- Contrato -->
@@ -353,7 +353,13 @@ export default {
           sortable: true,
           class: "text-center"
         },
-        { key: "actions", label: "Actions" }
+        {
+          key: "childs",
+          label: "Hijos",
+          sortable: true,
+          sortDirection: "desc"
+        },
+        { key: "actions", label: "Contrato" }
       ],
       totalRows: 1,
       currentPage: 1,
@@ -408,13 +414,12 @@ export default {
     },
     update() {
       this.updateLoader = true;
-      this.items = ""
+      this.items = "";
       Api.getAllParents()
         .then(res => {
           if (res.status == 200) {
             this.updateLoader = false;
             const payload = res.data;
-            console.log(payload);
             // this.items.push(payload);
             this.items = payload;
 
@@ -422,6 +427,9 @@ export default {
             for (let i = 0; i < res.data.length; i++) {
               res.data[i].birthday = res.data[i].birthday.slice(0, 10);
               res.data[i].date = res.data[i].date.slice(0, 10);
+              // res.data[i].childs = res.data[i].childs.names;
+              console.log(res.data[i]);
+              console.log(res.data[i].childs);
             }
           }
           // const payload = res.data;
@@ -444,6 +452,7 @@ export default {
             console.log(payload);
             // this.items.push(payload);
             this.items = payload;
+            this.totalRows = this.items.length;
             if (
               this.loginForm.user == "iwaver" &&
               this.loginForm.key == "1234"
@@ -452,6 +461,14 @@ export default {
               for (let i = 0; i < res.data.length; i++) {
                 res.data[i].birthday = res.data[i].birthday.slice(0, 10);
                 res.data[i].date = res.data[i].date.slice(0, 10);
+                for (let j = 0; j < res.data[i].childs.length; j++) {
+                  res.data[i].childs[j] = `Menor de edad: ${
+                    res.data[i].childs[j].names
+                  } ${res.data[i].childs[j].surname} - ${res.data[i].childs[
+                    j
+                  ].birthday.slice(0, 10)}`;
+                  ("\n");
+                }
               }
             }
           }
