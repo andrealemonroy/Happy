@@ -109,8 +109,12 @@
           </Col> -->
 
           <Col :lg="6" class="my-1">
-            <download-csv :data="this.items">
-              <Button> CSV</Button>
+            <download-csv :data="excelDataParents(items)">
+              <Button>CSV Padres</Button>
+            </download-csv>
+
+            <download-csv :data="excelDataChilds(items)">
+              <Button>CSV hijo(a)s</Button>
             </download-csv>
           </Col>
 
@@ -130,15 +134,30 @@
                   id="filterInput"
                   placeholder="Buscar"
                 ></b-form-input>
-
                 <b-input-group-append>
-                  <b-button @click="filter = inputFilter">Filtrar</b-button>
+                  <b-button @click="filterButton">Filtrar</b-button>
                   <b-button :disabled="!filter" @click="deleteFilter"
                     >Borrar</b-button
                   >
                 </b-input-group-append>
               </b-input-group>
             </b-form-group>
+
+            <div v-if="filterState" class="header-info">
+              <download-csv
+                :data="excelDataParents(this.filtertotal)"
+                class="mt-2"
+              >
+                <Button>CSV filtro padres </Button>
+              </download-csv>
+
+              <download-csv
+                :data="excelDataChilds(this.filtertotal)"
+                class="mt-2"
+              >
+                <Button>CSV filtro hijo(a)s </Button>
+              </download-csv>
+            </div>
           </Col>
 
           <Col :lg="8" class="my-1">
@@ -278,6 +297,8 @@ export default {
     return {
       updateLoader: false,
       inputFilter: null,
+      filterState: false,
+      filterTotal: null,
       login: true,
       parents: [],
       data: {},
@@ -391,16 +412,65 @@ export default {
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
+      this.filtertotal = filteredItems;
+      console.log(this.filtertotal);
       this.currentPage = 1;
     },
     deleteFilter() {
       this.inputFilter = "";
       this.filter = "";
+      this.filterState = false;
+    },
+
+    filterButton() {
+      this.filter = this.inputFilter;
+      console.log(this.filtertotal);
+      this.filterState = true;
+    },
+
+    excelDataParents(items) {
+      let data = [];
+      for (const item in items) {
+        data.push({
+          "Numero de ticket": items[item].fatherRandom,
+          "Correo electrónico": items[item].email,
+          Celular: items[item].phoneNumber,
+          Nombre: items[item].names,
+          Apellidos: items[item].surname,
+          "Tiempo de registro": 0
+        });
+      }
+
+      return data;
+    },
+
+    excelDataChilds(items) {
+      let data = [];
+      let dniParent;
+      let nameParent;
+      let surnameParent;
+      for (const item in items) {
+        dniParent = items[item].identityDocumentNumber;
+        nameParent = items[item].names;
+        surnameParent = items[item].surname;
+        for (let i = 0; i < items[item].childs.length; i++) {
+          data.push({
+            "DNI tutor": dniParent,
+            "Nombre de tutor": nameParent,
+            "Apellidos de tutor": surnameParent,
+            "Nombre de menor": items[item].childs[i].names,
+            "Apellido de menor": items[item].childs[i].surname,
+            Cumpleaños: items[item].childs[i].birthday.slice(0, 10),
+            Parentesco: items[item].childs[i].relative
+          });
+        }
+      }
+
+      return data;
     },
     deleteParentYoung(idParent) {
       Api.deleteParentYoung(idParent)
         .then(res => {
-          console.log(res);
           this.$router.go();
           this.$Notice.info({
             title: "Eliminado con éxito"
@@ -427,17 +497,17 @@ export default {
             for (let i = 0; i < res.data.length; i++) {
               res.data[i].birthday = res.data[i].birthday.slice(0, 10);
               res.data[i].date = res.data[i].date.slice(0, 10);
-                for (let j = 0; j < res.data[i].childs.length; j++) {
-                  res.data[i].childs[j] = `Menor de edad: ${
-                    res.data[i].childs[j].names
-                  } ${res.data[i].childs[j].surname} - ${res.data[i].childs[
-                    j
-                  ].birthday.slice(0, 10)}`;
-                  ("\n");
-              // res.data[i].childs = res.data[i].childs.names;
-              // let json_data = {'Número de ticket': res.data[i].fatherRandom, 'Correo electrónico':res.data[i].email, 'Celular': res.data[i].phoneNumber, 'Nombre' : res.data[i].names, 'Apellido': res.data[i].surname, 'Hijos': res.data[i].childs}
+              for (let j = 0; j < res.data[i].childs.length; j++) {
+                res.data[i].childs[j] = `Menor de edad: ${
+                  res.data[i].childs[j].names
+                } ${res.data[i].childs[j].surname} - ${res.data[i].childs[
+                  j
+                ].birthday.slice(0, 10)}`;
+                ("\n");
+                // res.data[i].childs = res.data[i].childs.names;
+                // let json_data = {'Número de ticket': res.data[i].fatherRandom, 'Correo electrónico':res.data[i].email, 'Celular': res.data[i].phoneNumber, 'Nombre' : res.data[i].names, 'Apellido': res.data[i].surname, 'Hijos': res.data[i].childs}
+              }
             }
-          }
           }
           // const payload = res.data;
           console.log(res);

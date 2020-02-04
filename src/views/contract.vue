@@ -28,9 +28,9 @@
           <strong>Sociedad HAPPYLAND Perú S.A.</strong
           ><span style="color:red;">&nbsp;</span> ubicados en centro comercial
           Mall Aventura Santa Anita<span style="color:red;">&nbsp;</span> Zona
-          de<span style="color:red;">&nbsp;</span>Happyland Adventure, Fun Kids y Happy Kids. En
-          consideración a que se nos permita usar dichas instalaciones y
-          equipos, y cualquier otro servicio proporcionado por
+          de<span style="color:red;">&nbsp;</span>Happyland Adventure, Fun Kids
+          y Happy Kids. En consideración a que se nos permita usar dichas
+          instalaciones y equipos, y cualquier otro servicio proporcionado por
           <strong>Sociedad Happyland Perú S.A.</strong> o sus empleados o
           agentes en dicha ubicación, o en cualquier otra ubicación dentro de la
           ciudad de Lima, declaro, reconozco y acepto lo siguiente:
@@ -48,7 +48,8 @@
           </li>
           <li>
             Reconozco y acepto que el uso de los equipos de la Zona de Happyland
-            Adventure, Fun Kids, Happy Kids; así como, otros equipos de propiedad de
+            Adventure, Fun Kids, Happy Kids; así como, otros equipos de
+            propiedad de
             <strong>Sociedad HAPPYLAND Perú S.A.</strong> pueden conllevar
             riesgos, los cuales incluyen lesiones físicas o emocionales graves,
             muerte, daños a mí mismo, a los menor de edad &nbsp;y/o a terceros,
@@ -60,11 +61,12 @@
           <li>
             Reconozco y acepto que, si bien los empleados de
             <strong>Sociedad HAPPYLAND Perú S.A.</strong> supervisan
-            generalmente la Zona de Happyland Adventure, Fun Kids, Happy Kids y otras actividades
-            localizadas en otras zonas que tienen lugar en los locales de
-            <strong>Sociedad HAPPYLAND Perú S.A.</strong>, no es factible que
-            dichos empleados supervisen las actividades y acciones de todos los
-            clientes en todo momento o en forma simultáneamente.&nbsp;
+            generalmente la Zona de Happyland Adventure, Fun Kids, Happy Kids y
+            otras actividades localizadas en otras zonas que tienen lugar en los
+            locales de <strong>Sociedad HAPPYLAND Perú S.A.</strong>, no es
+            factible que dichos empleados supervisen las actividades y acciones
+            de todos los clientes en todo momento o en forma
+            simultáneamente.&nbsp;
           </li>
           <li>
             Reconozco y acepto que yo y los menores de edad estamos participando
@@ -77,8 +79,8 @@
             <strong>Sociedad HAPPYLAND Perú S.A.</strong> no es responsable de
             las acciones o actividades de clientes que usan las instalaciones de
             <strong>Sociedad HAPPYLAND Perú S.A.</strong>, incluyendo la zona
-            Happyland Adventure, Fun Kids y Happy Kids. Algunos de los riesgos incluyen, entre otros,
-            los siguientes:
+            Happyland Adventure, Fun Kids y Happy Kids. Algunos de los riesgos
+            incluyen, entre otros, los siguientes:
           </li>
         </ul>
         <p>&nbsp;</p>
@@ -146,8 +148,9 @@
             (de cualquier forma, incluida la atención de emergencia,
             hospitalización, atención ambulatoria y/o fisioterapia) como
             resultado de cualquier lesión que yo o los menores de edad suframos
-            mientras usamos la Zona de Happyland Adventure, Fun Kids, Happy Kids o cualquier otra zona
-            de <strong>Sociedad HAPPYLAND Perú S.A.</strong>, dicha asistencia
+            mientras usamos la Zona de Happyland Adventure, Fun Kids, Happy Kids
+            o cualquier otra zona de
+            <strong>Sociedad HAPPYLAND Perú S.A.</strong>, dicha asistencia
             correrá por mi cuenta. Sin perjuicio de ello,
             <strong>Sociedad HAPPYLAND Perú S.A.</strong> podrá prestar primeros
             auxilios en caso sea necesario, conforme sus políticas internas.
@@ -163,11 +166,11 @@
         <p style="text-align:justify;">
           <span lang="ES-PE"
             >En relación con el uso de las instalaciones de la zona Happyland
-            Adventure, Fun Kids, Happy Kids y otras zonas a las que yo y los menor de edad podamos
-            tener acceso, en mi calidad de titular de la patria potestad o tutor
-            de los menores, doy mi consentimiento libre, previo, expreso e
-            inequívoco para el tratamiento de mis datos personales y los de los
-            menores.</span
+            Adventure, Fun Kids, Happy Kids y otras zonas a las que yo y los
+            menor de edad podamos tener acceso, en mi calidad de titular de la
+            patria potestad o tutor de los menores, doy mi consentimiento libre,
+            previo, expreso e inequívoco para el tratamiento de mis datos
+            personales y los de los menores.</span
           >
         </p>
         <p style="text-align:justify;">
@@ -242,15 +245,21 @@
         <br />
         <strong>Distrito: </strong>{{ this.parentData.district }}
         <br />
-        <strong>Ciudad: </strong> {{this.parentData.city}}
+        <strong>Departamento: </strong> {{ this.parentData.city }}
         <br />
-        <strong>Correo electrónico: </strong>{{this.parentData.email}}
+        <strong>Correo electrónico: </strong>{{ this.parentData.email }}
         <br />
-        <strong>Celular: </strong> {{this.parentData.phoneNumber}}
+        <strong>Celular: </strong> {{ this.parentData.phoneNumber }}
         <br />
         <List class="list">
-          <ListItem v-for="child in childs" label="Menor de edad" :key="child._id">
-            <strong>Datos del menor de edad: </strong> • {{ child.names }} {{child.surname}} {{child.identityDocumentNumber}} - {{child.birthday.slice(0,10)}} - {{child.relative}}
+          <ListItem
+            v-for="child in childs"
+            label="Menor de edad"
+            :key="child._id"
+          >
+            <strong>Datos del menor de edad: </strong> • {{ child.names }}
+            {{ child.surname }} {{ child.identityDocumentNumber }} -
+            {{ child.birthday.slice(0, 10) }} - {{ child.relative }}
           </ListItem>
         </List>
         <br />
@@ -278,7 +287,7 @@
     </Row>
     <Row>
       <Col span="12" offset="2">
-        <Form ref="form" :model="form" :rules="validateForm">
+        <Form ref="form" :model="form" :rules="validateContractForm">
           <FormItem prop="terms">
             <Checkbox class="font-20" v-model="form.terms"
               >Estoy de acuerdo con los términos y condiciones del
@@ -288,13 +297,18 @@
         </Form>
       </Col>
     </Row>
-    <Row type="flex" justify="center"><Col :lg="20" style="color: red">*En las próximas horas te llegará una copia del contrato a tu correo electrónico.</Col></Row>
+    <Row type="flex" justify="center"
+      ><Col :lg="20" style="color: red"
+        >*En las próximas horas te llegará una copia del contrato a tu correo
+        electrónico.</Col
+      ></Row
+    >
     <Row type="flex" justify="space-between">
       <Col span="6">
         <Button v-if="!notSignature" @click="undo">REINTENTAR</Button>
       </Col>
       <Col span="6"
-        ><Button :loading="next" @click="nextPage">FINALIZAR</Button>
+        ><Button :loading="next" @click="toIndex">FINALIZAR</Button>
       </Col>
     </Row>
     <div id="ticket-div">
@@ -303,12 +317,13 @@
         <h1>TICKET</h1>
         <p>{{ this.actualMoment }}</p>
         <p>{{ this.nameParent }}</p>
-        <p>{{this.identityDocumentNumber}}</p>
+        <p>{{ this.identityDocumentNumber }}</p>
         <p>{{ this.birthday.slice(0, 10) }}</p>
         <div v-if="childs.length > 0">
           <p>Menores de edad</p>
           <p v-for="child in childs" :key="child._id">
-            {{ child.names }} {{ child.surname }} {{ child.identityDocumentNumber }} -
+            {{ child.names }} {{ child.surname }}
+            {{ child.identityDocumentNumber }} -
             {{ child.birthday.slice(0, 10) }}
           </p>
         </div>
@@ -364,7 +379,7 @@ export default {
       childDNI: "",
       childBirthday: "",
       childRelative: "",
-      arrChilds:[],
+      arrChilds: [],
       next: false,
       adult: false,
       form: {
@@ -382,7 +397,7 @@ export default {
     undo() {
       this.$refs.signaturePad.undoSignature();
     },
-    nextPage() {
+    toIndex() {
       this.$refs["form"].validate(async valid => {
         if (valid) {
           let idParent = localStorage.getItem("parentId");
@@ -404,24 +419,33 @@ export default {
               district: this.parentData.district,
               city: this.parentData.city,
               email: this.email,
-              code: this.code
+              code: this.code,
+              date: this.parentData.date
             };
             if (this.object.childs.length > 0) {
               this.object.childs.forEach(child => {
-                this.childName = child.names
-                this.childSurname = child.surname
-                this.childDNI = child.identityDocumentNumber
-                this.childBirthday = child.birthday.slice(0,10)
-                this.childRelative = child.relative
-                let dataChild = 'Menor de edad: ' + this.childName + ' - ' + this.childSurname + ' - ' + this.childDNI + ' - ' + this.childBirthday
-                this.arrChilds.push(dataChild)
+                this.childName = child.names;
+                this.childSurname = child.surname;
+                this.childDNI = child.identityDocumentNumber;
+                this.childBirthday = child.birthday.slice(0, 10);
+                this.childRelative = child.relative;
+                let dataChild =
+                  "Menor de edad: " +
+                  this.childName +
+                  " - " +
+                  this.childSurname +
+                  " - " +
+                  this.childDNI +
+                  " - " +
+                  this.childBirthday;
+                this.arrChilds.push(dataChild);
               });
             } else {
-                this.childName = ""
-                this.childSurname = ""
-                this.childDNI = ""
-                this.childBirthday = ""
-                this.childRelative = ""
+              this.childName = "";
+              this.childSurname = "";
+              this.childDNI = "";
+              this.childBirthday = "";
+              this.childRelative = "";
             }
 
             if (this.notSignature == true) {
@@ -481,14 +505,12 @@ export default {
                   `\nFecha de nacimiento: ${this.object.birthday.slice(0, 10)}`,
                   `\nDirección: ${this.object.line}`,
                   `\nDistrito: ${this.object.district} `,
-                  `\nCiudad: ${this.object.city} `,
+                  `\nDepartamento: ${this.object.city} `,
                   `\nCorreo electrónico: ${this.object.email}`,
                   `\nCelular: ${this.object.phoneNumber}`,
                   {
-                  ul: [
-                    this.arrChilds
-                  ]
-                },
+                    ul: [this.arrChilds]
+                  },
                   "\nFirma",
                   {
                     image: testImageDataUrl,
@@ -511,15 +533,35 @@ export default {
               const pdfDocGenerator = pdfMake.createPdf(docDefinition);
               pdfDocGenerator.getBase64(data => {
                 this.pdf = "data:application/pdf;base64," + data;
-                Api.sendEmail(this.object.email, this.object.code, this.pdf)
-                    this.next = false;
-                    printJS({
-                      printable: "ticket",
-                      type: "html",
-                      maxWidth: 200
+                Api.sendEmail(this.object.email, this.object.code, this.pdf);
+                const infoParent = JSON.parse(localStorage.getItem("data"));
+                infoParent.contract = this.pdf;
+                let finishDate = moment();
+                // var duration = moment.duration(finishDate.diff(this.object.date));
+                // var minutes = dDate.getMoment().diff(aDate.getMoment(), 'days');;
+                infoParent.lastDate = finishDate
+                  .diff(this.object.date, "seconds")
+                  .toString();
+                Api.updateParent(idParent, infoParent)
+                  .then(res => {
+                    this.$Notice.info({
+                      title: "Contrato exitoso"
                     });
-                    this.$router.push("/");
-                    localStorage.clear();
+                  })
+                  .catch(error => {
+                    console.log(error);
+                    this.$Notice.error({
+                      title: "Ocurrió un error"
+                    });
+                  });
+                this.next = false;
+                printJS({
+                  printable: "ticket",
+                  type: "html",
+                  maxWidth: 200
+                });
+                this.$router.push("/");
+                localStorage.clear();
               });
             }
           });
@@ -530,7 +572,7 @@ export default {
           });
         }
       });
-    },
+    }
   },
   async created() {
     moment.locale("es");

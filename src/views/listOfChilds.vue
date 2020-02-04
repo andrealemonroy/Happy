@@ -3,7 +3,7 @@
     <h1>REVISIÓN DE LOS MENORES BAJO TUTELA</h1>
     <br />
     <p>
-      A continuación, se muestra la lista de menores de edad registrados.<br>
+      A continuación, se muestra la lista de menores de edad registrados.<br />
       Agrega a más menores a tu registro y/o continúa con el proceso
     </p>
     <br />
@@ -13,7 +13,7 @@
       <Col :lg="{ span: 12 }">
         <List class="list" style="margin: auto">
           <ListItem v-for="child in childs" :key="child.child"
-            >{{ child.names }}  {{ child.surname }} - {{ child.relative }}  
+            >{{ child.names }} {{ child.surname }} - {{ child.relative }}
             <template slot="action">
               <li>
                 <button class="delete" @click="deleteChild(child.child)">
@@ -31,9 +31,9 @@
 
     <Row type="flex" justify="space-between">
       <Col span="6">
-        <Button @click="registerChild">AGREGAR</Button>
+        <Button @click="toRegisterChilds">AGREGAR</Button>
       </Col>
-      <Col span="6"> <Button @click="nextPage">CONTINUAR</Button> </Col>
+      <Col span="6"> <Button @click="toContract">CONTINUAR</Button> </Col>
     </Row>
   </section>
 </template>
@@ -48,19 +48,27 @@ export default {
     };
   },
   methods: {
-    registerChild() {
-      this.$router.push("/registerChild");
+    toRegisterChilds() {
+      this.$router.push({ path: "/registerChild" });
     },
     async deleteChild(child) {
       Api.deleteChild(child)
         .then(res => {
-          console.log(res);
           this.getChilds();
         })
         .catch(error => {});
     },
-    async nextPage() {
-      this.$router.push("/contract");
+    async toContract() {
+      this.$router.push({ path: "/contract" });
+      moment.locale("es");
+      this.actualMoment = moment().format("LLLL");
+      const idParent = localStorage.getItem("parentId");
+      Api.getFatherById(idParent).then(res => {
+        this.parentData = res.data;
+        this.nameParent = this.parentData.names + " " + this.parentData.surname;
+        this.childs = this.parentData.childs;
+        this.birthday = this.parentData.birthday.slice(0, 10);
+      });
     },
     async getChilds() {
       const idParent = localStorage.getItem("parentId");

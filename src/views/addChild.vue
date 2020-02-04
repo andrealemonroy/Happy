@@ -1,19 +1,19 @@
 <template>
-  <section class="center mt-60">
-    <h1>¿TE GUSTARÍA REGISTRAR UN MENOR DE EDAD?</h1>
-    <br />
-    <Button @click="childInfo">SÍ</Button>
-    <Button @click="listChilds">NO</Button>
-  </section>
+      <section class="center mt-60">
+        <h1>¿TE GUSTARÍA REGISTRAR UN MENOR DE EDAD?</h1>
+        <br />
+        <Button @click="toRegisterChild">SÍ</Button>
+        <Button @click="toContract">NO</Button>
+      </section>
 </template>
 <script>
 export default {
   methods: {
-    childInfo() {
-      this.$router.push("/registerChild");
+    toRegisterChild() {
+     this.$router.push({ path: "/registerChild" });
     },
-    listChilds() {
-      this.$router.push("/listOfChilds");
+    toContract() {
+      this.$router.push({ path: "/contract" });
     }
   }
 };

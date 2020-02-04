@@ -1083,8 +1083,6 @@ export default {
       }
     };
     const validateidentityDocumentNumber = (rule, value, callback) => {
-      // /[^0-9]/gi
-      // const reg = new RegExp('^([A-Z0-9]{8,13})$')
       if (value === "") {
         callback(new Error("No puede estar vacío"));
       } else if (isNaN(value)) {

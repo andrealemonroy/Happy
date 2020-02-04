@@ -17,55 +17,55 @@ const routes = [
       return import(/* webpackChunkName: "about" */ '../views/About.vue')
     }
   },
+  // {
+  //   path: '/registro',
+  //   name: 'register',
+  //   component: function () {
+  //     return import(/* webpackChunkName: "about" */ '../views/register.vue')
+  //   }
+  // },
   {
-    path: '/registro',
-    name: 'register',
+    path: '/address',
+    name: 'address',
     component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/register.vue')
+      return import(/* webpackChunkName: "about" */ '../views/address.vue')
     }
   },
-  // {
-  //   path: '/address',
-  //   name: 'address',
-  //   component: function () {
-  //     return import(/* webpackChunkName: "about" */ '../views/address.vue')
-  //   }
-  // },
-  // {
-  //   path: '/registerParent',
-  //   name: 'registerParent',
-  //   component: function () {
-  //     return import(/* webpackChunkName: "about" */ '../views/registerParent.vue')
-  //   }
-  // },
-  // {
-  //   path: '/registerChild',
-  //   name: 'registerChild',
-  //   component: function () {
-  //     return import(/* webpackChunkName: "about" */ '../views/registerChild.vue')
-  //   }
-  // },
-  // {
-  //   path: '/addChild',
-  //   name: 'addChild',
-  //   component: function () {
-  //     return import(/* webpackChunkName: "about" */ '../views/addChild.vue')
-  //   }
-  // },
-  // {
-  //   path: '/listOfChilds',
-  //   name: 'listOfChilds',
-  //   component: function () {
-  //     return import(/* webpackChunkName: "about" */ '../views/listOfChilds.vue')
-  //   }
-  // },
-  // {
-  //   path: '/contract',
-  //   name: 'contract',
-  //   component: function () {
-  //     return import(/* webpackChunkName: "about" */ '../views/contract.vue')
-  //   }
-  // },
+  {
+    path: '/registerParent',
+    name: 'registerParent',
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/registerParent.vue')
+    }
+  },
+  {
+    path: '/registerChild',
+    name: 'registerChild',
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/registerChild.vue')
+    }
+  },
+  {
+    path: '/addChild',
+    name: 'addChild',
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/addChild.vue')
+    }
+  },
+  {
+    path: '/listOfChilds',
+    name: 'listOfChilds',
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/listOfChilds.vue')
+    }
+  },
+  {
+    path: '/contract',
+    name: 'contract',
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/contract.vue')
+    }
+  },
   {
     path: '/searchAccount',
     name: 'searchAccount',

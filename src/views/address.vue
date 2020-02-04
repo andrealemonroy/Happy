@@ -4,7 +4,7 @@
     <Form
       ref="addressForm"
       :model="addressForm"
-      :rules="validateRegisterForm"
+      :rules="validateAddressForm"
       class="mt-60"
     >
       <Row>
@@ -17,7 +17,6 @@
               @on-change="getDistricts"
             >
               <Option value="Lima">Lima</Option>
-              <Option value="">Seleccione</Option>
               <Option value="Amazonas">Amazonas</Option>
               <Option value="Ancash">Ancash</Option>
               <Option value="Apurímac">Apurímac</Option>
@@ -125,13 +124,16 @@
         </Col>
       </Row>
 
-      <Row type="flex" justify="space-between">
+      <Row
+        type="flex"
+        justify="space-between"
+      >
         <Col span="6"
-          ><button class="return" @click="goBack">
+          ><button class="return" @click="backToRegisterParent">
             <Icon type="ios-arrow-back" />REGRESAR
           </button>
         </Col>
-        <Col span="6"><Button @click="nextPage">CONTINUAR</Button> </Col>
+        <Col span="6"><Button @click="toAddChild">CONTINUAR</Button> </Col>
       </Row>
     </Form>
   </section>
@@ -147,9 +149,10 @@ export default {
       showSelectDistricts: false,
       addressForm: {
         address: "",
-        district: ""
+        district: "",
+        city: ""
       },
-      validateRegisterForm: {
+      validateAddressForm: {
         address: [
           {
             required: true,
@@ -175,7 +178,7 @@ export default {
     };
   },
   methods: {
-    nextPage() {
+    toAddChild() {
       this.$refs["addressForm"].validate(async valid => {
         if (valid) {
           const data = JSON.parse(localStorage.getItem("data"));
@@ -185,8 +188,7 @@ export default {
           data.city = this.addressForm.city;
           Api.updateParent(parentId, data)
             .then(res => {
-              console.log(res);
-              this.$router.push("/addChild");
+              this.$router.push({ path: "/addChild" });
               this.$Notice.info({
                 title: "Registro exitoso"
               });
@@ -197,24 +199,6 @@ export default {
                 title: "Ocurrió un error"
               });
             });
-          // Api.registerParent(data).then(res => {
-          //   console.log(res);
-          //   if (res.status === 200) {
-          //     localStorage.setItem("parentId", res.data._id);
-          //     if (
-          //       moment(data.birthday).isAfter(moment().subtract(18, "years"))
-          //     ) {
-          //       this.$router.push("/contract");
-          //     } else {
-          //       this.$router.push("/addChild");
-          //     }
-          //   } else {
-          //     this.$Notice.error({
-          //       title: "Error en el registro",
-          //       desc: res.response.data.message
-          //     });
-          //   }
-          // });
         } else {
           this.$Notice.error({
             title: "Hay campos inválidos en el formulario"
@@ -229,10 +213,9 @@ export default {
         this.showSelectDistricts = false;
       }
     },
-    goBack() {
-      this.$router.push("/registerParent");
+    backToRegisterParent() {
+      this.$router.push({ path: "/registerParent" });
     }
-  },
-
+  }
 };
 </script>

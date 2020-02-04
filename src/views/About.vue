@@ -46,7 +46,7 @@ import "../assets/css/style.css";
 export default {
   methods: {
     nextPage() {
-      this.$router.push({ path: "/registro" });
+      this.$router.push({ path: "/registerParent" });
     },
     goBack() {
       this.$router.push("/");
