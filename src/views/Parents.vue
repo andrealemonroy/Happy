@@ -276,7 +276,9 @@
           <div v-for="(value, key) in infoModal.content" :key="key">
             <p>Nombres: {{ value.names }}</p>
             <p>Apellidos: {{ value.surname }}</p>
-            <p>Fecha de nacimiento: {{ value.birthday.slice(0, 10) }}</p>
+            <p v-if="value.birthday">
+              Fecha de nacimiento: {{ value.birthday.slice(0, 10) }}
+            </p>
             <p>Parentesto: {{ value.relative }}</p>
             <hr />
           </div>
@@ -437,7 +439,7 @@ export default {
           Celular: items[item].phoneNumber,
           Nombre: items[item].names,
           Apellidos: items[item].surname,
-          "Tiempo de registro": 0
+          "Tiempo de registro(seg)": items[item].lastDate
         });
       }
 
@@ -460,7 +462,9 @@ export default {
             "Apellidos de tutor": surnameParent,
             "Nombre de menor": items[item].childs[i].names,
             "Apellido de menor": items[item].childs[i].surname,
-            Cumpleaños: items[item].childs[i].birthday.slice(0, 10),
+            Cumpleaños: items[item].childs[i].birthday
+              ? items[item].childs[i].birthday.slice(0, 10)
+              : "",
             Parentesco: items[item].childs[i].relative
           });
         }
@@ -495,8 +499,8 @@ export default {
 
             this.login = false;
             for (let i = 0; i < res.data.length; i++) {
-              res.data[i].birthday = res.data[i].birthday.slice(0, 10);
-              res.data[i].date = res.data[i].date.slice(0, 10);
+              res.data[i].birthday ? res.data[i].birthday.slice(0, 10): '';
+              res.data[i].date ? res.data[i].date.slice(0, 10): '';
               for (let j = 0; j < res.data[i].childs.length; j++) {
                 res.data[i].childs[j] = `Menor de edad: ${
                   res.data[i].childs[j].names
@@ -536,8 +540,8 @@ export default {
             ) {
               this.login = false;
               for (let i = 0; i < res.data.length; i++) {
-                res.data[i].birthday = res.data[i].birthday.slice(0, 10);
-                res.data[i].date = res.data[i].date.slice(0, 10);
+                res.data[i].birthday ? res.data[i].birthday.slice(0, 10): '';
+                res.data[i].date ? res.data[i].date.slice(0, 10) : '';
                 for (let j = 0; j < res.data[i].childs.length; j++) {
                   res.data[i].childs[j] = `Menor de edad: ${
                     res.data[i].childs[j].names

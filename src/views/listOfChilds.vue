@@ -60,15 +60,6 @@ export default {
     },
     async toContract() {
       this.$router.push({ path: "/contract" });
-      moment.locale("es");
-      this.actualMoment = moment().format("LLLL");
-      const idParent = localStorage.getItem("parentId");
-      Api.getFatherById(idParent).then(res => {
-        this.parentData = res.data;
-        this.nameParent = this.parentData.names + " " + this.parentData.surname;
-        this.childs = this.parentData.childs;
-        this.birthday = this.parentData.birthday.slice(0, 10);
-      });
     },
     async getChilds() {
       const idParent = localStorage.getItem("parentId");

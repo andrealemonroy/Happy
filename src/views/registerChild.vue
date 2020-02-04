@@ -160,7 +160,6 @@ export default {
                   console.log(res);
                   console.log("guardado con éxito");
                   this.$router.push({ path: "/listOfChilds" });
-                  this.getChilds();
                 });
               } else {
                 this.$Notice.error({
@@ -184,7 +183,6 @@ export default {
     },
     backToListOfChilds() {
       this.$router.push({ path: "/listOfChilds" });
-      this.getChilds();
     }
   }
 };

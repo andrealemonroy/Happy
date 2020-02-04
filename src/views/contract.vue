@@ -236,8 +236,7 @@
           o más): </strong
         >{{ nameParent }}
         <br />
-        <strong>Fecha de nacimiento: </strong>
-        {{ this.parentData.birthday.slice(0, 10) }}
+        <strong>Fecha de nacimiento: </strong>{{ this.birthday }}
         <br />
         <strong>DNI: </strong>{{ this.parentData.identityDocumentNumber }}
         <br />
@@ -258,8 +257,10 @@
             :key="child._id"
           >
             <strong>Datos del menor de edad: </strong> • {{ child.names }}
-            {{ child.surname }} {{ child.identityDocumentNumber }} -
-            {{ child.birthday.slice(0, 10) }} - {{ child.relative }}
+            {{ child.surname }} {{ child.identityDocumentNumber }}
+            <span v-if="child.birthday">
+              - {{ child.birthday.slice(0, 10) }} </span
+            >- {{ child.relative }}
           </ListItem>
         </List>
         <br />
@@ -375,6 +376,7 @@ export default {
       pdf: "",
       object: {},
       childName: "",
+      identityDocumentNumber: "",
       childSurname: "",
       childDNI: "",
       childBirthday: "",
@@ -385,7 +387,7 @@ export default {
       form: {
         terms: false
       }, // single checkbox value
-      validateForm: {
+      validateContractForm: {
         terms: [{ validator: validateTerms, trigger: "change" }]
       }
     };
@@ -414,7 +416,7 @@ export default {
               parentFullName: this.nameParent,
               phoneNumber: this.parentData.phoneNumber,
               identityDocumentNumber: this.parentData.identityDocumentNumber,
-              birthday: this.parentData.birthday,
+              birthday: this.parentData.birthday.slice(0, 10),
               line: this.parentData.line,
               district: this.parentData.district,
               city: this.parentData.city,
@@ -427,7 +429,9 @@ export default {
                 this.childName = child.names;
                 this.childSurname = child.surname;
                 this.childDNI = child.identityDocumentNumber;
-                this.childBirthday = child.birthday.slice(0, 10);
+                this.childBirthday = child.birthday
+                  ? child.birthday.slice(0, 10)
+                  : "";
                 this.childRelative = child.relative;
                 let dataChild =
                   "Menor de edad: " +
@@ -502,7 +506,7 @@ export default {
                   `\nPadre / tutor legal / poder notarial / participante (si tiene 18 años
                   o más):: ${this.object.parentFullName}`,
                   `\DNI: ${this.object.identityDocumentNumber}`,
-                  `\nFecha de nacimiento: ${this.object.birthday.slice(0, 10)}`,
+                  `\nFecha de nacimiento: ${this.object.birthday}`,
                   `\nDirección: ${this.object.line}`,
                   `\nDistrito: ${this.object.district} `,
                   `\nDepartamento: ${this.object.city} `,
@@ -534,26 +538,18 @@ export default {
               pdfDocGenerator.getBase64(data => {
                 this.pdf = "data:application/pdf;base64," + data;
                 Api.sendEmail(this.object.email, this.object.code, this.pdf);
-                const infoParent = JSON.parse(localStorage.getItem("data"));
+                let infoParent = JSON.parse(localStorage.getItem("data"));
+                console.log(infoParent.lastDate);
+                if (
+                  infoParent.lastDate == undefined ||
+                  infoParent.lastDate == ""
+                ) {
+                  let finishDate = moment();
+                  infoParent.lastDate = finishDate
+                    .diff(this.object.date, "seconds");
+                }
                 infoParent.contract = this.pdf;
-                let finishDate = moment();
-                // var duration = moment.duration(finishDate.diff(this.object.date));
-                // var minutes = dDate.getMoment().diff(aDate.getMoment(), 'days');;
-                infoParent.lastDate = finishDate
-                  .diff(this.object.date, "seconds")
-                  .toString();
-                Api.updateParent(idParent, infoParent)
-                  .then(res => {
-                    this.$Notice.info({
-                      title: "Contrato exitoso"
-                    });
-                  })
-                  .catch(error => {
-                    console.log(error);
-                    this.$Notice.error({
-                      title: "Ocurrió un error"
-                    });
-                  });
+                Api.updateParent(idParent, infoParent);
                 this.next = false;
                 printJS({
                   printable: "ticket",
@@ -579,11 +575,13 @@ export default {
     this.actualMoment = moment().format("LLLL");
     const idParent = localStorage.getItem("parentId");
     Api.getFatherById(idParent).then(res => {
-      console.log(res.data);
+      localStorage.setItem("data", JSON.stringify(res.data));
       this.parentData = res.data;
       this.nameParent = this.parentData.names + " " + this.parentData.surname;
       this.childs = this.parentData.childs;
-      this.birthday = this.parentData.birthday.slice(0, 10);
+      this.birthday = this.parentData.birthday
+        ? this.parentData.birthday.slice(0, 10)
+        : "";
       console.log(this.childs);
     });
   }
