@@ -350,9 +350,9 @@ export default {
       idParent: "",
       seeChilds: false,
       searchForm: {
-        partOneMail: "andreale17",
-        partTwoMail: "icloud.com",
-        birthday: "1995-05-17"
+        partOneMail: "",
+        partTwoMail: "",
+        birthday: ""
         // email: "",
         // birthday: ""
       },
@@ -440,6 +440,7 @@ export default {
         if (valid) {
           this.idParent = localStorage.getItem("parentId");
           this.parentForm.email = this.searchForm.email;
+          this.parentForm.birthday = moment(this.parentForm.birthday).format('YYYY-MM-DD')
           Api.updateParent(idParent, this.parentForm)
             .then(res => {
               this.$Notice.success({
