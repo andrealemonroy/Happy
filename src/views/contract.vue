@@ -545,8 +545,10 @@ export default {
                   infoParent.lastDate == ""
                 ) {
                   let finishDate = moment();
-                  infoParent.lastDate = finishDate
-                    .diff(this.object.date, "seconds");
+                  infoParent.lastDate = finishDate.diff(
+                    this.object.date,
+                    "seconds"
+                  );
                 }
                 infoParent.contract = this.pdf;
                 Api.updateParent(idParent, infoParent);
@@ -578,7 +580,22 @@ export default {
       localStorage.setItem("data", JSON.stringify(res.data));
       this.parentData = res.data;
       this.nameParent = this.parentData.names + " " + this.parentData.surname;
-      this.childs = this.parentData.childs;
+      if (
+        localStorage.getItem("contractChilds") != "" ||
+        localStorage.getItem("contractChilds") != undefined
+      ) {
+        let selected = localStorage.getItem("contractChilds").split(",");
+        console.log(this.childs);
+        for (let i = 0; i < this.parentData.childs.length; i++) {
+          debugger;
+          for (let j = 0; j < selected.length; j++) {
+            if (this.parentData.childs[i]._id == selected[j]) {
+              this.childs.push(this.parentData.childs[i]);
+            }
+          }
+        }
+      }
+      console.log(this.childs);
       this.birthday = this.parentData.birthday
         ? this.parentData.birthday.slice(0, 10)
         : "";

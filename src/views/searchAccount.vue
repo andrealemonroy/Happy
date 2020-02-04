@@ -344,6 +344,7 @@ export default {
       //       noNear: "",
       model16: [],
       actualMoment: "",
+      selectChild: false,
       foundIt: false,
       childs: [],
       idParent: "",
@@ -531,11 +532,26 @@ export default {
       });
     },
     print() {
-      printJS({
-        printable: "ticket",
-        type: "html",
-        maxWidth: 200
-      });
+      // printJS({
+      //   printable: "ticket",
+      //   type: "html",
+      //   maxWidth: 200
+      // });
+
+      this.selectChild = true;
+      let childArray = this.model16.toString();
+      console.log(childArray);
+      // for (let i in this.childs) {
+      //   for (let u in childArray) {
+      //     if (this.childs[i]._id == childArray[u]) {
+      //       childSelected.push(this.childs[i]);
+      //     }
+      //   }
+      // }
+
+      localStorage.setItem("contractChilds", childArray);
+      // localStorage.setItem("selectState", this.selectChild);
+      this.$router.push("/contract");
       // localStorage.setItem("goToContract", this.model16);
       // this.$router.push("/registro");
     },
