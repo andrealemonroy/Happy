@@ -110,11 +110,11 @@
 
           <Col :lg="6" class="my-1">
             <download-csv :data="excelDataParents(items)">
-              <Button>CSV Padres</Button>
+              <Button>REPORTE TUTOR</Button>
             </download-csv>
 
             <download-csv :data="excelDataChilds(items)">
-              <Button>CSV hijo(a)s</Button>
+              <Button>REPORTE MENOR</Button>
             </download-csv>
           </Col>
 
@@ -148,14 +148,14 @@
                 :data="excelDataParents(this.filtertotal)"
                 class="mt-2"
               >
-                <Button>CSV filtro padres </Button>
+                <Button>CSV FILTRO TUTOR </Button>
               </download-csv>
 
               <download-csv
                 :data="excelDataChilds(this.filtertotal)"
                 class="mt-2"
               >
-                <Button>CSV filtro hijo(a)s </Button>
+                <Button>CSV FILTRO MENOR </Button>
               </download-csv>
             </div>
           </Col>
@@ -237,13 +237,13 @@
           </template>
 
           <template v-slot:cell(actions)="row">
-            <!-- <b-button
+            <b-button
               size="sm"
               @click="info(row.item, row.index, $event.target)"
               class="mr-1"
             >
               Ver hijos
-            </b-button> -->
+            </b-button>
             <b-button size="sm" @click="row.toggleDetails">
               {{ row.detailsShowing ? "Cerrar" : "Mostrar" }} Contrato
               <!-- Contrato -->
@@ -376,12 +376,6 @@ export default {
           sortable: true,
           class: "text-center"
         },
-        {
-          key: "childs",
-          label: "Hijos",
-          sortable: true,
-          sortDirection: "desc"
-        },
         { key: "actions", label: "Contrato" }
       ],
       totalRows: 1,
@@ -499,18 +493,8 @@ export default {
 
             this.login = false;
             for (let i = 0; i < res.data.length; i++) {
-              res.data[i].birthday ? res.data[i].birthday.slice(0, 10): '';
-              res.data[i].date ? res.data[i].date.slice(0, 10): '';
-              for (let j = 0; j < res.data[i].childs.length; j++) {
-                res.data[i].childs[j] = `Menor de edad: ${
-                  res.data[i].childs[j].names
-                } ${res.data[i].childs[j].surname} - ${res.data[i].childs[
-                  j
-                ].birthday.slice(0, 10)}`;
-                ("\n");
-                // res.data[i].childs = res.data[i].childs.names;
-                // let json_data = {'Número de ticket': res.data[i].fatherRandom, 'Correo electrónico':res.data[i].email, 'Celular': res.data[i].phoneNumber, 'Nombre' : res.data[i].names, 'Apellido': res.data[i].surname, 'Hijos': res.data[i].childs}
-              }
+              res.data[i].birthday = res.data[i].birthday.slice(0, 10);
+              res.data[i].date = res.data[i].date.slice(0, 10);
             }
           }
           // const payload = res.data;
@@ -540,16 +524,8 @@ export default {
             ) {
               this.login = false;
               for (let i = 0; i < res.data.length; i++) {
-                res.data[i].birthday ? res.data[i].birthday.slice(0, 10): '';
-                res.data[i].date ? res.data[i].date.slice(0, 10) : '';
-                for (let j = 0; j < res.data[i].childs.length; j++) {
-                  res.data[i].childs[j] = `Menor de edad: ${
-                    res.data[i].childs[j].names
-                  } ${res.data[i].childs[j].surname} - ${res.data[i].childs[
-                    j
-                  ].birthday.slice(0, 10)}`;
-                  ("\n");
-                }
+                res.data[i].birthday = res.data[i].birthday.slice(0, 10);
+                res.data[i].date = res.data[i].date.slice(0, 10);
               }
             }
           }

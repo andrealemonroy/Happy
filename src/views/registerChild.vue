@@ -96,7 +96,8 @@ export default {
         surname: "",
         identityDocumentNumber: "",
         gender: "",
-        birthday: ""
+        birthday: "",
+        relative: ""
       },
       otherRelative: false,
       otherRelativeModel: "",

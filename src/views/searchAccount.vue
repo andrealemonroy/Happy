@@ -531,13 +531,13 @@ export default {
       });
     },
     print() {
-      // printJS({
-      //   printable: "ticket",
-      //   type: "html",
-      //   maxWidth: 200
-      // });
-      localStorage.setItem("goToContract", this.model16);
-      this.$router.push("/registro");
+      printJS({
+        printable: "ticket",
+        type: "html",
+        maxWidth: 200
+      });
+      // localStorage.setItem("goToContract", this.model16);
+      // this.$router.push("/registro");
     },
     // deleteChild(id) {
     //   debugger;
