@@ -420,7 +420,6 @@ export default {
 
     filterButton() {
       this.filter = this.inputFilter;
-      console.log(this.filtertotal);
       this.filterState = true;
     },
 
