@@ -73,13 +73,6 @@ const routes = [
       return import(/* webpackChunkName: "about" */ '../views/searchAccount.vue')
     }
   },
-  {
-    path: '/parents',
-    name: 'parents',
-    component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/Parents.vue')
-    }
-  },
 ]
 
 const router = new VueRouter({

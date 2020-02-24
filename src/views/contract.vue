@@ -407,7 +407,7 @@ export default {
             this.parentData = res.data;
             this.nameParent =
               this.parentData.names + " " + this.parentData.surname;
-            this.childs = this.parentData.childs;
+            // this.childs = this.parentData.childs;
             this.identityDocumentNumber = this.parentData.identityDocumentNumber;
             this.code = this.parentData.fatherRandom;
             this.email = this.parentData.email;
@@ -551,6 +551,14 @@ export default {
                   );
                 }
                 infoParent.contract = this.pdf;
+                console.log(infoParent.visits);
+                if (infoParent.visits == undefined || infoParent.visits == "") {
+                  infoParent.visits = 1;
+                } else {
+                  infoParent.visits = infoParent.visits + 1;
+                }
+                console.log(infoParent);
+
                 Api.updateParent(idParent, infoParent);
                 this.next = false;
                 printJS({
@@ -594,11 +602,11 @@ export default {
             }
           }
         }
+      } else {
+        this.childs = res.data.childs;
       }
       console.log(this.childs);
-      this.birthday = this.parentData.birthday
-        ? this.parentData.birthday.slice(0, 10)
-        : "";
+      this.birthday = this.parentData.birthday.slice(0, 10)
       console.log(this.childs);
     });
   }

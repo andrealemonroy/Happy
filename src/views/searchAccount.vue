@@ -440,7 +440,9 @@ export default {
         if (valid) {
           this.idParent = localStorage.getItem("parentId");
           this.parentForm.email = this.searchForm.email;
-          this.parentForm.birthday = moment(this.parentForm.birthday).format('YYYY-MM-DD')
+          this.parentForm.birthday = moment(this.parentForm.birthday).format(
+            "YYYY-MM-DD"
+          );
           Api.updateParent(idParent, this.parentForm)
             .then(res => {
               this.$Notice.success({
@@ -465,11 +467,15 @@ export default {
         if (valid) {
           moment.locale("es");
           this.actualMoment = moment().format("LLLL");
-          this.searchForm.email =
+          const birthday = moment(this.searchForm.birthday).format();
+          const email =
             `${this.searchForm.partOneMail}` +
             "@" +
             `${this.searchForm.partTwoMail}`;
-          Api.getFatherByEmail(this.searchForm)
+          const searchData = {
+            email
+          };
+          Api.getFatherByEmail(searchData)
             .then(res => {
               if (res.status == 200) {
                 console.log(res.data);
